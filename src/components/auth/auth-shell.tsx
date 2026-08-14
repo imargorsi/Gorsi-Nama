@@ -13,7 +13,13 @@ export function AuthShell({
   return (
     <div className="mx-auto flex max-w-4xl flex-col overflow-hidden rounded-xl ring-1 ring-foreground/10 sm:my-12 sm:flex-row">
       <div className="relative hidden sm:block sm:w-1/2">
-        <Image src="/history2.png" alt="" fill className="object-cover" />
+        <Image
+          src="/history2.png"
+          alt=""
+          fill
+          sizes="(min-width: 640px) 448px, 100vw"
+          className="object-cover"
+        />
       </div>
 
       <div className="flex w-full flex-col gap-6 p-6 sm:w-1/2 sm:p-8">

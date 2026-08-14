@@ -37,7 +37,13 @@ export default async function BlogPostPage({
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <div className="relative aspect-video w-full overflow-hidden rounded-xl">
-        <Image src={post.image} alt={post.title} fill className="object-cover" />
+        <Image
+          src={post.image}
+          alt={post.title}
+          fill
+          sizes="(min-width: 768px) 768px, 100vw"
+          className="object-cover"
+        />
       </div>
 
       <h1 className="font-heading mt-8 text-3xl font-semibold sm:text-4xl">

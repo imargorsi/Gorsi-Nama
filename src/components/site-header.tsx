@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { LogOut, Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useUserInfo } from "@/context/user-context";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/library", label: "Library" },
@@ -66,12 +67,13 @@ function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
   }
 
   return (
-    <Button
-      render={<Link href="/auth/login" onClick={onNavigate} />}
-      className="bg-gold text-ivory hover:bg-gold/90"
+    <Link
+      href="/auth/login"
+      onClick={onNavigate}
+      className={cn(buttonVariants({ className: "bg-gold text-ivory hover:bg-gold/90" }))}
     >
       Sign In
-    </Button>
+    </Link>
   );
 }
 

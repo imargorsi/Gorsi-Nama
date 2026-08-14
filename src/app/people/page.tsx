@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 // Placeholder data — there's no notable-people API endpoint yet.
-// See doc/migration-status.md.
+// See doc/product-overview.md.
 export default function PeoplePage() {
   return (
     <>

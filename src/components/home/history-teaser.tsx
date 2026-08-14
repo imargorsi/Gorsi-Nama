@@ -31,6 +31,7 @@ export function HistoryTeaser() {
                 src="/history__image__3.jpg"
                 alt=""
                 fill
+                sizes="(min-width: 768px) 280px, 50vw"
                 className="object-cover"
               />
             </div>
@@ -39,6 +40,7 @@ export function HistoryTeaser() {
                 src="/history__image__4.jpg"
                 alt=""
                 fill
+                sizes="(min-width: 768px) 280px, 50vw"
                 className="object-cover"
               />
             </div>
@@ -51,6 +53,7 @@ export function HistoryTeaser() {
               src="/fortimage.jpg"
               alt=""
               fill
+              sizes="(min-width: 768px) 50vw, 100vw"
               className="object-cover"
             />
           </div>

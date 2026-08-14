@@ -8,8 +8,14 @@ export function AncientHistory() {
       </h3>
 
       <div className="mt-6 grid grid-cols-1 items-center gap-8 md:grid-cols-2">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-          <Image src="/oldhsitory.jpg" alt="" fill className="object-cover" />
+        <div className="relative aspect-4/3 overflow-hidden rounded-xl">
+          <Image
+            src="/oldhsitory.jpg"
+            alt=""
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
         </div>
         <p className="text-muted-foreground">
           The Gujjars, an ancient and significant ethnic group, have roots
@@ -43,8 +49,14 @@ export function AncientHistory() {
           <h4 className="text-sm font-medium text-muted-foreground">
             Walkthrough Our History
           </h4>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-            <Image src="/emoire.webp" alt="" fill className="object-cover" />
+          <div className="relative aspect-4/3 overflow-hidden rounded-xl">
+            <Image
+              src="/emoire.webp"
+              alt=""
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </div>

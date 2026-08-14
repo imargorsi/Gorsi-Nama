@@ -43,6 +43,7 @@ export function ProfileImageUpload({
         src={value || "/default.jpg"}
         alt=""
         fill
+        sizes="80px"
         className="rounded-full object-cover"
       />
       <input

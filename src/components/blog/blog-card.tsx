@@ -19,13 +19,14 @@ export function BlogCard({
         <div
           className={cn(
             "relative w-full overflow-hidden rounded-t-xl",
-            isCompact ? "aspect-[16/10]" : "aspect-[16/9]"
+            isCompact ? "aspect-16/10" : "aspect-16/9"
           )}
         >
           <Image
             src={post.image}
             alt={post.title}
             fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>

@@ -13,10 +13,11 @@ export function MembershipCard({
         src="/trademarkgorsi.png"
         alt=""
         fill
+        sizes="256px"
         className="object-contain opacity-5"
       />
       <div className="relative size-14 shrink-0 overflow-hidden rounded-full">
-        <Image src="/default.jpg" alt="" fill className="object-cover" />
+        <Image src="/default.jpg" alt="" fill sizes="56px" className="object-cover" />
       </div>
       <div className="relative flex flex-col">
         <p className="text-xs text-muted-foreground">

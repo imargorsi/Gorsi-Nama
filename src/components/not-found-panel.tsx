@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function NotFoundPanel({
   heading,
@@ -21,10 +22,10 @@ export function NotFoundPanel({
       />
       <h2 className="font-heading text-2xl font-semibold">{heading}</h2>
       <p className="text-muted-foreground">{text}</p>
-      <Button render={<Link href="/" />} className="mt-2">
+      <Link href="/" className={cn(buttonVariants({ className: "mt-2" }))}>
         <ArrowLeft />
         Back to Homepage
-      </Button>
+      </Link>
     </div>
   );
 }

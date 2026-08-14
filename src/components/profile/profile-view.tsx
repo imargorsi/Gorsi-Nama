@@ -49,6 +49,7 @@ export function ProfileView({
                     src={image || "/default.jpg"}
                     alt=""
                     fill
+                    sizes="(min-width: 640px) 224px, 50vw"
                     className="object-cover"
                   />
                 </div>

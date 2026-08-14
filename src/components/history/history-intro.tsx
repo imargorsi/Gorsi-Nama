@@ -26,11 +26,12 @@ export function HistoryIntro() {
             we&apos;ll gladly include it in our ongoing chronicle.
           </p>
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+        <div className="relative aspect-4/3 overflow-hidden rounded-xl">
           <Image
             src="/history_img.png"
             alt=""
             fill
+            sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
         </div>

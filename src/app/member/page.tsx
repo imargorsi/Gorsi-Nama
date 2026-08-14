@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 // Placeholder data — there's no members-list API endpoint yet.
-// See doc/migration-status.md and doc/data-and-backend.md.
+// See doc/product-overview.md and doc/data-and-backend.md.
 const PLACEHOLDER_MEMBERS = Array.from({ length: 6 }, (_, index) => ({
   name: "AR GORSI",
   membershipId: String(123 + index),
@@ -31,9 +31,9 @@ export default function MembersPage() {
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {PLACEHOLDER_MEMBERS.map((member, index) => (
+          {PLACEHOLDER_MEMBERS.map((member) => (
             <MembershipCard
-              key={index}
+              key={member.membershipId}
               name={member.name}
               membershipId={member.membershipId}
             />

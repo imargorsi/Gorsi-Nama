@@ -1,19 +1,15 @@
-"use client";
-
+import type { Metadata } from "next";
 import { RequireAuth } from "@/components/auth/require-auth";
-import { useUserInfo } from "@/context/user-context";
-import { ProfileView } from "@/components/profile/profile-view";
+import { OwnProfileClient } from "@/components/profile/own-profile-client";
 
-function OwnProfile() {
-  const { userInfo } = useUserInfo();
-  if (!userInfo) return null;
-  return <ProfileView userDetails={userInfo} isOwner />;
-}
+export const metadata: Metadata = {
+  title: "My Profile | Gorsi Nama",
+};
 
 export default function ProfilePage() {
   return (
     <RequireAuth>
-      <OwnProfile />
+      <OwnProfileClient />
     </RequireAuth>
   );
 }

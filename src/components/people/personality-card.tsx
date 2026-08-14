@@ -18,8 +18,14 @@ export function PersonalityCard({
         reverse && "md:[&>*:first-child]:order-2"
       )}
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-        <Image src="/people.jpg" alt="" fill className="object-cover" />
+      <div className="relative aspect-4/3 overflow-hidden rounded-xl">
+        <Image
+          src="/people.jpg"
+          alt=""
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover"
+        />
       </div>
 
       <div className="flex flex-col gap-3">

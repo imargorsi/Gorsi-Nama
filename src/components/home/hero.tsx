@@ -16,6 +16,7 @@ export function Hero() {
         alt=""
         fill
         priority
+        sizes="100vw"
         className="-z-10 object-cover"
       />
       <div className="absolute inset-0 -z-10 bg-espresso/60" />
@@ -37,6 +38,7 @@ export function Hero() {
                 src={image}
                 alt=""
                 fill
+                sizes="(min-width: 640px) 33vw, 100vw"
                 className="-z-10 object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 -z-10 bg-espresso/40 transition-colors group-hover:bg-espresso/55" />
