@@ -26,7 +26,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
           key={link.href}
           href={link.href}
           onClick={onNavigate}
-          className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          className="text-sm font-medium text-parchment/70 transition-colors hover:text-gold"
         >
           {link.label}
         </Link>
@@ -46,13 +46,14 @@ function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
           <img
             src={userInfo.profilePhoto || "/default.jpg"}
             alt={userInfo.fullName}
-            className="size-9 rounded-full object-cover border border-border"
+            className="size-9 rounded-full object-cover border border-ivory/20"
           />
         </Link>
         <Button
           variant="ghost"
           size="icon-sm"
           aria-label="Log out"
+          className="text-parchment/70 hover:bg-ivory/10 hover:text-gold"
           onClick={() => {
             setUserInfo(null);
             onNavigate?.();
@@ -65,7 +66,10 @@ function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
   }
 
   return (
-    <Button render={<Link href="/auth/login" onClick={onNavigate} />}>
+    <Button
+      render={<Link href="/auth/login" onClick={onNavigate} />}
+      className="bg-gold text-ivory hover:bg-gold/90"
+    >
       Sign In
     </Button>
   );
@@ -73,10 +77,10 @@ function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-40 border-b border-ivory/10 bg-espresso/95 backdrop-blur supports-backdrop-filter:bg-espresso/90">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="font-heading text-xl font-semibold">
-          Gorsi Nama<span className="text-primary">.</span>
+        <Link href="/" className="font-heading text-xl font-semibold text-ivory">
+          Gorsi Nama<span className="text-gold">.</span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -94,7 +98,7 @@ export function SiteHeader() {
                 variant="ghost"
                 size="icon"
                 aria-label="Open menu"
-                className="md:hidden"
+                className="text-parchment/70 hover:bg-ivory/10 hover:text-gold md:hidden"
               />
             }
           >
