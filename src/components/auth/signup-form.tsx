@@ -11,10 +11,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getErrorMessage } from "@/lib/get-error-message";
 import { useSignup } from "./use-signup";
-import { signupSchema, type SignupValues } from "./auth.schemas";
+import { useVerifyEmail } from "./use-verify-email";
+import {
+  signupSchema,
+  verifyEmailSchema,
+  type SignupValues,
+  type VerifyEmailValues,
+} from "./auth.schemas";
 
-export function SignupForm() {
-  const router = useRouter();
+function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => void }) {
   const [showPassword, setShowPassword] = useState(false);
   const signup = useSignup();
 
@@ -26,13 +31,9 @@ export function SignupForm() {
 
   const onSubmit = (values: SignupValues) => {
     signup.mutate(values, {
-      onSuccess: (data) => {
-        if (data.message === "New User Created") {
-          toast.success("Account created. Please log in.");
-          router.push("/auth/login");
-        } else {
-          toast.error("Something went wrong, try again.");
-        }
+      onSuccess: () => {
+        toast.success("Check your email for a verification code.");
+        onVerificationSent();
       },
       onError: (error) => {
         toast.error(getErrorMessage(error, "Something went wrong, try again."));
@@ -42,6 +43,36 @@ export function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="firstName">First Name</Label>
+          <Input
+            id="firstName"
+            type="text"
+            placeholder="First name"
+            aria-invalid={!!errors.firstName}
+            {...register("firstName")}
+          />
+          {errors.firstName && (
+            <p className="text-sm text-destructive">{errors.firstName.message}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="lastName">Last Name</Label>
+          <Input
+            id="lastName"
+            type="text"
+            placeholder="Last name"
+            aria-invalid={!!errors.lastName}
+            {...register("lastName")}
+          />
+          {errors.lastName && (
+            <p className="text-sm text-destructive">{errors.lastName.message}</p>
+          )}
+        </div>
+      </div>
+
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -57,26 +88,12 @@ export function SignupForm() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="fullName">Your Full Name</Label>
-        <Input
-          id="fullName"
-          type="text"
-          placeholder="Enter your full name"
-          aria-invalid={!!errors.fullName}
-          {...register("fullName")}
-        />
-        {errors.fullName && (
-          <p className="text-sm text-destructive">{errors.fullName.message}</p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-1.5">
         <Label htmlFor="password">Password</Label>
         <div className="relative">
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
+            placeholder="At least 15 characters"
             aria-invalid={!!errors.password}
             {...register("password")}
           />
@@ -114,9 +131,70 @@ export function SignupForm() {
         )}
       </div>
 
+      {/* Clerk's bot-protection widget mounts into this element during signUp.create(). */}
+      <div id="clerk-captcha" />
+
       <Button type="submit" disabled={signup.isPending} className="mt-2">
         {signup.isPending ? "Registering..." : "Register"}
       </Button>
     </form>
+  );
+}
+
+function VerifyEmailForm() {
+  const router = useRouter();
+  const verifyEmail = useVerifyEmail();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<VerifyEmailValues>({ resolver: zodResolver(verifyEmailSchema) });
+
+  const onSubmit = (values: VerifyEmailValues) => {
+    verifyEmail.mutate(values, {
+      onSuccess: () => {
+        toast.success("Account created.");
+        router.push("/profile");
+      },
+      onError: (error) => {
+        toast.error(getErrorMessage(error, "Invalid code, try again."));
+      },
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="code">Verification Code</Label>
+        <Input
+          id="code"
+          type="text"
+          inputMode="numeric"
+          placeholder="Enter the code we emailed you"
+          aria-invalid={!!errors.code}
+          {...register("code")}
+        />
+        {errors.code && (
+          <p className="text-sm text-destructive">{errors.code.message}</p>
+        )}
+      </div>
+
+      <Button type="submit" disabled={verifyEmail.isPending} className="mt-2">
+        {verifyEmail.isPending ? "Verifying..." : "Verify Email"}
+      </Button>
+    </form>
+  );
+}
+
+export function SignupForm() {
+  const [pendingVerification, setPendingVerification] = useState(false);
+
+  if (pendingVerification) {
+    return <VerifyEmailForm />;
+  }
+
+  return (
+    <SignupDetailsForm onVerificationSent={() => setPendingVerification(true)} />
   );
 }

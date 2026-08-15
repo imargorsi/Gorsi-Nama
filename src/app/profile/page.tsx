@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { RequireAuth } from "@/components/auth/require-auth";
 import { OwnProfileClient } from "@/components/profile/own-profile-client";
 
 export const metadata: Metadata = {
@@ -7,9 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProfilePage() {
-  return (
-    <RequireAuth>
-      <OwnProfileClient />
-    </RequireAuth>
-  );
+  return <OwnProfileClient />;
 }

@@ -1,18 +1,26 @@
+"use client";
+
+import { useSignIn } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
-import { apiClient } from "@/lib/api-client";
-import type { UserInfo } from "@/context/user-context";
 import type { LoginValues } from "./auth.schemas";
 
-interface LoginResponse {
-  message: string;
-  data: { user: UserInfo };
-}
-
 export function useLogin() {
+  const { signIn } = useSignIn();
+
   return useMutation({
-    mutationFn: async (payload: LoginValues) => {
-      const { data } = await apiClient.post<LoginResponse>("/login", payload);
-      return data;
+    mutationFn: async (values: LoginValues) => {
+      const { error } = await signIn.password({
+        identifier: values.email,
+        password: values.password,
+      });
+      if (error) throw error;
+
+      if (signIn.status !== "complete") {
+        throw new Error("Additional verification is required to sign in.");
+      }
+
+      const { error: finalizeError } = await signIn.finalize();
+      if (finalizeError) throw finalizeError;
     },
   });
 }

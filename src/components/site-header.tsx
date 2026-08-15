@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { LogOut, Menu } from "lucide-react";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
@@ -10,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useUserInfo } from "@/context/user-context";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -37,16 +37,19 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
-  const { userInfo, setUserInfo } = useUserInfo();
+  const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
 
-  if (userInfo?.userId) {
+  if (!isLoaded) return null;
+
+  if (user) {
     return (
       <div className="flex items-center gap-3">
         <Link href="/profile" onClick={onNavigate}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={userInfo.profilePhoto || "/default.jpg"}
-            alt={userInfo.fullName}
+            src={user.imageUrl || "/default.jpg"}
+            alt={user.fullName || "Profile"}
             className="size-9 rounded-full object-cover border border-ivory/20"
           />
         </Link>
@@ -56,8 +59,8 @@ function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
           aria-label="Log out"
           className="text-parchment/70 hover:bg-ivory/10 hover:text-gold"
           onClick={() => {
-            setUserInfo(null);
             onNavigate?.();
+            signOut({ redirectUrl: "/" });
           }}
         >
           <LogOut />

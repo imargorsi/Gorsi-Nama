@@ -9,14 +9,12 @@ import { Eye, EyeOff } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useUserInfo } from "@/context/user-context";
 import { getErrorMessage } from "@/lib/get-error-message";
 import { useLogin } from "./use-login";
 import { loginSchema, type LoginValues } from "./auth.schemas";
 
 export function LoginForm() {
   const router = useRouter();
-  const { setUserInfo } = useUserInfo();
   const [showPassword, setShowPassword] = useState(false);
   const login = useLogin();
 
@@ -28,14 +26,9 @@ export function LoginForm() {
 
   const onSubmit = (values: LoginValues) => {
     login.mutate(values, {
-      onSuccess: (data) => {
-        if (data.message === "Log in Successfully") {
-          toast.success("Login successful.");
-          setUserInfo(data.data.user);
-          router.push("/profile");
-        } else {
-          toast.error("Something went wrong, try again.");
-        }
+      onSuccess: () => {
+        toast.success("Login successful.");
+        router.push("/profile");
       },
       onError: (error) => {
         toast.error(getErrorMessage(error, "Something went wrong, try again."));

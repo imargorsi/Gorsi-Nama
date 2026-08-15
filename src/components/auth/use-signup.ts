@@ -1,19 +1,24 @@
+"use client";
+
+import { useSignUp } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
-import { apiClient } from "@/lib/api-client";
 import type { SignupValues } from "./auth.schemas";
 
-interface SignupResponse {
-  message: string;
-}
-
 export function useSignup() {
+  const { signUp } = useSignUp();
+
   return useMutation({
-    mutationFn: async (payload: SignupValues) => {
-      const { data } = await apiClient.post<SignupResponse>(
-        "/register",
-        payload
-      );
-      return data;
+    mutationFn: async (values: SignupValues) => {
+      const { error } = await signUp.password({
+        emailAddress: values.email,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      });
+      if (error) throw error;
+
+      const { error: codeError } = await signUp.verifications.sendEmailCode();
+      if (codeError) throw codeError;
     },
   });
 }

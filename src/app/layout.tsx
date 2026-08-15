@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
@@ -32,10 +33,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${fontSans.variable} ${fontMono.variable} ${fontHeading.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>
+        <ClerkProvider>
+          <Providers>
           <SiteHeader />
           <main className="flex-1">{children}</main>
-        </Providers>
+          </Providers>
+        </ClerkProvider>
       </body>
     </html>
   );
