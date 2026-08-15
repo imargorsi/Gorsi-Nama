@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { toast } from "sonner";
 import { ArrowRight, KeyRound, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,7 @@ import { getErrorMessage } from "@/lib/get-error-message";
 import { AuthHeading } from "./auth-shell";
 import { IconInput, PasswordInput } from "./auth-fields";
 import { GoogleContinueButton } from "./google-continue-button";
+import { StepTransition } from "./step-transition";
 import { useLogin, useGoogleSignIn } from "./use-login";
 import { useForgotPassword } from "./use-forgot-password";
 import { useResetPassword } from "./use-reset-password";
@@ -315,23 +316,21 @@ export function LoginForm() {
     "login"
   );
 
-  if (step === "forgot-password") {
-    return (
-      <ForgotPasswordStep
-        onCodeSent={() => setStep("reset-password")}
-        onBack={() => setStep("login")}
-      />
-    );
-  }
-
-  if (step === "reset-password") {
-    return (
-      <ResetPasswordStep
-        onComplete={() => setStep("login")}
-        onBack={() => setStep("login")}
-      />
-    );
-  }
-
-  return <LoginStep onForgotPassword={() => setStep("forgot-password")} />;
+  return (
+    <StepTransition stepKey={step}>
+      {step === "forgot-password" ? (
+        <ForgotPasswordStep
+          onCodeSent={() => setStep("reset-password")}
+          onBack={() => setStep("login")}
+        />
+      ) : step === "reset-password" ? (
+        <ResetPasswordStep
+          onComplete={() => setStep("login")}
+          onBack={() => setStep("login")}
+        />
+      ) : (
+        <LoginStep onForgotPassword={() => setStep("forgot-password")} />
+      )}
+    </StepTransition>
+  );
 }

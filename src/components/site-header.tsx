@@ -1,9 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { LogOut, Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { LogOut, Menu, User } from "lucide-react";
 import { useClerk, useUser } from "@clerk/nextjs";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -11,15 +15,31 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/library", label: "Library" },
-  { href: "/history", label: "History" },
-  { href: "/blog", label: "Blog" },
-];
+  { href: "/library", key: "library" },
+  { href: "/blog", key: "blog" },
+  { href: "/history", key: "history" },
+] as const;
+
+function useScrolled(threshold = 24) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [threshold]);
+
+  return scrolled;
+}
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+  const t = useTranslations("Nav");
+
   return (
     <>
       {navLinks.map((link) => (
@@ -29,7 +49,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
           onClick={onNavigate}
           className="text-sm font-medium text-parchment/70 transition-colors hover:text-gold"
         >
-          {link.label}
+          {t(link.key)}
         </Link>
       ))}
     </>
@@ -39,6 +59,9 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
+  const locale = useLocale();
+  const t = useTranslations("Nav");
+  const homePath = locale === routing.defaultLocale ? "/" : `/${locale}`;
 
   if (!isLoaded) return null;
 
@@ -50,17 +73,17 @@ function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
           <img
             src={user.imageUrl || "/default.jpg"}
             alt={user.fullName || "Profile"}
-            className="size-9 rounded-full object-cover border border-ivory/20"
+            className="size-10 rounded-full object-cover ring-2 ring-gold/50"
           />
         </Link>
         <Button
           variant="ghost"
           size="icon-sm"
-          aria-label="Log out"
+          aria-label={t("logOut")}
           className="text-parchment/70 hover:bg-ivory/10 hover:text-gold"
           onClick={() => {
             onNavigate?.();
-            signOut({ redirectUrl: "/" });
+            signOut({ redirectUrl: homePath });
           }}
         >
           <LogOut />
@@ -73,26 +96,57 @@ function AuthArea({ onNavigate }: { onNavigate?: () => void }) {
     <Link
       href="/auth/login"
       onClick={onNavigate}
-      className={cn(buttonVariants({ className: "bg-gold text-ivory hover:bg-gold/90" }))}
+      aria-label={t("signIn")}
+      className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gold text-ivory transition-colors hover:bg-gold/90"
     >
-      Sign In
+      <User className="size-5" />
     </Link>
   );
 }
 
 export function SiteHeader() {
+  const scrolled = useScrolled();
+  const t = useTranslations("Nav");
+
   return (
-    <header className="sticky top-0 z-40 border-b border-ivory/10 bg-espresso/95 backdrop-blur supports-backdrop-filter:bg-espresso/90">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="font-heading text-xl font-semibold text-ivory">
-          Gorsi Nama<span className="text-gold">.</span>
+    <header
+      className={cn(
+        "sticky top-0 z-50 transition-[padding] duration-300 ease-out",
+        scrolled ? "p-0" : "p-4 sm:p-6"
+      )}
+    >
+      <div
+        className={cn(
+          "mx-auto flex items-center justify-between border-ivory/10 bg-espresso/90 backdrop-blur transition-all duration-300 ease-out supports-backdrop-filter:bg-espresso/85",
+          scrolled
+            ? "h-16 max-w-none rounded-none border-b px-4 sm:px-6"
+            : "h-20 max-w-6xl rounded-2xl border px-5 shadow-lg ring-1 ring-gold/15 sm:px-8"
+        )}
+      >
+        <Link href="/" className="flex shrink-0 flex-col items-start gap-0.5">
+          <span className="relative h-8 w-32 sm:h-9 sm:w-36">
+            <Image
+              src="/logo.png"
+              alt="Gorsi Nama"
+              fill
+              sizes="144px"
+              className="object-contain object-left"
+              priority
+            />
+          </span>
+          {!scrolled && (
+            <span className="hidden text-[0.65rem] font-medium tracking-[0.2em] text-parchment/60 sm:block">
+              {t("tagline")}
+            </span>
+          )}
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
           <NavLinks />
         </nav>
 
-        <div className="hidden items-center md:flex">
+        <div className="hidden items-center gap-4 md:flex">
+          <LanguageSwitcher />
           <AuthArea />
         </div>
 
@@ -102,7 +156,7 @@ export function SiteHeader() {
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Open menu"
+                aria-label={t("openMenu")}
                 className="text-parchment/70 hover:bg-ivory/10 hover:text-gold md:hidden"
               />
             }
@@ -117,6 +171,7 @@ export function SiteHeader() {
               <nav className="flex flex-col gap-4">
                 <NavLinks />
               </nav>
+              <LanguageSwitcher />
               <AuthArea />
             </div>
           </SheetContent>

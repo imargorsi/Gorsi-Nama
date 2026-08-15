@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { toast } from "sonner";
 import { ArrowRight, KeyRound, Lock, Mail, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,7 @@ import { getErrorMessage } from "@/lib/get-error-message";
 import { AuthHeading } from "./auth-shell";
 import { IconInput, PasswordInput } from "./auth-fields";
 import { GoogleContinueButton } from "./google-continue-button";
+import { StepTransition } from "./step-transition";
 import { useSignup, useGoogleSignUp } from "./use-signup";
 import { useVerifyEmail } from "./use-verify-email";
 import {
@@ -204,11 +205,13 @@ function VerifyEmailForm() {
 export function SignupForm() {
   const [pendingVerification, setPendingVerification] = useState(false);
 
-  if (pendingVerification) {
-    return <VerifyEmailForm />;
-  }
-
   return (
-    <SignupDetailsForm onVerificationSent={() => setPendingVerification(true)} />
+    <StepTransition stepKey={pendingVerification ? "verify" : "details"}>
+      {pendingVerification ? (
+        <VerifyEmailForm />
+      ) : (
+        <SignupDetailsForm onVerificationSent={() => setPendingVerification(true)} />
+      )}
+    </StepTransition>
   );
 }

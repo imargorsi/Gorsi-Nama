@@ -1,7 +1,20 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+
+const panelContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+};
 
 function Ornament() {
   return (
@@ -22,8 +35,18 @@ export function AuthShell({
 }) {
   return (
     <div className="w-full bg-espresso p-4 sm:p-8 lg:p-12">
-      <div className="mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-7xl flex-col overflow-hidden rounded-2xl ring-2 ring-gold/45 shadow-xl sm:min-h-[calc(100svh-4rem)] sm:flex-row lg:min-h-[calc(100svh-6rem)]">
-        <div className="relative hidden flex-col items-center justify-between gap-6 overflow-hidden px-10 py-10 text-center sm:flex sm:w-1/2">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-7xl flex-col overflow-hidden rounded-2xl ring-2 ring-gold/45 shadow-xl sm:min-h-[calc(100svh-4rem)] sm:flex-row lg:min-h-[calc(100svh-6rem)]"
+      >
+        <motion.div
+          variants={panelContainer}
+          initial="hidden"
+          animate="show"
+          className="relative hidden flex-col items-center justify-between gap-6 overflow-hidden px-10 py-10 text-center sm:flex sm:w-1/2"
+        >
           <Image
             src="/hero.jpg"
             alt=""
@@ -39,7 +62,10 @@ export function AuthShell({
             className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/10 blur-3xl"
           />
 
-          <div className="relative z-10 flex flex-col items-center gap-5">
+          <motion.div
+            variants={fadeUp}
+            className="relative z-10 flex flex-col items-center gap-5"
+          >
             <Link href="/" className="relative h-20 w-72 transition-opacity hover:opacity-80">
               <Image
                 src="/white-version.png"
@@ -56,9 +82,12 @@ export function AuthShell({
             <p className="text-sm text-parchment/75">
               Our People &bull; Our Stories &bull; Our Heritage
             </p>
-          </div>
+          </motion.div>
 
-          <div className="relative z-10 h-[28svh] max-h-96 min-h-56 w-[28svh] max-w-96 min-w-56">
+          <motion.div
+            variants={fadeUp}
+            className="relative z-10 h-[28svh] max-h-96 min-h-56 w-[28svh] max-w-96 min-w-56"
+          >
             <Image
               src="/lion-trademark.png"
               alt=""
@@ -66,9 +95,12 @@ export function AuthShell({
               sizes="384px"
               className="object-contain"
             />
-          </div>
+          </motion.div>
 
-          <div className="relative z-10 flex flex-col items-center gap-5">
+          <motion.div
+            variants={fadeUp}
+            className="relative z-10 flex flex-col items-center gap-5"
+          >
             <p className="font-heading text-2xl leading-snug sm:text-[1.75rem]">
               <span className="text-gold">Preserving our past,</span>
               <br />
@@ -77,11 +109,16 @@ export function AuthShell({
               <span className="text-ivory/90">inspiring our future.</span>
             </p>
             <Ornament />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         <div className="flex w-full flex-1 flex-col justify-center bg-card px-6 py-10 sm:w-1/2 sm:px-12 lg:px-16">
-          <div className="mx-auto flex w-full max-w-md flex-col gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
+            className="mx-auto flex w-full max-w-md flex-col gap-6"
+          >
             <div className="relative flex items-center justify-center gap-6">
               <Link
                 href="/auth/login"
@@ -116,9 +153,9 @@ export function AuthShell({
             </div>
 
             {children}
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

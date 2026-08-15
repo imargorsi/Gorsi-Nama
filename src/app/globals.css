@@ -126,4 +126,11 @@
   html {
     @apply font-sans;
   }
+
+  /* Urdu (dir="rtl") swaps the body/heading font for Noto Nastaliq Urdu,
+     set on <html> by app/[locale]/layout.tsx. See doc/i18n.md. */
+  html[dir="rtl"] {
+    --font-sans: var(--font-urdu);
+    --font-newsreader: var(--font-urdu);
+  }
 }

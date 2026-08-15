@@ -1,0 +1,37 @@
+{
+  "Nav": {
+    "library": "Library",
+    "blog": "Blog",
+    "history": "History",
+    "tagline": "Our People • Our Stories • Our Heritage",
+    "signIn": "Sign in",
+    "openMenu": "Open menu",
+    "logOut": "Log out"
+  },
+  "LanguageSwitcher": {
+    "en": "English",
+    "ur": "Urdu"
+  },
+  "Footer": {
+    "tagline": "Our People. Our Stories. Our Heritage.",
+    "explore": "Explore",
+    "community": "Community",
+    "contribute": "Contribute",
+    "account": "Account",
+    "comingSoon": "coming soon",
+    "history": "History",
+    "stories": "Stories",
+    "notableGorsi": "Notable Gorsi",
+    "library": "Library",
+    "gallery": "Gallery",
+    "communityFeed": "Community Feed",
+    "discussions": "Discussions",
+    "members": "Members",
+    "shareStory": "Share a Story",
+    "sharePhoto": "Share a Photo",
+    "signIn": "Sign In",
+    "createAccount": "Create Account",
+    "profile": "Profile",
+    "copyright": "© Gorsi Nama"
+  }
+}
