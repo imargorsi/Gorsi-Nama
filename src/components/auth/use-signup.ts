@@ -9,16 +9,34 @@ export function useSignup() {
 
   return useMutation({
     mutationFn: async (values: SignupValues) => {
+      const [firstName, ...rest] = values.fullName.trim().split(/\s+/);
+      const lastName = rest.join(" ") || undefined;
+
       const { error } = await signUp.password({
         emailAddress: values.email,
         password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
+        firstName,
+        lastName,
       });
       if (error) throw error;
 
       const { error: codeError } = await signUp.verifications.sendEmailCode();
       if (codeError) throw codeError;
+    },
+  });
+}
+
+export function useGoogleSignUp() {
+  const { signUp } = useSignUp();
+
+  return useMutation({
+    mutationFn: async () => {
+      const { error } = await signUp.sso({
+        strategy: "oauth_google",
+        redirectUrl: "/auth/sso-callback",
+        redirectCallbackUrl: "/profile",
+      });
+      if (error) throw error;
     },
   });
 }

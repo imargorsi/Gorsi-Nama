@@ -5,12 +5,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowRight, KeyRound, Lock, Mail, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getErrorMessage } from "@/lib/get-error-message";
-import { useSignup } from "./use-signup";
+import { AuthHeading } from "./auth-shell";
+import { IconInput, PasswordInput } from "./auth-fields";
+import { GoogleContinueButton } from "./google-continue-button";
+import { useSignup, useGoogleSignUp } from "./use-signup";
 import { useVerifyEmail } from "./use-verify-email";
 import {
   signupSchema,
@@ -20,8 +22,8 @@ import {
 } from "./auth.schemas";
 
 function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => void }) {
-  const [showPassword, setShowPassword] = useState(false);
   const signup = useSignup();
+  const googleSignUp = useGoogleSignUp();
 
   const {
     register,
@@ -42,102 +44,101 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="flex flex-col gap-6">
+      <AuthHeading
+        title="Create Account"
+        description="Join Gorsi Nama and start your journey with us"
+      />
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="firstName">First Name</Label>
-          <Input
-            id="firstName"
+          <Label htmlFor="fullName">Full Name</Label>
+          <IconInput
+            id="fullName"
             type="text"
-            placeholder="First name"
-            aria-invalid={!!errors.firstName}
-            {...register("firstName")}
+            icon={User}
+            autoComplete="name"
+            placeholder="Enter your full name"
+            aria-invalid={!!errors.fullName}
+            {...register("fullName")}
           />
-          {errors.firstName && (
-            <p className="text-sm text-destructive">{errors.firstName.message}</p>
+          {errors.fullName && (
+            <p className="text-sm text-destructive">{errors.fullName.message}</p>
           )}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input
-            id="lastName"
-            type="text"
-            placeholder="Last name"
-            aria-invalid={!!errors.lastName}
-            {...register("lastName")}
+          <Label htmlFor="email">Email</Label>
+          <IconInput
+            id="email"
+            type="email"
+            icon={Mail}
+            autoComplete="email"
+            placeholder="Enter your email"
+            aria-invalid={!!errors.email}
+            {...register("email")}
           />
-          {errors.lastName && (
-            <p className="text-sm text-destructive">{errors.lastName.message}</p>
+          {errors.email && (
+            <p className="text-sm text-destructive">{errors.email.message}</p>
           )}
         </div>
-      </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="Enter your email"
-          aria-invalid={!!errors.email}
-          {...register("email")}
-        />
-        {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="password">Password</Label>
-        <div className="relative">
-          <Input
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="password">Password</Label>
+          <PasswordInput
             id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="At least 15 characters"
+            icon={Lock}
+            autoComplete="new-password"
+            placeholder="Enter a password"
             aria-invalid={!!errors.password}
             {...register("password")}
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? (
-              <EyeOff className="size-4" />
-            ) : (
-              <Eye className="size-4" />
-            )}
-          </button>
+          {errors.password && (
+            <p className="text-sm text-destructive">{errors.password.message}</p>
+          )}
         </div>
-        {errors.password && (
-          <p className="text-sm text-destructive">{errors.password.message}</p>
-        )}
+
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="confirmPassword">Confirm Your Password</Label>
+          <PasswordInput
+            id="confirmPassword"
+            icon={Lock}
+            autoComplete="new-password"
+            placeholder="Enter your password again"
+            aria-invalid={!!errors.confirmPassword}
+            {...register("confirmPassword")}
+          />
+          {errors.confirmPassword && (
+            <p className="text-sm text-destructive">
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
+
+        {/* Clerk's bot-protection widget mounts into this element during signUp.create(). */}
+        <div id="clerk-captcha" />
+
+        <Button
+          type="submit"
+          disabled={signup.isPending}
+          className="mt-2 h-11 bg-gold text-ivory hover:bg-gold/90"
+        >
+          {signup.isPending ? "Registering..." : "Register"}
+          <ArrowRight className="size-4" />
+        </Button>
+      </form>
+
+      <div className="flex items-center gap-3">
+        <span className="h-px flex-1 bg-border" />
+        <span className="text-xs text-muted-foreground">or continue with</span>
+        <span className="h-px flex-1 bg-border" />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="confirmPassword">Confirm Your Password</Label>
-        <Input
-          id="confirmPassword"
-          type={showPassword ? "text" : "password"}
-          placeholder="Enter your password again"
-          aria-invalid={!!errors.confirmPassword}
-          {...register("confirmPassword")}
-        />
-        {errors.confirmPassword && (
-          <p className="text-sm text-destructive">
-            {errors.confirmPassword.message}
-          </p>
-        )}
-      </div>
-
-      {/* Clerk's bot-protection widget mounts into this element during signUp.create(). */}
-      <div id="clerk-captcha" />
-
-      <Button type="submit" disabled={signup.isPending} className="mt-2">
-        {signup.isPending ? "Registering..." : "Register"}
-      </Button>
-    </form>
+      <GoogleContinueButton
+        onClick={() => googleSignUp.mutate()}
+        isPending={googleSignUp.isPending}
+      />
+    </div>
   );
 }
 
@@ -164,26 +165,39 @@ function VerifyEmailForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="code">Verification Code</Label>
-        <Input
-          id="code"
-          type="text"
-          inputMode="numeric"
-          placeholder="Enter the code we emailed you"
-          aria-invalid={!!errors.code}
-          {...register("code")}
-        />
-        {errors.code && (
-          <p className="text-sm text-destructive">{errors.code.message}</p>
-        )}
-      </div>
+    <div className="flex flex-col gap-6">
+      <AuthHeading
+        title="Verify Your Email"
+        description="Enter the 6-digit code we sent to your email address"
+      />
 
-      <Button type="submit" disabled={verifyEmail.isPending} className="mt-2">
-        {verifyEmail.isPending ? "Verifying..." : "Verify Email"}
-      </Button>
-    </form>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="code">Verification Code</Label>
+          <IconInput
+            id="code"
+            type="text"
+            inputMode="numeric"
+            icon={KeyRound}
+            autoComplete="one-time-code"
+            placeholder="Enter the code we emailed you"
+            aria-invalid={!!errors.code}
+            {...register("code")}
+          />
+          {errors.code && (
+            <p className="text-sm text-destructive">{errors.code.message}</p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          disabled={verifyEmail.isPending}
+          className="mt-2 h-11 bg-gold text-ivory hover:bg-gold/90"
+        >
+          {verifyEmail.isPending ? "Verifying..." : "Verify Email"}
+        </Button>
+      </form>
+    </div>
   );
 }
 

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
-import { SiteHeader } from "@/components/site-header";
 
 const fontSans = Geist({
   variable: "--font-sans",
@@ -34,10 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
-          <Providers>
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          </Providers>
+          <Providers>{children}</Providers>
         </ClerkProvider>
       </body>
     </html>

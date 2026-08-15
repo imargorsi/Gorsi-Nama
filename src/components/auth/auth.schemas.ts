@@ -7,13 +7,11 @@ export const loginSchema = z.object({
 
 export type LoginValues = z.infer<typeof loginSchema>;
 
-// Password minimum mirrors this Clerk instance's configured policy (min_length: 15).
 export const signupSchema = z
   .object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
+    fullName: z.string().min(1, "Full name is required"),
     email: z.string().min(1, "Email is required").email("Invalid email format"),
-    password: z.string().min(15, "Password must be at least 15 characters"),
+    password: z.string().min(1, "Password is required"),
     confirmPassword: z.string().min(1, "Confirm password is required"),
   })
   .refine((values) => values.password === values.confirmPassword, {
@@ -28,3 +26,22 @@ export const verifyEmailSchema = z.object({
 });
 
 export type VerifyEmailValues = z.infer<typeof verifyEmailSchema>;
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
+});
+
+export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+  .object({
+    code: z.string().min(6, "Enter the 6-digit code").max(6, "Enter the 6-digit code"),
+    password: z.string().min(1, "Password is required"),
+    confirmPassword: z.string().min(1, "Confirm password is required"),
+  })
+  .refine((values) => values.password === values.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
+
+export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;

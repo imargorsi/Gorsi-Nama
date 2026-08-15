@@ -24,3 +24,18 @@ export function useLogin() {
     },
   });
 }
+
+export function useGoogleSignIn() {
+  const { signIn } = useSignIn();
+
+  return useMutation({
+    mutationFn: async () => {
+      const { error } = await signIn.sso({
+        strategy: "oauth_google",
+        redirectUrl: "/auth/sso-callback",
+        redirectCallbackUrl: "/profile",
+      });
+      if (error) throw error;
+    },
+  });
+}

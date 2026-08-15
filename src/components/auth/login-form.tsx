@@ -5,18 +5,30 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowRight, KeyRound, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { getErrorMessage } from "@/lib/get-error-message";
-import { useLogin } from "./use-login";
-import { loginSchema, type LoginValues } from "./auth.schemas";
+import { AuthHeading } from "./auth-shell";
+import { IconInput, PasswordInput } from "./auth-fields";
+import { GoogleContinueButton } from "./google-continue-button";
+import { useLogin, useGoogleSignIn } from "./use-login";
+import { useForgotPassword } from "./use-forgot-password";
+import { useResetPassword } from "./use-reset-password";
+import {
+  loginSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  type LoginValues,
+  type ForgotPasswordValues,
+  type ResetPasswordValues,
+} from "./auth.schemas";
 
-export function LoginForm() {
+function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
   const login = useLogin();
+  const googleSignIn = useGoogleSignIn();
 
   const {
     register,
@@ -37,52 +49,289 @@ export function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="Enter your email"
-          aria-invalid={!!errors.email}
-          {...register("email")}
-        />
-        {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
-        )}
-      </div>
+    <div className="flex flex-col gap-6">
+      <AuthHeading
+        title="Welcome Back"
+        description="Login to continue your journey with Gorsi Nama"
+      />
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="password">Password</Label>
-        <div className="relative">
-          <Input
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="email">Email</Label>
+          <IconInput
+            id="email"
+            type="email"
+            icon={Mail}
+            autoComplete="email"
+            placeholder="Enter your email"
+            aria-invalid={!!errors.email}
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="text-sm text-destructive">{errors.email.message}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="password">Password</Label>
+          <PasswordInput
             id="password"
-            type={showPassword ? "text" : "password"}
+            icon={Lock}
+            autoComplete="current-password"
             placeholder="Enter your password"
             aria-invalid={!!errors.password}
             {...register("password")}
           />
+          {errors.password && (
+            <p className="text-sm text-destructive">{errors.password.message}</p>
+          )}
           <button
             type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            onClick={onForgotPassword}
+            className="self-end text-sm font-medium text-gold hover:underline"
           >
-            {showPassword ? (
-              <EyeOff className="size-4" />
-            ) : (
-              <Eye className="size-4" />
-            )}
+            Forgot Password?
           </button>
         </div>
-        {errors.password && (
-          <p className="text-sm text-destructive">{errors.password.message}</p>
-        )}
+
+        {/* Session persistence is managed by Clerk itself; this control is visual only. */}
+        <label className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Checkbox />
+          Remember me
+        </label>
+
+        <Button
+          type="submit"
+          disabled={login.isPending}
+          className="mt-2 h-11 bg-gold text-ivory hover:bg-gold/90"
+        >
+          {login.isPending ? "Logging In..." : "Login"}
+          <ArrowRight className="size-4" />
+        </Button>
+      </form>
+
+      <div className="flex items-center gap-3">
+        <span className="h-px flex-1 bg-border" />
+        <span className="text-xs text-muted-foreground">or continue with</span>
+        <span className="h-px flex-1 bg-border" />
       </div>
 
-      <Button type="submit" disabled={login.isPending} className="mt-2">
-        {login.isPending ? "Logging In..." : "Login"}
-      </Button>
-    </form>
+      <GoogleContinueButton
+        onClick={() => googleSignIn.mutate()}
+        isPending={googleSignIn.isPending}
+      />
+
+      <div className="flex items-start gap-2 text-xs text-muted-foreground">
+        <ShieldCheck className="mt-0.5 size-4 shrink-0 text-gold" />
+        <p>
+          Your data is safe with us.
+          <br />
+          We respect your privacy and never share your information.
+        </p>
+      </div>
+    </div>
   );
+}
+
+function ForgotPasswordStep({
+  onCodeSent,
+  onBack,
+}: {
+  onCodeSent: () => void;
+  onBack: () => void;
+}) {
+  const forgotPassword = useForgotPassword();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ForgotPasswordValues>({ resolver: zodResolver(forgotPasswordSchema) });
+
+  const onSubmit = (values: ForgotPasswordValues) => {
+    forgotPassword.mutate(values, {
+      onSuccess: () => {
+        toast.success("Check your email for a reset code.");
+        onCodeSent();
+      },
+      onError: (error) => {
+        toast.error(getErrorMessage(error, "Something went wrong, try again."));
+      },
+    });
+  };
+
+  return (
+    <div className="flex flex-col gap-6">
+      <AuthHeading
+        title="Forgot Password?"
+        description="Enter your email and we'll send you a reset code."
+      />
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="forgot-email">Email</Label>
+          <IconInput
+            id="forgot-email"
+            type="email"
+            icon={Mail}
+            autoComplete="email"
+            placeholder="Enter your email"
+            aria-invalid={!!errors.email}
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="text-sm text-destructive">{errors.email.message}</p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          disabled={forgotPassword.isPending}
+          className="mt-2 h-11 bg-gold text-ivory hover:bg-gold/90"
+        >
+          {forgotPassword.isPending ? "Sending Code..." : "Send Reset Code"}
+        </Button>
+      </form>
+
+      <button
+        type="button"
+        onClick={onBack}
+        className="text-sm font-medium text-gold hover:underline"
+      >
+        Back to Login
+      </button>
+    </div>
+  );
+}
+
+function ResetPasswordStep({
+  onComplete,
+  onBack,
+}: {
+  onComplete: () => void;
+  onBack: () => void;
+}) {
+  const router = useRouter();
+  const resetPassword = useResetPassword();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ResetPasswordValues>({ resolver: zodResolver(resetPasswordSchema) });
+
+  const onSubmit = (values: ResetPasswordValues) => {
+    resetPassword.mutate(values, {
+      onSuccess: () => {
+        toast.success("Password reset. You're logged in.");
+        onComplete();
+        router.push("/profile");
+      },
+      onError: (error) => {
+        toast.error(getErrorMessage(error, "Invalid code, try again."));
+      },
+    });
+  };
+
+  return (
+    <div className="flex flex-col gap-6">
+      <AuthHeading
+        title="Reset Password"
+        description="Enter the code we emailed you and choose a new password."
+      />
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="code">Verification Code</Label>
+          <IconInput
+            id="code"
+            type="text"
+            inputMode="numeric"
+            icon={KeyRound}
+            autoComplete="one-time-code"
+            placeholder="Enter the code we emailed you"
+            aria-invalid={!!errors.code}
+            {...register("code")}
+          />
+          {errors.code && (
+            <p className="text-sm text-destructive">{errors.code.message}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="new-password">New Password</Label>
+          <PasswordInput
+            id="new-password"
+            icon={Lock}
+            autoComplete="new-password"
+            placeholder="Enter a new password"
+            aria-invalid={!!errors.password}
+            {...register("password")}
+          />
+          {errors.password && (
+            <p className="text-sm text-destructive">{errors.password.message}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="confirm-new-password">Confirm New Password</Label>
+          <PasswordInput
+            id="confirm-new-password"
+            icon={Lock}
+            autoComplete="new-password"
+            placeholder="Enter your password again"
+            aria-invalid={!!errors.confirmPassword}
+            {...register("confirmPassword")}
+          />
+          {errors.confirmPassword && (
+            <p className="text-sm text-destructive">
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          disabled={resetPassword.isPending}
+          className="mt-2 h-11 bg-gold text-ivory hover:bg-gold/90"
+        >
+          {resetPassword.isPending ? "Resetting..." : "Reset Password"}
+        </Button>
+      </form>
+
+      <button
+        type="button"
+        onClick={onBack}
+        className="text-sm font-medium text-gold hover:underline"
+      >
+        Back to Login
+      </button>
+    </div>
+  );
+}
+
+export function LoginForm() {
+  const [step, setStep] = useState<"login" | "forgot-password" | "reset-password">(
+    "login"
+  );
+
+  if (step === "forgot-password") {
+    return (
+      <ForgotPasswordStep
+        onCodeSent={() => setStep("reset-password")}
+        onBack={() => setStep("login")}
+      />
+    );
+  }
+
+  if (step === "reset-password") {
+    return (
+      <ResetPasswordStep
+        onComplete={() => setStep("login")}
+        onBack={() => setStep("login")}
+      />
+    );
+  }
+
+  return <LoginStep onForgotPassword={() => setStep("forgot-password")} />;
 }
