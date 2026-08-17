@@ -45,14 +45,14 @@ export async function Footer() {
   const t = await getTranslations("Footer");
 
   return (
-    <footer className="border-t border-border bg-espresso text-parchment/70">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <footer className="border-t border-gold/20 bg-espresso text-ivory/70">
+      <div className="site-shell px-4 py-16 sm:px-0">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
           <div className="col-span-2 flex flex-col gap-2 sm:col-span-3 lg:col-span-1">
             <span className="font-heading text-xl font-semibold text-ivory">
               Gorsi Nama<span className="text-gold">.</span>
             </span>
-            <p className="text-sm text-parchment/60">{t("tagline")}</p>
+            <p className="text-sm text-ivory/60">{t("tagline")}</p>
           </div>
 
           {columns.map((column) => (
@@ -71,7 +71,7 @@ export async function Footer() {
                         {t(link.key)}
                       </Link>
                     ) : (
-                      <span className="text-sm text-parchment/40">
+                      <span className="text-sm text-ivory/40">
                         {t(link.key)}{" "}
                         <span className="text-xs italic">— {t("comingSoon")}</span>
                       </span>
@@ -83,7 +83,7 @@ export async function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 border-t border-ivory/10 pt-6 text-sm text-parchment/50">
+        <div className="mt-12 border-t border-ivory/10 pt-6 text-sm text-ivory/50">
           {t("copyright")}
         </div>
       </div>

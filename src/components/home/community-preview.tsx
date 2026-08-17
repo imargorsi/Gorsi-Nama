@@ -12,7 +12,7 @@ const PLACEHOLDER_MEMBERS = Array.from({ length: 4 }, (_, index) => ({
 
 export function CommunityPreview() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="site-shell px-4 py-16 sm:px-0">
       <SectionHeading
         title="Meet the Gorsi Community"
         description="Gorsi people connected across generations, cities and countries."

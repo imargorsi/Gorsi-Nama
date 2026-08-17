@@ -14,7 +14,7 @@ export function PersonalityCard({
   return (
     <div
       className={cn(
-        "mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-4 py-8 sm:px-6 md:grid-cols-2",
+        "site-shell grid grid-cols-1 items-center gap-8 px-4 py-8 sm:px-0 md:grid-cols-2",
         reverse && "md:[&>*:first-child]:order-2"
       )}
     >

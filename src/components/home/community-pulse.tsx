@@ -5,7 +5,7 @@ import { PlaceholderBlock } from "./placeholder-block";
 
 export function CommunityPulse() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="site-shell px-4 py-16 sm:px-0">
       <SectionHeading
         eyebrow="Community Pulse"
         title="What's Happening in Our Community"

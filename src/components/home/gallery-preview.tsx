@@ -4,7 +4,7 @@ import { PlaceholderBlock } from "./placeholder-block";
 
 export function GalleryPreview() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="site-shell px-4 py-16 sm:px-0">
       <SectionHeading
         title="Moments We Remember"
         description="Photographs and memories that bring our shared history to life."

@@ -13,7 +13,7 @@ export default async function BlogPage({ params }: PageProps<"/[locale]/blog">) 
   setRequestLocale(locale);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div className="site-shell px-4 py-16 sm:px-0">
       <h1 className="font-heading text-3xl font-semibold">Blog</h1>
       <p className="mt-2 text-muted-foreground">
         Stories, updates, and heritage articles from the Gorsi community.

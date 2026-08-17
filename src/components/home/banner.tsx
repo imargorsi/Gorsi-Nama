@@ -13,7 +13,7 @@ export function Banner() {
         <h2 className="font-heading text-2xl font-semibold text-ivory sm:text-3xl">
           Help Write the Next Chapter
         </h2>
-        <p className="text-parchment/80">
+        <p className="text-ivory/80">
           Our history isn&apos;t only found in books. It&apos;s in our
           photographs, memories, family stories and the people who lived
           them. Every contribution becomes part of the story we leave for the
@@ -22,7 +22,7 @@ export function Banner() {
         <div className="mt-2 flex flex-wrap justify-center gap-3">
           <Link
             href="/auth/signup"
-            className={cn(buttonVariants({ className: "bg-gold text-ivory hover:bg-gold/90" }))}
+            className={cn(buttonVariants({ className: "bg-gold text-espresso hover:bg-gold/90" }))}
           >
             Join Gorsi Nama
           </Link>

@@ -22,7 +22,7 @@ const categories = [
 
 export function LibraryPreview() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="site-shell px-4 py-16 sm:px-0">
       <SectionHeading
         title="The Gorsi Library"
         description="A growing collection of books, documents and resources preserving knowledge for generations to come."

@@ -122,7 +122,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
         <Button
           type="submit"
           disabled={signup.isPending}
-          className="mt-2 h-11 bg-gold text-ivory hover:bg-gold/90"
+          className="mt-2 h-11 bg-gold text-espresso hover:bg-gold/90"
         >
           {signup.isPending ? "Registering..." : "Register"}
           <ArrowRight className="size-4" />
@@ -193,7 +193,7 @@ function VerifyEmailForm() {
         <Button
           type="submit"
           disabled={verifyEmail.isPending}
-          className="mt-2 h-11 bg-gold text-ivory hover:bg-gold/90"
+          className="mt-2 h-11 bg-gold text-espresso hover:bg-gold/90"
         >
           {verifyEmail.isPending ? "Verifying..." : "Verify Email"}
         </Button>

@@ -5,14 +5,33 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
-export function LanguageSwitcher({ className }: { className?: string }) {
+const localeLabels: Record<(typeof routing.locales)[number], string> = {
+  en: "EN",
+  ur: "اردو",
+};
+
+export function LanguageSwitcher({
+  className,
+  tone = "on-dark",
+}: {
+  className?: string;
+  tone?: "on-dark" | "on-light";
+}) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations("LanguageSwitcher");
 
   return (
-    <div className={cn("flex items-center gap-1", className)}>
+    <div
+      role="group"
+      aria-label={t("label")}
+      className={cn(
+        "flex items-center rounded-full p-0.5 ring-1",
+        tone === "on-dark" ? "ring-ivory/15" : "ring-espresso/16",
+        className
+      )}
+    >
       {routing.locales.map((loc) => (
         <button
           key={loc}
@@ -21,13 +40,16 @@ export function LanguageSwitcher({ className }: { className?: string }) {
           aria-current={loc === locale}
           aria-label={t(loc)}
           className={cn(
-            "rounded-full px-2.5 py-1 text-xs font-semibold uppercase transition-colors",
+            "rounded-full px-2.5 py-1 font-sans text-xs font-semibold tracking-wide whitespace-nowrap transition-colors",
+            loc === "ur" && "[font-family:var(--font-urdu)] text-[0.8rem] leading-none",
             loc === locale
-              ? "bg-gold text-ivory"
-              : "text-parchment/70 hover:text-gold"
+              ? "bg-gold text-espresso"
+              : tone === "on-dark"
+                ? "text-ivory/70 hover:text-gold"
+                : "text-warm-gray hover:text-gold"
           )}
         >
-          {loc}
+          {localeLabels[loc]}
         </button>
       ))}
     </div>

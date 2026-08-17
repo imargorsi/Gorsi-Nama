@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function AncientHistory() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <section className="site-shell px-4 py-8 sm:px-0">
       <h3 className="font-heading text-xl font-semibold">
         Ancient Origins of the Gujjars (5th Century A.D.)
       </h3>

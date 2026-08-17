@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 export function HistoryTeaser() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="site-shell px-4 py-16 sm:px-0">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <Separator className="w-12 bg-primary" />

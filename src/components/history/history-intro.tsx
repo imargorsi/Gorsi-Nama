@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function HistoryIntro() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="site-shell px-4 py-16 sm:px-0">
       <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <h2 className="font-heading text-2xl font-semibold">

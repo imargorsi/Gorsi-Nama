@@ -1,66 +1,105 @@
-import { Link } from "@/i18n/navigation";
-import { Archive, ArrowRight, PenLine, Scroll, Users } from "lucide-react";
-import { SectionHeading } from "./section-heading";
+"use client";
 
-const links = [
+import { motion } from "motion/react";
+import { HeritageCard, HeritageCardGrid } from "@/components/heritage-card";
+import { HeritageDiamond } from "@/components/heritage-ornaments";
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const cards = [
   {
+    index: 1,
+    category: "History",
     title: "Our History",
-    description: "Trace our journey across generations.",
+    description:
+      "Trace our journey across generations and discover the roots of who we are.",
     href: "/history",
     cta: "Explore History",
-    icon: Scroll,
+    image: "/history__image__4.jpg",
   },
   {
+    index: 2,
+    category: "Stories",
     title: "Our Stories",
-    description: "Read stories and memories shared by the community.",
+    description:
+      "Read stories and memories shared by our community. Every story preserves a piece of us.",
     href: "/blog",
     cta: "Explore Stories",
-    icon: PenLine,
+    image: "/writing.jpg",
   },
   {
+    index: 3,
+    category: "People",
     title: "Our People",
-    description: "Discover the people who make up our community.",
+    description:
+      "Discover the people who shape our community and keep our heritage alive.",
     href: "/member",
     cta: "Meet the Community",
-    icon: Users,
+    image: "/people.jpg",
   },
   {
+    index: 4,
+    category: "Archive",
     title: "Our Archive",
-    description: "Explore books, documents, photographs and resources.",
+    description:
+      "Explore books, documents, photographs and resources that preserve our shared heritage.",
     href: "/library",
     cta: "Explore Library",
-    icon: Archive,
+    image: "/book.jpg",
   },
-];
+] as const;
 
 export function ExploreGrid() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <SectionHeading
-        title="Explore Gorsi Nama"
-        description="Discover the stories, people, history and knowledge that make up our shared heritage."
-      />
-
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {links.map(({ title, description, href, cta, icon: Icon }) => (
-          <div
-            key={href}
-            className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5"
-          >
-            <span className="flex size-10 items-center justify-center rounded-full bg-gold/15 text-gold">
-              <Icon className="size-5" />
-            </span>
-            <h3 className="font-heading font-semibold">{title}</h3>
-            <p className="text-sm text-muted-foreground">{description}</p>
-            <Link
-              href={href}
-              className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-            >
-              {cta}
-              <ArrowRight className="size-4" />
-            </Link>
+    <section
+      id="explore-gorsi-nama"
+      className="scroll-mt-28 pt-10 pb-16 sm:scroll-mt-32 sm:pt-12 sm:pb-20"
+    >
+      <div className="site-shell px-4 sm:px-0">
+        <motion.header
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.4, ease }}
+        >
+          <p className="heritage-eyebrow">The Gorsi Nama</p>
+          <div className="mt-3 flex items-center gap-3" aria-hidden>
+            <span className="h-px w-8 bg-gold/35" />
+            <HeritageDiamond />
+            <span className="h-px w-8 bg-gold/35" />
           </div>
-        ))}
+          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+            Explore Gorsi Nama
+          </h2>
+          <p className="mt-4 text-sm leading-normal text-warm-gray sm:whitespace-nowrap sm:text-base">
+            Stories, people, history and memories that connect us across generations.
+          </p>
+        </motion.header>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.12 }}
+          variants={{
+            hidden: {},
+            show: { transition: { staggerChildren: 0.09, delayChildren: 0.08 } },
+          }}
+        >
+          <HeritageCardGrid className="mt-10 sm:mt-12">
+            {cards.map((card) => (
+              <motion.div
+                key={card.href}
+                className="min-w-0 h-full"
+                variants={{
+                  hidden: { opacity: 0, y: 16 },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
+                }}
+              >
+                <HeritageCard {...card} />
+              </motion.div>
+            ))}
+          </HeritageCardGrid>
+        </motion.div>
       </div>
     </section>
   );

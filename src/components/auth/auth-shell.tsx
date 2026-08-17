@@ -79,7 +79,7 @@ export function AuthShell({
               GORSI NAMA
             </p>
             <Ornament />
-            <p className="text-sm text-parchment/75">
+            <p className="text-sm text-ivory/75">
               Our People &bull; Our Stories &bull; Our Heritage
             </p>
           </motion.div>

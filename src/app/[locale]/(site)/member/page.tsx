@@ -23,7 +23,7 @@ export default async function MembersPage({
   return (
     <>
       <PageBreadcrumb title="Our Members" />
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <div className="site-shell px-4 py-16 sm:px-0">
         <h2 className="font-heading text-2xl font-semibold">
           Honored Members of the Gorsi Clan
         </h2>

@@ -10,7 +10,7 @@ export function BlogGrid() {
   const compactPosts = rest.slice(0, 3);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="site-shell px-4 py-16 sm:px-0">
       <SectionHeading
         title="Stories From Our People"
         description="Every family carries memories worth preserving. Discover the stories that connect generations."

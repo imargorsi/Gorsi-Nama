@@ -16,3 +16,23 @@ export const users = pgTable("users", {
 });
 
 export type User = typeof users.$inferSelect;
+
+// Member-facing profile fields we own. Identity (name, email, avatar) stays
+// on Clerk / `users`; this table is the source of truth for everything a
+// member customizes on Gorsi Nama. See doc/data-and-backend.md.
+export const profiles = pgTable("profiles", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  city: text("city"),
+  profession: text("profession"),
+  summary: text("summary"),
+  facebookUrl: text("facebook_url"),
+  instagramUrl: text("instagram_url"),
+  twitterUrl: text("twitter_url"),
+  websiteUrl: text("website_url"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type Profile = typeof profiles.$inferSelect;

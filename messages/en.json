@@ -1,14 +1,25 @@
 {
   "Nav": {
-    "library": "Library",
-    "blog": "Blog",
+    "explore": "Explore",
+    "community": "Community",
     "history": "History",
+    "stories": "Stories",
+    "people": "People",
+    "library": "Library",
+    "gallery": "Gallery",
+    "members": "Members",
+    "communityFeed": "Community Feed",
+    "discussions": "Discussions",
+    "profile": "Profile",
+    "soon": "Soon",
     "tagline": "Our People • Our Stories • Our Heritage",
     "signIn": "Sign in",
     "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "logOut": "Log out"
   },
   "LanguageSwitcher": {
+    "label": "Language switcher",
     "en": "English",
     "ur": "Urdu"
   },
