@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { BlogList, BlogWriteButton } from "@/components/blog/blog-list";
 
 export const metadata: Metadata = {
@@ -15,9 +15,8 @@ export default async function BlogPage({ params }: PageProps<"/[locale]/blog">) 
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.stories}
         eyebrow="From Our People"
-        title="Stories from our people"
+        title="Stories From Our People"
         description="Stories, updates, and heritage articles from the Gorsi community."
       >
         <BlogWriteButton />

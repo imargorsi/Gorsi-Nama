@@ -37,9 +37,9 @@ export function ProfilePortrait({
         </Avatar>
 
         <div className="min-w-0 flex-1">
-          <h2 className="font-heading text-3xl leading-none font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="font-heading text-3xl leading-none font-semibold tracking-tight text-foreground sm:text-4xl">
             {userDetails.fullName}
-          </h2>
+          </h1>
 
           {hasMeta || userDetails.email || isLoadingProfile ? (
             <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-warm-gray">

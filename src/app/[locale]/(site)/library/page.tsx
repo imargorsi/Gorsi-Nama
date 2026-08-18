@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -28,7 +28,6 @@ export default async function LibraryPage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.library}
         eyebrow="The Archive"
         title="Browse the Gorsi Library"
         description="Three collections: books, documents (PDFs and records), and images. Holdings will appear here as the archive grows."
@@ -70,7 +69,7 @@ export default async function LibraryPage({
 
       <CallToAction
         eyebrow="The Archive"
-        title="Help grow the archive"
+        title="Help Grow the Archive"
         text="Books, documents, and photographs will be added as the library takes shape. Join Gorsi Nama to contribute."
         buttonText="Join Gorsi Nama"
         href="/auth/signup"

@@ -18,7 +18,7 @@ export function ProfileStories({ userId }: { userId: string }) {
     <section id="your-stories">
       <SectionHeading
         eyebrow="Your writing"
-        title="Your stories"
+        title="Your Stories"
         description="Drafts stay on this device until the archive backend is live."
       >
         <Link

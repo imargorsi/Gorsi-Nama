@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
-import {
-  MembershipCard,
-  MembershipCardGrid,
-} from "@/components/members/membership-card";
-import { Stagger, StaggerItem } from "@/components/reveal";
-import { placeholderMembers } from "@/data/members";
+import { MemberDirectory } from "@/components/members/member-directory";
 
 export const metadata: Metadata = {
-  title: "Our Members | Gorsi Nama",
+  title: "Members | Gorsi Nama",
 };
 
 export default async function MembersPage({
@@ -22,40 +17,21 @@ export default async function MembersPage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.members}
-        eyebrow="The Directory"
-        title="Honored Members of the Gorsi Clan"
+        eyebrow="Our People"
+        title="Proud Members of the Gorsi Clan"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Our Members" },
+          { label: "Members" },
         ]}
-        description="Together, we stand as the pillars of the Gorsi legacy, united by heritage, strength, and an unwavering spirit. These cards are placeholders until the live member directory is connected."
+        description="This directory is for every Gorsi who carries our name with pride. Join us, claim your place, and let the generations after us find their people here."
       />
-      <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
-        <Stagger mode="load">
-          <MembershipCardGrid>
-            {placeholderMembers.map((member, index) => (
-              <StaggerItem
-                key={member.id}
-                index={index}
-                isHoverable
-                className="h-full"
-              >
-                <MembershipCard
-                  name={member.name}
-                  membershipId={member.membershipId}
-                  image={member.image}
-                  href={`/member/${member.id}`}
-                />
-              </StaggerItem>
-            ))}
-          </MembershipCardGrid>
-        </Stagger>
+      <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
+        <MemberDirectory />
       </div>
       <CallToAction
-        eyebrow="The Directory"
-        title="Take your place in the clan"
-        text="Create your Gorsi Nama account to appear in the member directory and share your story."
+        eyebrow="Our People"
+        title="Become a Proud Member"
+        text="Create your Gorsi Nama account to appear in this directory and stand with your clan."
         buttonText="Join Gorsi Nama"
         href="/auth/signup"
       />

@@ -35,7 +35,8 @@ export const metadata: Metadata = {
   description:
     "A digital home for the Gorsi tribe — history, heritage, members, and stories.",
   icons: {
-    icon: [{ url: "/favicon.png", type: "image/png" }],
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "any" }],
+    shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
   robots: {

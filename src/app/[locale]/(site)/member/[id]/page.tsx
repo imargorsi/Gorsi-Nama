@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import { Reveal } from "@/components/reveal";
@@ -24,12 +24,11 @@ export default async function MemberProfilePage({
   return (
     <>
       <PageBreadcrumb
-        image={member?.image || pageBanner.members}
         eyebrow="Member"
         title={name}
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Our Members", href: "/member" },
+          { label: "Members", href: "/member" },
           { label: name },
         ]}
         description={
@@ -57,7 +56,7 @@ export default async function MemberProfilePage({
       </div>
       <CallToAction
         eyebrow="The Directory"
-        title="This could be your profile"
+        title="This Could Be Your Profile"
         text="Create your Gorsi Nama account to claim a profile and appear in the member directory."
         buttonText="Join Gorsi Nama"
         href="/auth/signup"

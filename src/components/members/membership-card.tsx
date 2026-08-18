@@ -24,7 +24,7 @@ export function MembershipCard({
   const card = (
     <article
       className={cn(
-        "relative flex w-full min-w-0 flex-col items-center overflow-hidden rounded-2xl bg-espresso px-5 pt-6 pb-6 text-center shadow-md",
+        "relative flex w-full min-w-0 flex-col items-center overflow-hidden rounded-2xl bg-espresso px-5 pt-6 pb-6 text-center shadow-md ring-1 ring-gold/20",
         href &&
           "transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none",
         className
@@ -84,7 +84,7 @@ export function MembershipCardGrid({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6",
+        "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6",
         className
       )}
     >

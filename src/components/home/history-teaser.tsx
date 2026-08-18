@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Stagger, StaggerItem } from "@/components/reveal";
 import { buttonVariants } from "@/components/ui/button";
+import { chronicleDescription } from "@/data/history-chronicle";
 import { cn } from "@/lib/utils";
 
 const photoFrameClass =
@@ -23,11 +24,7 @@ export function HistoryTeaser() {
                 Generations
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-warm-gray sm:text-base">
-                The Gujars belong to the north-western parts of India like
-                Gujarat, Rajasthan, Himachal Pradesh, Jammu &amp; Kashmir, Uttar
-                Pradesh, Uttranchal, Haryana, and Punjab. They are mostly
-                Muslims, the rest being either Hindus or Sikhs. Gujarat is said
-                to be named after them as they settled there in the 6th century.
+                {chronicleDescription}
               </p>
             </div>
 

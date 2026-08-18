@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
-import { HistoryIntro } from "@/components/history/history-intro";
-import { AncientHistory } from "@/components/history/ancient-history";
-import { DetailSection } from "@/components/history/detail-section";
+import { CallToAction } from "@/components/call-to-action";
+import { Chronicle } from "@/components/history/chronicle";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import { chronicleDescription } from "@/data/history-chronicle";
 
 export const metadata: Metadata = {
   title: "History | Gorsi Nama",
+  description: chronicleDescription,
 };
 
 export default async function HistoryPage({
@@ -18,18 +19,22 @@ export default async function HistoryPage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.history}
-        eyebrow="Our chronicle"
+        eyebrow="Our Chronicle"
         title="History of the Gorsi Clan"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Our History" },
+          { label: "History" },
         ]}
-        description="A proud sub-tribe of the Gujjar community, with roots across the Indian subcontinent."
+        description={chronicleDescription}
       />
-      <HistoryIntro />
-      <AncientHistory />
-      <DetailSection />
+      <Chronicle />
+      <CallToAction
+        eyebrow="Our Chronicle"
+        title="Help Grow This Chronicle"
+        text="Family records, elders' accounts, photographs, and land documents can fill the chapters still waiting to be discovered."
+        buttonText="Share a Story"
+        href="/blog/write"
+      />
     </>
   );
 }

@@ -28,7 +28,7 @@ export function ProfileSavedContent() {
     <section id="saved-content">
       <SectionHeading
         eyebrow="Archive"
-        title="Saved content"
+        title="Saved Content"
         description="Stories, posts, and photos you save will gather here."
       />
 

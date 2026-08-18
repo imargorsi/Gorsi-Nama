@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { StoryEditor } from "@/components/blog/story-editor";
 import { Reveal } from "@/components/reveal";
 
@@ -17,9 +17,8 @@ export default async function WriteStoryPage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.stories}
         eyebrow="Stories"
-        title="Share a story"
+        title="Share a Story"
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Stories", href: "/blog" },

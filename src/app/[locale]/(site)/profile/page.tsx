@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { OwnProfileClient } from "@/components/profile/own-profile-client";
 
 export const metadata: Metadata = {
@@ -16,10 +16,10 @@ export default async function ProfilePage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.profile}
-        eyebrow="Account"
-        title="My Profile"
-        description="Your membership details, stories, and saved archive."
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "My Profile" },
+        ]}
       />
       <OwnProfileClient />
     </>

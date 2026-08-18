@@ -22,9 +22,9 @@ export function NotFoundPanel({
         height={96}
         className="opacity-80"
       />
-      <h2 className="font-heading text-2xl font-semibold tracking-tight text-espresso">
+      <h1 className="font-heading text-2xl font-semibold tracking-tight text-espresso">
         {heading}
-      </h2>
+      </h1>
       <HeritageRule />
       <p className="text-sm leading-relaxed text-warm-gray sm:text-base">{text}</p>
       <Link

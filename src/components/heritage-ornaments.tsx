@@ -31,6 +31,18 @@ export function HeritageKnot({ className }: { className?: string }) {
   );
 }
 
+export function HeritageCircleMark({ className }: { className?: string }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "inline-block size-5 shrink-0 bg-gold mask-[url('/pattern-circle.png')] mask-luminance mask-center mask-no-repeat mask-contain",
+        className
+      )}
+    />
+  );
+}
+
 export function HeritagePatternBand({ className }: { className?: string }) {
   return (
     <div

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { PersonalityCard } from "@/components/people/personality-card";
 import { Stagger, StaggerItem } from "@/components/reveal";
@@ -19,9 +19,8 @@ export default async function PeoplePage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.people}
         eyebrow="Notable Gorsi"
-        title="People who shaped our story"
+        title="People Who Shaped Our Story"
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Famous Gorsi Personalities" },
@@ -49,7 +48,7 @@ export default async function PeoplePage({
 
       <CallToAction
         eyebrow="The Archive"
-        title="Help complete this directory"
+        title="Help Complete This Directory"
         text="If you know of notable Gorsi personalities who belong here, join Gorsi Nama and help us add them."
         buttonText="Join Gorsi Nama"
         href="/auth/signup"

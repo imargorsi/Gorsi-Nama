@@ -78,7 +78,7 @@ function StoryShareBar() {
         <AccentIcon icon={PenLine} size="lg" tone="on-dark" />
         <div className="min-w-0 flex-1">
           <p className="font-heading text-xl font-semibold tracking-tight text-ivory">
-            Have a story to share?
+            Have a Story to Share?
           </p>
           <p className="mt-1 text-sm text-ivory/70">
             Your memories are a part of our shared heritage.

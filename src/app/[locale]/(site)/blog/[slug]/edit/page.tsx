@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { EditStoryClient } from "@/components/blog/edit-story-client";
 import { Reveal } from "@/components/reveal";
 
@@ -17,9 +17,8 @@ export default async function EditStoryPage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.stories}
         eyebrow="Stories"
-        title="Edit your story"
+        title="Edit Your Story"
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Stories", href: "/blog" },

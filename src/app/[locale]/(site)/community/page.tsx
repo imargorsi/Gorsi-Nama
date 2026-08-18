@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CommunityFeed } from "@/components/community/community-feed";
 import { isCommunityCategoryId } from "@/components/community/community-categories";
 
@@ -23,7 +23,6 @@ export default async function CommunityPage({
   return (
     <>
       <PageBreadcrumb
-        image={pageBanner.community}
         eyebrow="Community"
         title="Community Feed"
         description="Share stories, questions, and photographs with the Gorsi community."

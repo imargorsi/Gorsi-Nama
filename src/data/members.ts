@@ -18,7 +18,22 @@ export const placeholderMembers: PlaceholderMember[] = [
   { id: "sana-gorsi", name: "Sana Gorsi", membershipId: "210" },
   { id: "usman-gorsi", name: "Usman Gorsi", membershipId: "211" },
   { id: "mehwish-gorsi", name: "Mehwish Gorsi", membershipId: "212" },
+  { id: "bilal-gorsi", name: "Bilal Gorsi", membershipId: "213" },
+  { id: "rabia-gorsi", name: "Rabia Gorsi", membershipId: "214" },
+  { id: "hassan-gorsi", name: "Hassan Gorsi", membershipId: "215" },
+  { id: "nida-gorsi", name: "Nida Gorsi", membershipId: "216" },
+  { id: "omar-gorsi", name: "Omar Gorsi", membershipId: "217" },
+  { id: "zainab-gorsi", name: "Zainab Gorsi", membershipId: "218" },
+  { id: "faisal-gorsi", name: "Faisal Gorsi", membershipId: "219" },
+  { id: "hina-gorsi", name: "Hina Gorsi", membershipId: "220" },
+  { id: "javed-gorsi", name: "Javed Gorsi", membershipId: "221" },
+  { id: "maryam-gorsi", name: "Maryam Gorsi", membershipId: "222" },
+  { id: "shahid-gorsi", name: "Shahid Gorsi", membershipId: "223" },
+  { id: "asma-gorsi", name: "Asma Gorsi", membershipId: "224" },
 ];
+
+export const memberDirectoryInitialCount = 12;
+export const memberDirectoryLoadCount = 4;
 
 export function getPlaceholderMember(id: string) {
   return placeholderMembers.find((member) => member.id === id);

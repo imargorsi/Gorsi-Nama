@@ -13,10 +13,23 @@ import {
 } from "@/components/blog/member-stories";
 import { SectionHeading } from "@/components/home/section-heading";
 import { NotFoundPanel } from "@/components/not-found-panel";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { readingMinutes, type BlogPost } from "@/data/blog-posts";
 import { formatTag } from "@/lib/parse-tags";
 import { useIsHydrated } from "@/lib/use-is-hydrated";
+
+function StoryBreadcrumb({ title }: { title: string }) {
+  return (
+    <PageBreadcrumb
+      crumbs={[
+        { label: "Home", href: "/" },
+        { label: "Stories", href: "/blog" },
+        { label: title },
+      ]}
+    />
+  );
+}
 
 export function BlogArticle({
   slug,
@@ -38,17 +51,23 @@ export function BlogArticle({
   if (!post) {
     if (!isHydrated) {
       return (
-        <p className="site-shell px-4 py-16 text-sm text-warm-gray sm:px-0">
-          Loading this story…
-        </p>
+        <>
+          <StoryBreadcrumb title="Story" />
+          <p className="site-shell px-4 py-16 text-sm text-warm-gray sm:px-0">
+            Loading this story…
+          </p>
+        </>
       );
     }
 
     return (
-      <NotFoundPanel
-        heading="Story not found"
-        text="This story may still be a draft, or it was only saved in this browser session."
-      />
+        <>
+          <StoryBreadcrumb title="Story" />
+          <NotFoundPanel
+            heading="Story not found"
+            text="This story may still be a draft, or it was only saved in this browser session."
+          />
+        </>
     );
   }
 
@@ -61,10 +80,14 @@ export function BlogArticle({
 
   return (
     <>
+      <StoryBreadcrumb title={post.title} />
       <article className="site-shell px-4 py-12 sm:px-0 sm:py-16">
         <Reveal mode="load">
         <p className="heritage-eyebrow">{category.label}</p>
-        <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-gray">
+        <h1 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-5xl lg:leading-tight">
+          {post.title}
+        </h1>
+        <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-gray">
           <span className="inline-flex items-center gap-1.5">
             <User className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
             By {post.authorName}
@@ -113,7 +136,7 @@ export function BlogArticle({
           <Reveal>
             <SectionHeading
               eyebrow="More stories"
-              title="Continue reading"
+              title="Continue Reading"
             />
           </Reveal>
           <Stagger className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
