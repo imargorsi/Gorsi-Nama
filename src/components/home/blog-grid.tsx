@@ -4,18 +4,20 @@ import { motion } from "motion/react";
 import { ArrowRight, PenLine } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BlogCard } from "@/components/blog/blog-card";
-import { HeritageDiamond } from "@/components/heritage-ornaments";
+import {
+  publishedStories,
+  useMemberStories,
+} from "@/components/blog/member-stories";
+import { surfaceClass } from "@/components/surface";
 import { buttonVariants } from "@/components/ui/button";
-import { blogPosts } from "@/data/blog-posts";
 import { cn } from "@/lib/utils";
+import { SectionHeading } from "./section-heading";
+import { SectionLink } from "./section-link";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const softBrownButton =
-  "h-11 gap-2 rounded-lg border-transparent bg-[color-mix(in_srgb,var(--gorsi-gold)_52%,var(--gorsi-ivory))] px-5 text-sm font-semibold text-espresso shadow-none hover:bg-[color-mix(in_srgb,var(--gorsi-gold)_64%,var(--gorsi-ivory))]";
-
 export function BlogGrid() {
-  const [featured, ...rest] = blogPosts;
+  const [featured, ...rest] = publishedStories(useMemberStories());
   const stacked = rest.slice(0, 2);
 
   return (
@@ -29,31 +31,14 @@ export function BlogGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.4, ease }}
-          className="flex flex-row items-center justify-between gap-4 sm:gap-8"
         >
-          <div className="min-w-0">
-            <p className="heritage-eyebrow">From Our Community</p>
-            <div className="mt-3 flex items-center gap-3" aria-hidden>
-              <span className="h-px w-8 bg-gold/35" />
-              <HeritageDiamond />
-              <span className="h-px w-8 bg-gold/35" />
-            </div>
-            <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              Stories From Our People
-            </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-warm-gray sm:text-base">
-              Every family carries memories worth preserving. Discover the stories that connect
-              generations.
-            </p>
-          </div>
-
-          <Link
-            href="/blog"
-            className={cn(buttonVariants({ className: cn(softBrownButton, "w-fit shrink-0") }))}
+          <SectionHeading
+            eyebrow="From Our Community"
+            title="Stories From Our People"
+            description="Every family carries memories worth preserving. Discover the stories that connect generations."
           >
-            View All
-            <ArrowRight className="size-4 rtl:rotate-180" />
-          </Link>
+            <SectionLink href="/blog">View All</SectionLink>
+          </SectionHeading>
         </motion.header>
 
         <motion.div
@@ -102,7 +87,7 @@ export function BlogGrid() {
 
 function StoryShareBar() {
   return (
-    <div className="relative mt-10 overflow-hidden rounded-xl border border-gold/70 bg-transparent px-5 py-5 sm:mt-12 sm:px-7 sm:py-6">
+    <div className={cn(surfaceClass, "relative mt-10 overflow-hidden px-5 py-5 sm:mt-12 sm:px-7 sm:py-6")}>
       <div
         aria-hidden
         className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-[url('/card-pattern.png')] bg-repeat-y bg-right bg-size-[auto_48%] opacity-20 mask-[linear-gradient(to_left,black_30%,transparent)] sm:w-56"
@@ -121,9 +106,11 @@ function StoryShareBar() {
           </p>
         </div>
         <Link
-          href="/auth/signup"
+          href="/blog/write"
           className={cn(
-            buttonVariants({ className: cn(softBrownButton, "w-full sm:w-auto") })
+            buttonVariants({
+              className: "h-11 w-full gap-2 bg-gold px-5 text-espresso hover:bg-gold/90 sm:w-auto",
+            })
           )}
         >
           Share Your Story

@@ -10,9 +10,12 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "r2:cors": "node scripts/set-r2-cors.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1112.0",
+    "@aws-sdk/s3-request-presigner": "^3.1112.0",
     "@base-ui/react": "^1.7.0",
     "@clerk/nextjs": "^7.7.6",
     "@hookform/resolvers": "^5.8.0",

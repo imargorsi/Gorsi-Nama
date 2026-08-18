@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { HeritageCard, HeritageCardGrid } from "@/components/heritage-card";
-import { HeritageDiamond } from "@/components/heritage-ornaments";
+import { SectionHeading } from "./section-heading";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -62,18 +62,11 @@ export function ExploreGrid() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.4, ease }}
         >
-          <p className="heritage-eyebrow">The Gorsi Nama</p>
-          <div className="mt-3 flex items-center gap-3" aria-hidden>
-            <span className="h-px w-8 bg-gold/35" />
-            <HeritageDiamond />
-            <span className="h-px w-8 bg-gold/35" />
-          </div>
-          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-            Explore Gorsi Nama
-          </h2>
-          <p className="mt-4 text-sm leading-normal text-warm-gray sm:whitespace-nowrap sm:text-base">
-            Stories, people, history and memories that connect us across generations.
-          </p>
+          <SectionHeading
+            eyebrow="The Gorsi Nama"
+            title="Explore Gorsi Nama"
+            description="Stories, people, history and memories that connect us across generations."
+          />
         </motion.header>
 
         <motion.div

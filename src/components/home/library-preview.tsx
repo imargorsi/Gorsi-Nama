@@ -1,55 +1,68 @@
-import { Link } from "@/i18n/navigation";
-import { ArrowRight, BookMarked, FileText, Landmark } from "lucide-react";
-import { SectionHeading } from "./section-heading";
+"use client";
 
-const categories = [
-  {
-    title: "Books",
-    description: "Books and publications related to Gorsi history and heritage.",
-    icon: BookMarked,
-  },
-  {
-    title: "Documents",
-    description: "Historical documents and records.",
-    icon: FileText,
-  },
-  {
-    title: "Resources",
-    description: "Research, references and useful material.",
-    icon: Landmark,
-  },
-];
+import { motion } from "motion/react";
+import { HeritageCard, HeritageCardGrid } from "@/components/heritage-card";
+import { libraryCategories } from "@/components/library/library-categories";
+import { SectionHeading } from "./section-heading";
+import { SectionLink } from "./section-link";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function LibraryPreview() {
   return (
-    <section className="site-shell px-4 py-16 sm:px-0">
-      <SectionHeading
-        title="The Gorsi Library"
-        description="A growing collection of books, documents and resources preserving knowledge for generations to come."
-      />
-
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {categories.map(({ title, description, icon: Icon }) => (
-          <div
-            key={title}
-            className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5"
+    <section
+      id="the-gorsi-library"
+      className="scroll-mt-28 pt-12 pb-20 sm:scroll-mt-32 sm:pt-16 sm:pb-24"
+    >
+      <div className="site-shell px-4 sm:px-0">
+        <motion.header
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.4, ease }}
+        >
+          <SectionHeading
+            eyebrow="The Archive"
+            title="The Gorsi Library"
+            description="Three collections. One archive. Books, documents, and images kept for the generations after us."
           >
-            <span className="flex size-10 items-center justify-center rounded-full bg-gold/15 text-gold">
-              <Icon className="size-5" />
-            </span>
-            <h3 className="font-heading font-semibold">{title}</h3>
-            <p className="text-sm text-muted-foreground">{description}</p>
-          </div>
-        ))}
-      </div>
+            <SectionLink href="/library">Explore the Library</SectionLink>
+          </SectionHeading>
+        </motion.header>
 
-      <Link
-        href="/library"
-        className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-      >
-        Explore the Library
-        <ArrowRight className="size-4" />
-      </Link>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.12 }}
+          variants={{
+            hidden: {},
+            show: { transition: { staggerChildren: 0.09, delayChildren: 0.08 } },
+          }}
+        >
+          <HeritageCardGrid className="mt-10 sm:mt-12 lg:grid-cols-3 xl:grid-cols-3">
+            {libraryCategories.map((category, index) => (
+              <motion.div
+                key={category.id}
+                className="h-full min-w-0"
+                variants={{
+                  hidden: { opacity: 0, y: 16 },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
+                }}
+              >
+                <HeritageCard
+                  index={index + 1}
+                  category={category.eyebrow}
+                  title={category.title}
+                  description={category.description}
+                  image={category.image}
+                  href={`/library?category=${category.id}`}
+                  cta={category.cta}
+                />
+              </motion.div>
+            ))}
+          </HeritageCardGrid>
+        </motion.div>
+      </div>
     </section>
   );
 }

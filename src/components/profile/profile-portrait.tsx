@@ -2,14 +2,7 @@ import { Briefcase, LogOut, MapPin, Pencil, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
-
-function initialsFromName(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length >= 2) {
-    return `${parts[0]!.charAt(0)}${parts[1]!.charAt(0)}`.toUpperCase();
-  }
-  return (parts[0]?.charAt(0) || "G").toUpperCase();
-}
+import { initialsFromName } from "@/lib/initials";
 
 export function ProfilePortrait({
   userDetails,

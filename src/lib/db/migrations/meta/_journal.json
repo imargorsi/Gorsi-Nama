@@ -15,6 +15,13 @@
       "when": 1786963756547,
       "tag": "0001_romantic_victor_mancha",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1787059139438,
+      "tag": "0002_community_content",
+      "breakpoints": true
     }
   ]
 }

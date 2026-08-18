@@ -8,6 +8,7 @@ import { ProfileEditDialog } from "@/components/profile/profile-edit-dialog";
 import { ProfilePortrait } from "@/components/profile/profile-portrait";
 import { ProfileSavedContent } from "@/components/profile/profile-saved-content";
 import { ProfileSidebar } from "@/components/profile/profile-sidebar";
+import { ProfileStories } from "@/components/profile/profile-stories";
 import { routing } from "@/i18n/routing";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
 
@@ -75,6 +76,10 @@ export function ProfileView({
             sharePath={sharePath}
             isLoading={isLoadingProfile}
           />
+        </motion.div>
+
+        <motion.div variants={reveal} className="lg:col-span-2">
+          <ProfileStories userId={userDetails.userId} />
         </motion.div>
 
         <motion.div variants={reveal} className="lg:col-span-2">

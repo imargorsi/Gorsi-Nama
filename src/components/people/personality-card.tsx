@@ -1,40 +1,29 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { surfaceClass } from "@/components/surface";
 import { cn } from "@/lib/utils";
+import type { NotablePerson } from "@/data/notable-people";
 
-export function PersonalityCard({
-  name,
-  bio,
-  reverse,
-}: {
-  name: string;
-  bio: string;
-  reverse?: boolean;
-}) {
+export function PersonalityCard({ person }: { person: NotablePerson }) {
   return (
-    <div
-      className={cn(
-        "site-shell grid grid-cols-1 items-center gap-8 px-4 py-8 sm:px-0 md:grid-cols-2",
-        reverse && "md:[&>*:first-child]:order-2"
-      )}
-    >
-      <div className="relative aspect-4/3 overflow-hidden rounded-xl">
+    <article className={cn(surfaceClass, "flex h-full min-w-0 flex-col overflow-hidden")}>
+      <div className="relative aspect-4/3 overflow-hidden">
         <Image
-          src="/people.jpg"
+          src={person.image}
           alt=""
           fill
-          sizes="(min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           className="object-cover"
         />
       </div>
-
-      <div className="flex flex-col gap-3">
-        <h3 className="font-heading text-xl font-semibold">{name}</h3>
-        <p className="text-muted-foreground">{bio}</p>
-        <Button variant="outline" className="w-fit">
-          Read More
-        </Button>
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <p className="heritage-eyebrow">{person.role}</p>
+        <h3 className="mt-2 font-heading text-xl font-semibold tracking-tight text-espresso">
+          {person.name}
+        </h3>
+        <p className="mt-2 text-sm leading-relaxed text-warm-gray">
+          {person.summary}
+        </p>
       </div>
-    </div>
+    </article>
   );
 }

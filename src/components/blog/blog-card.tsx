@@ -3,11 +3,10 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { HeritageDiamond } from "@/components/heritage-ornaments";
-import {
-  authorInitials,
-  readingMinutes,
-  type BlogPost,
-} from "@/data/blog-posts";
+import { getBlogCategory } from "@/components/blog/blog-categories";
+import { surfaceClass } from "@/components/surface";
+import { readingMinutes, type BlogPost } from "@/data/blog-posts";
+import { initialsFromName } from "@/lib/initials";
 
 export function BlogCard({
   post,
@@ -17,21 +16,27 @@ export function BlogCard({
   variant?: "featured" | "compact";
 }) {
   const href = `/blog/${post.slug}`;
+  const category = getBlogCategory(post.categoryId).label;
 
   if (variant === "featured") {
     return (
       <Link
         href={href}
-        className="group flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-gold/70 bg-ivory shadow-md transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
+        className={cn(
+          surfaceClass,
+          "group flex h-full min-h-0 min-w-0 flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
+        )}
       >
-        <div className="relative min-h-48 flex-1 overflow-hidden">
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
+        <div className="relative min-h-48 flex-1 overflow-hidden bg-espresso/8">
+          {post.featuredImage ? (
+            <Image
+              src={post.featuredImage}
+              alt={post.title}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          ) : null}
           <div className="absolute inset-0 bg-linear-to-t from-espresso/88 via-espresso/25 to-espresso/10" />
           <span className="absolute top-3 start-3 rounded-md bg-gold px-2 py-0.5 font-sans text-[0.65rem] font-semibold tracking-[0.18em] text-espresso uppercase">
             Featured
@@ -48,7 +53,7 @@ export function BlogCard({
           </div>
         </div>
         <div className="flex flex-col gap-3 px-4 py-3 sm:px-5">
-          <p className="line-clamp-2 text-sm leading-snug text-warm-gray">{post.desc}</p>
+          <p className="line-clamp-2 text-sm leading-snug text-warm-gray">{post.excerpt}</p>
           <PostMeta post={post} cta="Read Full Story" />
         </div>
       </Link>
@@ -58,21 +63,24 @@ export function BlogCard({
   return (
     <Link
       href={href}
-        className="group flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-gold/70 bg-ivory shadow-md transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
-      >
-        <div className="relative min-h-28 flex-1 overflow-hidden">
-        <Image
-          src={post.image}
-          alt={post.title}
-          fill
-          sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-        />
-        {post.category ? (
-          <span className="absolute top-2.5 start-2.5 rounded-md bg-espresso/85 px-2 py-0.5 font-sans text-[0.65rem] font-semibold tracking-[0.16em] text-ivory uppercase">
-            {post.category}
-          </span>
+      className={cn(
+        surfaceClass,
+        "group flex h-full min-w-0 flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
+      )}
+    >
+      <div className="relative min-h-28 flex-1 overflow-hidden bg-espresso/8">
+        {post.featuredImage ? (
+          <Image
+            src={post.featuredImage}
+            alt={post.title}
+            fill
+            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          />
         ) : null}
+        <span className="absolute top-2.5 start-2.5 rounded-md bg-espresso/85 px-2 py-0.5 font-sans text-[0.65rem] font-semibold tracking-[0.16em] text-ivory uppercase">
+          {category}
+        </span>
       </div>
       <div className="flex flex-1 flex-col gap-2.5 px-4 py-3">
         <h3 className="line-clamp-2 font-heading text-base font-semibold tracking-tight text-espresso sm:text-lg sm:leading-snug">
@@ -99,11 +107,11 @@ function PostMeta({
     <div className={cn("flex min-w-0 items-center gap-3", className)}>
       <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-espresso ring-1 ring-gold/45">
         <span className="font-heading text-[0.65rem] font-semibold tracking-wide text-ivory">
-          {authorInitials(post.author)}
+          {initialsFromName(post.authorName)}
         </span>
       </span>
       <p className="min-w-0 truncate text-xs text-warm-gray">
-        By {post.author}
+        By {post.authorName}
         <span className="text-gold/50"> · </span>
         {minutes} min read
       </p>

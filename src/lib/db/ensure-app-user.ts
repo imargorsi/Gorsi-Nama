@@ -3,6 +3,7 @@ import "server-only";
 import type { User } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { parseRole } from "@/lib/roles";
 
 function primaryEmail(user: User) {
   return (
@@ -13,8 +14,7 @@ function primaryEmail(user: User) {
 }
 
 function roleFromMetadata(user: User) {
-  const role = user.publicMetadata.role;
-  return typeof role === "string" ? role : "member";
+  return parseRole(user.publicMetadata.role);
 }
 
 /** Upsert the Neon `users` mirror from a Clerk user so profile rows can join. */

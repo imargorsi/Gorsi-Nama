@@ -5,7 +5,6 @@ import { CommunityPulse } from "@/components/home/community-pulse";
 import { HistoryTeaser } from "@/components/home/history-teaser";
 import { BlogGrid } from "@/components/home/blog-grid";
 import { CommunityPreview } from "@/components/home/community-preview";
-import { GalleryPreview } from "@/components/home/gallery-preview";
 import { LibraryPreview } from "@/components/home/library-preview";
 import { Banner } from "@/components/home/banner";
 
@@ -23,7 +22,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <HistoryTeaser />
       <BlogGrid />
       <CommunityPreview />
-      <GalleryPreview />
       <LibraryPreview />
       <Banner />
     </>

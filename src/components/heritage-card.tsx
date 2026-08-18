@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { surfaceClass } from "@/components/surface";
 import { HeritageDiamond, HeritageDiamondBand } from "@/components/heritage-ornaments";
 
 export interface HeritageCardProps {
@@ -34,7 +35,8 @@ export function HeritageCard({
   className,
 }: HeritageCardProps) {
   const classes = cn(
-    "group flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-gold/35 bg-ivory shadow-md transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none",
+    surfaceClass,
+    "group flex h-full min-w-0 flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none",
     className
   );
 
@@ -46,7 +48,7 @@ export function HeritageCard({
           alt={imageAlt || title}
           fill
           sizes="(min-width: 1280px) 20vw, (min-width: 640px) 40vw, 90vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
       </div>
 

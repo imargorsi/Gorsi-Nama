@@ -1,30 +1,26 @@
-import { Link } from "@/i18n/navigation";
-import { ArrowRight, MessageCircle } from "lucide-react";
 import { SectionHeading } from "./section-heading";
-import { PlaceholderBlock } from "./placeholder-block";
+import { SectionLink } from "./section-link";
+import { CommunityFeed } from "@/components/community/community-feed";
 
 export function CommunityPulse() {
   return (
-    <section className="site-shell px-4 py-16 sm:px-0">
-      <SectionHeading
-        eyebrow="Community Pulse"
-        title="What's Happening in Our Community"
-        description="Recent posts and discussions from the Gorsi community will appear here once the community feed is live."
-      />
+    <section
+      id="community-pulse"
+      className="scroll-mt-28 pt-12 pb-16 sm:scroll-mt-32 sm:pt-16 sm:pb-20"
+    >
+      <div className="site-shell px-4 sm:px-0">
+        <SectionHeading
+          eyebrow="Community Pulse"
+          title="What's Happening in Our Community"
+          description="Share stories, ideas and moments that matter to our people."
+        >
+          <SectionLink href="/community">Explore Community</SectionLink>
+        </SectionHeading>
 
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <PlaceholderBlock label="Latest community post" />
-        <PlaceholderBlock label="Latest community post" />
-        <PlaceholderBlock icon={MessageCircle} label="Latest discussion" />
+        <div className="mt-10">
+          <CommunityFeed layout="slider" />
+        </div>
       </div>
-
-      <Link
-        href="/member"
-        className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-      >
-        View Community
-        <ArrowRight className="size-4" />
-      </Link>
     </section>
   );
 }

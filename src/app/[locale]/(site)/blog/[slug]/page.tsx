@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
-import { BlogShareLinks } from "@/components/blog/blog-share-links";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import { BlogArticle } from "@/components/blog/blog-article";
 import { getBlogPostBySlug, blogPosts } from "@/data/blog-posts";
 
 export function generateStaticParams() {
@@ -16,10 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
-  if (!post) return {};
+  if (!post) return { title: "Story | Gorsi Nama" };
   return {
     title: `${post.title} | Gorsi Nama`,
-    description: post.desc,
+    description: post.excerpt,
   };
 }
 
@@ -29,37 +28,12 @@ export default async function BlogPostPage({
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const post = getBlogPostBySlug(slug);
-
-  if (!post) {
-    notFound();
-  }
+  const seed = getBlogPostBySlug(slug);
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <div className="relative aspect-video w-full overflow-hidden rounded-xl">
-        <Image
-          src={post.image}
-          alt={post.title}
-          fill
-          sizes="(min-width: 768px) 768px, 100vw"
-          className="object-cover"
-        />
-      </div>
-
-      <h1 className="font-heading mt-8 text-3xl font-semibold sm:text-4xl">
-        {post.title}
-      </h1>
-      <p className="mt-2 text-sm text-muted-foreground">By {post.author}</p>
-
-      <div className="mt-6 flex flex-col gap-4 text-muted-foreground">
-        <p>{post.firstParagraph}</p>
-        {post.secondParagraph && <p>{post.secondParagraph}</p>}
-      </div>
-
-      <div className="mt-10 border-t pt-6">
-        <BlogShareLinks title={post.title} />
-      </div>
-    </article>
+    <>
+      <PageBreadcrumb title="Stories" />
+      <BlogArticle slug={slug} seed={seed} />
+    </>
   );
 }

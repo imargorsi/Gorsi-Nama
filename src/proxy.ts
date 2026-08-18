@@ -5,8 +5,15 @@ import { routing } from "@/i18n/routing";
 const handleI18nRouting = createIntlMiddleware(routing);
 
 // English is the default locale with no URL prefix (localePrefix: "as-needed"),
-// so /profile and /ur/profile both need protecting.
-const isProtectedRoute = createRouteMatcher(["/profile(.*)", "/ur/profile(.*)"]);
+// so protected routes need both the bare path and the /ur variant.
+const isProtectedRoute = createRouteMatcher([
+  "/profile(.*)",
+  "/ur/profile(.*)",
+  "/blog/write",
+  "/ur/blog/write",
+  "/blog/(.*)/edit",
+  "/ur/blog/(.*)/edit",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {

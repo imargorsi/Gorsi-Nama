@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Label } from "@/components/ui/label";
+import { FormField } from "@/components/form-field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -24,31 +24,6 @@ import {
   type ProfileDetails,
   type ProfileDetailsValues,
 } from "@/components/profile/profile.schemas";
-
-function Field({
-  id,
-  label,
-  error,
-  hint,
-  children,
-}: {
-  id: string;
-  label: string;
-  error?: string;
-  hint?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center justify-between gap-2">
-        <Label htmlFor={id}>{label}</Label>
-        {hint ? <p className="text-xs text-muted-foreground">{hint}</p> : null}
-      </div>
-      {children}
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
-    </div>
-  );
-}
 
 export function ProfileEditDialog({
   details,
@@ -110,7 +85,7 @@ export function ProfileEditDialog({
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field id="city" label="City" error={errors.city?.message}>
+            <FormField id="city" label="City" error={errors.city?.message}>
               <Input
                 id="city"
                 placeholder="Lahore"
@@ -118,8 +93,8 @@ export function ProfileEditDialog({
                 aria-invalid={!!errors.city}
                 {...register("city")}
               />
-            </Field>
-            <Field id="profession" label="Profession" error={errors.profession?.message}>
+            </FormField>
+            <FormField id="profession" label="Profession" error={errors.profession?.message}>
               <Input
                 id="profession"
                 placeholder="Historian"
@@ -127,10 +102,10 @@ export function ProfileEditDialog({
                 aria-invalid={!!errors.profession}
                 {...register("profession")}
               />
-            </Field>
+            </FormField>
           </div>
 
-          <Field
+          <FormField
             id="summary"
             label="Summary"
             hint={`${summaryLength}/500`}
@@ -143,7 +118,7 @@ export function ProfileEditDialog({
               aria-invalid={!!errors.summary}
               {...register("summary")}
             />
-          </Field>
+          </FormField>
 
           <div className="flex flex-col gap-4">
             <div>
@@ -151,7 +126,7 @@ export function ProfileEditDialog({
               <p className="mt-1.5 text-sm text-muted-foreground">Optional. Leave blank to hide.</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field id="websiteUrl" label="Website" error={errors.websiteUrl?.message}>
+              <FormField id="websiteUrl" label="Website" error={errors.websiteUrl?.message}>
                 <Input
                   id="websiteUrl"
                   type="url"
@@ -160,8 +135,8 @@ export function ProfileEditDialog({
                   aria-invalid={!!errors.websiteUrl}
                   {...register("websiteUrl")}
                 />
-              </Field>
-              <Field id="facebookUrl" label="Facebook" error={errors.facebookUrl?.message}>
+              </FormField>
+              <FormField id="facebookUrl" label="Facebook" error={errors.facebookUrl?.message}>
                 <Input
                   id="facebookUrl"
                   type="url"
@@ -170,8 +145,8 @@ export function ProfileEditDialog({
                   aria-invalid={!!errors.facebookUrl}
                   {...register("facebookUrl")}
                 />
-              </Field>
-              <Field id="instagramUrl" label="Instagram" error={errors.instagramUrl?.message}>
+              </FormField>
+              <FormField id="instagramUrl" label="Instagram" error={errors.instagramUrl?.message}>
                 <Input
                   id="instagramUrl"
                   type="url"
@@ -180,8 +155,8 @@ export function ProfileEditDialog({
                   aria-invalid={!!errors.instagramUrl}
                   {...register("instagramUrl")}
                 />
-              </Field>
-              <Field id="twitterUrl" label="X / Twitter" error={errors.twitterUrl?.message}>
+              </FormField>
+              <FormField id="twitterUrl" label="X / Twitter" error={errors.twitterUrl?.message}>
                 <Input
                   id="twitterUrl"
                   type="url"
@@ -190,7 +165,7 @@ export function ProfileEditDialog({
                   aria-invalid={!!errors.twitterUrl}
                   {...register("twitterUrl")}
                 />
-              </Field>
+              </FormField>
             </div>
           </div>
 

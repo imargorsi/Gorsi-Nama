@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import type { WebhookEvent } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { parseRole } from "@/lib/roles";
 import { eq } from "drizzle-orm";
 
 // Keeps our `users` table in sync with Clerk so the rest of the app (and
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
         email_addresses.find((e) => e.id === primary_email_address_id)?.email_address ??
         email_addresses[0]?.email_address ??
         "";
-      const role = typeof public_metadata.role === "string" ? public_metadata.role : "member";
+      const role = parseRole(public_metadata.role);
 
       await db
         .insert(users)

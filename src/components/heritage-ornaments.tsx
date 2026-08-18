@@ -4,6 +4,20 @@ export function HeritageDiamond({ className }: { className?: string }) {
   return <span className={cn("size-1.5 rotate-45 bg-gold", className)} aria-hidden />;
 }
 
+export function HeritageKnot({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn("inline-grid grid-cols-2 gap-0.5 text-gold", className)}
+      aria-hidden
+    >
+      <span className="size-1.5 rotate-45 bg-current" />
+      <span className="size-1.5 rotate-45 bg-current" />
+      <span className="size-1.5 rotate-45 bg-current" />
+      <span className="size-1.5 rotate-45 bg-current" />
+    </span>
+  );
+}
+
 export function HeritageDiamondBand() {
   return (
     <div

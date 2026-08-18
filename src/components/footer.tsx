@@ -1,9 +1,9 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { HeritageKnot } from "@/components/heritage-ornaments";
 
-type FooterLink =
-  | { key: string; href: string }
-  | { key: string; comingSoon: true };
+type FooterLink = { key: string; href: string };
 
 const columns: { titleKey: string; links: FooterLink[] }[] = [
   {
@@ -13,22 +13,20 @@ const columns: { titleKey: string; links: FooterLink[] }[] = [
       { key: "stories", href: "/blog" },
       { key: "notableGorsi", href: "/people" },
       { key: "library", href: "/library" },
-      { key: "gallery", comingSoon: true },
     ],
   },
   {
     titleKey: "community",
     links: [
-      { key: "communityFeed", comingSoon: true },
-      { key: "discussions", comingSoon: true },
+      { key: "communityFeed", href: "/community" },
       { key: "members", href: "/member" },
     ],
   },
   {
     titleKey: "contribute",
     links: [
-      { key: "shareStory", href: "/auth/signup" },
-      { key: "sharePhoto", comingSoon: true },
+      { key: "shareStory", href: "/blog/write" },
+      { key: "sharePhoto", href: "/community" },
     ],
   },
   {
@@ -45,37 +43,37 @@ export async function Footer() {
   const t = await getTranslations("Footer");
 
   return (
-    <footer className="border-t border-gold/20 bg-espresso text-ivory/70">
+    <footer className="bg-espresso text-ivory/70">
       <div className="site-shell px-4 py-16 sm:px-0">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
-          <div className="col-span-2 flex flex-col gap-2 sm:col-span-3 lg:col-span-1">
-            <span className="font-heading text-xl font-semibold text-ivory">
-              Gorsi Nama<span className="text-gold">.</span>
-            </span>
-            <p className="text-sm text-ivory/60">{t("tagline")}</p>
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="col-span-2 flex flex-col gap-4 sm:col-span-3 lg:col-span-1">
+            <Link href="/" className="relative h-10 w-40">
+              <Image
+                src="/veriosn-v2.png"
+                alt="Gorsi Nama"
+                fill
+                sizes="160px"
+                className="object-contain object-left rtl:object-right"
+              />
+            </Link>
+            <p className="flex items-center gap-2 text-sm text-ivory/60">
+              <HeritageKnot />
+              <span>{t("tagline")}</span>
+            </p>
           </div>
 
           {columns.map((column) => (
             <div key={column.titleKey} className="flex flex-col gap-3">
-              <h3 className="text-sm font-semibold text-ivory">
-                {t(column.titleKey)}
-              </h3>
+              <h3 className="heritage-eyebrow">{t(column.titleKey)}</h3>
               <ul className="flex flex-col gap-2">
                 {column.links.map((link) => (
                   <li key={link.key}>
-                    {"href" in link ? (
-                      <Link
-                        href={link.href}
-                        className="text-sm transition-colors hover:text-gold"
-                      >
-                        {t(link.key)}
-                      </Link>
-                    ) : (
-                      <span className="text-sm text-ivory/40">
-                        {t(link.key)}{" "}
-                        <span className="text-xs italic">— {t("comingSoon")}</span>
-                      </span>
-                    )}
+                    <Link
+                      href={link.href}
+                      className="text-sm transition-colors hover:text-gold"
+                    >
+                      {t(link.key)}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -83,8 +81,9 @@ export async function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 border-t border-ivory/10 pt-6 text-sm text-ivory/50">
-          {t("copyright")}
+        <div className="mt-12 flex items-center justify-between gap-4 border-t border-gold/20 pt-6 text-sm text-ivory/50">
+          <span>{t("copyright")}</span>
+          <HeritageKnot />
         </div>
       </div>
     </footer>

@@ -1,40 +1,38 @@
-import { Link } from "@/i18n/navigation";
-import { ArrowRight } from "lucide-react";
-import { MembershipCard } from "@/components/members/membership-card";
+import {
+  MembershipCard,
+  MembershipCardGrid,
+} from "@/components/members/membership-card";
+import { placeholderMembers } from "@/data/members";
 import { SectionHeading } from "./section-heading";
-
-// Placeholder data — mirrors app/(site)/member/page.tsx until a real members-list API exists.
-// See doc/product-overview.md and doc/data-and-backend.md.
-const PLACEHOLDER_MEMBERS = Array.from({ length: 4 }, (_, index) => ({
-  name: "AR GORSI",
-  membershipId: String(123 + index),
-}));
+import { SectionLink } from "./section-link";
 
 export function CommunityPreview() {
   return (
-    <section className="site-shell px-4 py-16 sm:px-0">
-      <SectionHeading
-        title="Meet the Gorsi Community"
-        description="Gorsi people connected across generations, cities and countries."
-      />
+    <section
+      id="meet-the-gorsi-community"
+      className="scroll-mt-28 pt-12 pb-16 sm:scroll-mt-32 sm:pt-16 sm:pb-20"
+    >
+      <div className="site-shell px-4 sm:px-0">
+        <SectionHeading
+          eyebrow="Our People"
+          title="Meet the Gorsi Community"
+          description="Gorsi people connected across generations, cities and countries."
+        >
+          <SectionLink href="/member">Explore Members</SectionLink>
+        </SectionHeading>
 
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {PLACEHOLDER_MEMBERS.map((member) => (
-          <MembershipCard
-            key={member.membershipId}
-            name={member.name}
-            membershipId={member.membershipId}
-          />
-        ))}
+        <MembershipCardGrid className="mt-10 lg:grid-cols-4">
+          {placeholderMembers.slice(0, 4).map((member) => (
+            <MembershipCard
+              key={member.id}
+              name={member.name}
+              membershipId={member.membershipId}
+              image={member.image}
+              href={`/member/${member.id}`}
+            />
+          ))}
+        </MembershipCardGrid>
       </div>
-
-      <Link
-        href="/member"
-        className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-      >
-        Explore the Community
-        <ArrowRight className="size-4" />
-      </Link>
     </section>
   );
 }

@@ -1,5 +1,7 @@
 import { BookOpen, Bookmark, ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { surfaceClass } from "@/components/surface";
+import { cn } from "@/lib/utils";
 
 const slots = [
   {
@@ -14,7 +16,7 @@ const slots = [
   },
   {
     title: "Photos",
-    description: "Photographs saved from the gallery.",
+    description: "Photographs saved from the library.",
     icon: ImageIcon,
   },
 ] as const;
@@ -36,7 +38,10 @@ export function ProfileSavedContent() {
           return (
             <article
               key={slot.title}
-              className="relative overflow-hidden rounded-xl bg-card px-5 py-6 ring-1 ring-foreground/10"
+              className={cn(
+                surfaceClass,
+                "relative overflow-hidden px-5 py-6"
+              )}
             >
               <Image
                 src="/lion-trademark.png"
