@@ -1,34 +1,32 @@
-import { ArrowRight } from "lucide-react";
-import { Link } from "@/i18n/navigation";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { SectionHeading } from "@/components/home/section-heading";
+import { SectionLink } from "@/components/home/section-link";
+import { Reveal } from "@/components/reveal";
 
 export function CallToAction({
+  eyebrow = "Contribute",
+  title,
   text,
   buttonText,
   href,
 }: {
+  eyebrow?: string;
+  title: string;
   text: string;
   buttonText: string;
   href: string;
 }) {
   return (
     <section className="border-t border-gold/20">
-      <div className="site-shell flex flex-col items-start gap-5 px-4 py-14 sm:px-0">
-        <p className="max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base">
-          {text}
-        </p>
-        <Link
-          href={href}
-          className={cn(
-            buttonVariants({
-              className: "h-11 gap-2 bg-gold px-5 text-espresso hover:bg-gold/90",
-            })
-          )}
-        >
-          {buttonText}
-          <ArrowRight className="size-4 rtl:rotate-180" />
-        </Link>
+      <div className="site-shell px-4 py-14 sm:px-0 sm:py-16">
+        <Reveal>
+          <SectionHeading
+            eyebrow={eyebrow}
+            title={title}
+            description={text}
+          >
+            <SectionLink href={href}>{buttonText}</SectionLink>
+          </SectionHeading>
+        </Reveal>
       </div>
     </section>
   );

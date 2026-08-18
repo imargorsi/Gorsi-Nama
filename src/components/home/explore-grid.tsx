@@ -1,10 +1,9 @@
 "use client";
 
-import { motion } from "motion/react";
+import { BookOpen, Landmark, Library, Users } from "lucide-react";
 import { HeritageCard, HeritageCardGrid } from "@/components/heritage-card";
+import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { SectionHeading } from "./section-heading";
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 const cards = [
   {
@@ -16,6 +15,7 @@ const cards = [
     href: "/history",
     cta: "Explore History",
     image: "/history__image__4.jpg",
+    icon: Landmark,
   },
   {
     index: 2,
@@ -26,6 +26,7 @@ const cards = [
     href: "/blog",
     cta: "Explore Stories",
     image: "/writing.jpg",
+    icon: BookOpen,
   },
   {
     index: 3,
@@ -36,6 +37,7 @@ const cards = [
     href: "/member",
     cta: "Meet the Community",
     image: "/people.jpg",
+    icon: Users,
   },
   {
     index: 4,
@@ -46,6 +48,7 @@ const cards = [
     href: "/library",
     cta: "Explore Library",
     image: "/book.jpg",
+    icon: Library,
   },
 ] as const;
 
@@ -56,43 +59,28 @@ export function ExploreGrid() {
       className="scroll-mt-28 pt-10 pb-16 sm:scroll-mt-32 sm:pt-12 sm:pb-20"
     >
       <div className="site-shell px-4 sm:px-0">
-        <motion.header
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.4, ease }}
-        >
+        <Reveal as="header">
           <SectionHeading
             eyebrow="The Gorsi Nama"
             title="Explore Gorsi Nama"
             description="Stories, people, history and memories that connect us across generations."
           />
-        </motion.header>
+        </Reveal>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.12 }}
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.09, delayChildren: 0.08 } },
-          }}
-        >
+        <Stagger>
           <HeritageCardGrid className="mt-10 sm:mt-12">
-            {cards.map((card) => (
-              <motion.div
+            {cards.map((card, index) => (
+              <StaggerItem
                 key={card.href}
-                className="min-w-0 h-full"
-                variants={{
-                  hidden: { opacity: 0, y: 16 },
-                  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
-                }}
+                index={index}
+                isHoverable
+                className="h-full"
               >
                 <HeritageCard {...card} />
-              </motion.div>
+              </StaggerItem>
             ))}
           </HeritageCardGrid>
-        </motion.div>
+        </Stagger>
       </div>
     </section>
   );

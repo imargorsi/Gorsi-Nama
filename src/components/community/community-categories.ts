@@ -1,10 +1,23 @@
+import {
+  BookOpen,
+  Landmark,
+  Languages,
+  MapPin,
+  MessagesSquare,
+  type LucideIcon,
+} from "lucide-react";
+
 export const communityCategories = [
-  { id: "our-stories", label: "Our Stories" },
-  { id: "discussions", label: "Discussions" },
-  { id: "places-communities", label: "Places & Communities" },
-  { id: "history-heritage", label: "History & Heritage" },
-  { id: "language-traditions", label: "Language & Traditions" },
-] as const;
+  { id: "our-stories", label: "Our Stories", icon: BookOpen },
+  { id: "discussions", label: "Discussions", icon: MessagesSquare },
+  { id: "places-communities", label: "Places & Communities", icon: MapPin },
+  { id: "history-heritage", label: "History & Heritage", icon: Landmark },
+  { id: "language-traditions", label: "Language & Traditions", icon: Languages },
+] as const satisfies readonly {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+}[];
 
 export type CommunityCategoryId = (typeof communityCategories)[number]["id"];
 

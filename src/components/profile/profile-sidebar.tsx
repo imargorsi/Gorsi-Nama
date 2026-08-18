@@ -6,6 +6,7 @@ import {
   InstagramIcon,
   TwitterIcon,
 } from "@/components/icons/brand-icons";
+import { HeritageRule } from "@/components/heritage-ornaments";
 import { ProfileShareLink } from "@/components/profile/profile-share-link";
 import type { ProfileDetails } from "@/components/profile/profile.schemas";
 import { cn } from "@/lib/utils";
@@ -98,7 +99,7 @@ export function ProfileSidebar({
   return (
     <aside className="relative overflow-hidden rounded-2xl bg-espresso px-6 py-8 text-ivory shadow-md ring-1 ring-gold/20 sm:px-7">
       <Image
-        src="/lion-trademark.png"
+        src="/trademarkgorsi.png"
         alt=""
         width={220}
         height={220}
@@ -109,11 +110,7 @@ export function ProfileSidebar({
         <h2 className="font-heading text-2xl font-semibold tracking-tight text-ivory">
           About me
         </h2>
-        <div className="mt-4 flex items-center gap-2" aria-hidden>
-          <span className="h-px flex-1 bg-gold/25" />
-          <span className="size-1.5 rotate-45 bg-gold/50" />
-          <span className="h-px flex-1 bg-gold/25" />
-        </div>
+        <HeritageRule className="mt-4" />
 
         <div className="mt-8 flex flex-col gap-6">
           <Detail icon={MapPin} label="City" value={details.city} isLoading={isLoading} />

@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import { motion } from "motion/react";
 import { CommunityPostCard } from "@/components/community/community-post-card";
 import type { CommunityPost } from "@/data/community-posts";
+import { motionEase } from "@/components/reveal";
 import { cn } from "@/lib/utils";
 
 export const communitySliderPageSize = 4;
@@ -130,14 +131,16 @@ function SliderButton({
   children: ReactNode;
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       aria-label={label}
       onClick={onClick}
       disabled={isDisabled}
+      whileTap={isDisabled ? undefined : { scale: 0.94 }}
+      transition={{ duration: 0.15, ease: motionEase }}
       className="inline-flex size-11 items-center justify-center rounded-full bg-ivory text-espresso shadow-sm transition-colors hover:bg-espresso/5 disabled:pointer-events-none disabled:opacity-35"
     >
       {children}
-    </button>
+    </motion.button>
   );
 }

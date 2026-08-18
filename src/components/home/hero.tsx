@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, BookOpen, Calendar, Diamond, Users } from "lucide-react";
+import { HeritageRule } from "@/components/heritage-ornaments";
 import { buttonVariants } from "@/components/ui/button";
 import { HeroSlideControls } from "@/components/home/hero-slide-controls";
 import {
@@ -191,23 +192,16 @@ export function Hero() {
                   {activeSlide.eyebrow}
                 </motion.div>
 
-                <motion.div variants={slideContentItem} className="mt-4 overflow-hidden">
-                  <motion.div
-                    className="heritage-rule"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-                    style={{ originX: 0 }}
-                    aria-hidden
-                  />
-                </motion.div>
-
                 <motion.h1
                   variants={slideContentItem}
                   className="mt-6 max-w-2xl text-balance font-heading text-3xl font-semibold tracking-tight text-ivory sm:text-5xl lg:max-w-3xl lg:text-6xl lg:leading-[1.06]"
                 >
                   {activeSlide.title}
                 </motion.h1>
+
+                <motion.div variants={slideContentItem} className="mt-4">
+                  <HeritageRule />
+                </motion.div>
 
                 <motion.p
                   variants={slideContentItem}

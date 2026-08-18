@@ -1,14 +1,22 @@
 import Image from "next/image";
+import { HeritageRule } from "@/components/heritage-ornaments";
+import { Reveal } from "@/components/reveal";
+import { surfaceClass } from "@/components/surface";
+import { cn } from "@/lib/utils";
 
 export function AncientHistory() {
   return (
-    <section className="site-shell px-4 py-8 sm:px-0">
-      <h3 className="font-heading text-xl font-semibold">
-        Ancient Origins of the Gujjars (5th Century A.D.)
-      </h3>
+    <section className="site-shell px-4 py-8 sm:px-0 sm:py-10">
+      <Reveal>
+        <p className="heritage-eyebrow">Origins</p>
+        <h2 className="mt-3 font-heading text-2xl font-semibold tracking-tight text-espresso sm:text-3xl">
+          Ancient Origins of the Gujjars (5th Century A.D.)
+        </h2>
+        <HeritageRule className="mt-4" />
+      </Reveal>
 
-      <div className="mt-6 grid grid-cols-1 items-center gap-8 md:grid-cols-2">
-        <div className="relative aspect-4/3 overflow-hidden rounded-xl">
+      <Reveal className="mt-8 grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12">
+        <div className={cn(surfaceClass, "relative aspect-4/3 overflow-hidden")}>
           <Image
             src="/oldhsitory.jpg"
             alt=""
@@ -17,7 +25,7 @@ export function AncientHistory() {
             className="object-cover"
           />
         </div>
-        <p className="text-muted-foreground">
+        <p className="text-sm leading-relaxed text-warm-gray sm:text-base">
           The Gujjars, an ancient and significant ethnic group, have roots
           that can be traced back to around the 5th century A.D. Scholars
           debate their exact origin, but many believe that they migrated from
@@ -27,14 +35,14 @@ export function AncientHistory() {
           the Gujjars began establishing their influence in various regions,
           laying the groundwork for their legacy.
         </p>
-      </div>
+      </Reveal>
 
-      <div className="mt-10 grid grid-cols-1 items-center gap-8 md:grid-cols-2">
-        <div className="flex flex-col gap-3">
-          <h3 className="font-heading text-xl font-semibold">
+      <Reveal className="mt-12 grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12">
+        <div className="flex min-w-0 flex-col">
+          <h2 className="font-heading text-2xl font-semibold tracking-tight text-espresso sm:text-3xl">
             Migration and Settlement (6th-12th Century)
-          </h3>
-          <p className="text-muted-foreground">
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-warm-gray sm:text-base">
             As the centuries passed, the Gujjars migrated to different parts
             of the subcontinent, spreading into regions like northern India
             and what is now Pakistan. The Gorsi clan, a subgroup of the
@@ -45,11 +53,11 @@ export function AncientHistory() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <h4 className="text-sm font-medium text-muted-foreground">
+        <figure className="flex min-w-0 flex-col gap-3">
+          <figcaption className="heritage-eyebrow">
             Walkthrough Our History
-          </h4>
-          <div className="relative aspect-4/3 overflow-hidden rounded-xl">
+          </figcaption>
+          <div className={cn(surfaceClass, "relative aspect-4/3 overflow-hidden")}>
             <Image
               src="/emoire.webp"
               alt=""
@@ -58,8 +66,8 @@ export function AncientHistory() {
               className="object-cover"
             />
           </div>
-        </div>
-      </div>
+        </figure>
+      </Reveal>
     </section>
   );
 }

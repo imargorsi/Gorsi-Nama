@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { PersonalityCard } from "@/components/people/personality-card";
+import { Stagger, StaggerItem } from "@/components/reveal";
 import { notablePeople } from "@/data/notable-people";
 
 export const metadata: Metadata = {
@@ -17,26 +18,38 @@ export default async function PeoplePage({
 
   return (
     <>
-      <PageBreadcrumb title="Famous Gorsi Personalities" />
+      <PageBreadcrumb
+        image={pageBanner.people}
+        eyebrow="Notable Gorsi"
+        title="People who shaped our story"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Famous Gorsi Personalities" },
+        ]}
+        description="A first look at the notable-people directory. These cards are placeholders until verified biographies live in the archive."
+      />
 
       <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
-        <p className="heritage-eyebrow">Notable Gorsi</p>
-        <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl">
-          People who shaped our story
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base">
-          A first look at the notable-people directory. These cards are
-          placeholders until verified biographies live in the archive.
-        </p>
-
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {notablePeople.map((person) => (
-            <PersonalityCard key={person.id} person={person} />
+        <Stagger
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          mode="load"
+        >
+          {notablePeople.map((person, index) => (
+            <StaggerItem
+              key={person.id}
+              index={index}
+              isHoverable
+              className="h-full"
+            >
+              <PersonalityCard person={person} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
 
       <CallToAction
+        eyebrow="The Archive"
+        title="Help complete this directory"
         text="If you know of notable Gorsi personalities who belong here, join Gorsi Nama and help us add them."
         buttonText="Join Gorsi Nama"
         href="/auth/signup"

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
 import { StoryEditor } from "@/components/blog/story-editor";
+import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Write a Story | Gorsi Nama",
@@ -15,18 +16,21 @@ export default async function WriteStoryPage({
 
   return (
     <>
-      <PageBreadcrumb title="Write a story" />
+      <PageBreadcrumb
+        image={pageBanner.stories}
+        eyebrow="Stories"
+        title="Share a story"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Stories", href: "/blog" },
+          { label: "Write a story" },
+        ]}
+        description="Title, excerpt, content, category, tags, and a featured image."
+      />
       <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
-        <p className="heritage-eyebrow">Stories</p>
-        <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl">
-          Share a story
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base">
-          Title, excerpt, content, category, tags, and a featured image.
-        </p>
-        <div className="mt-10">
+        <Reveal mode="load">
           <StoryEditor />
-        </div>
+        </Reveal>
       </div>
     </>
   );

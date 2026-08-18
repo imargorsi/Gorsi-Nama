@@ -31,7 +31,7 @@ export function MembershipCard({
       )}
     >
       <Image
-        src="/lion-trademark.png"
+        src="/trademarkgorsi.png"
         alt=""
         width={160}
         height={160}

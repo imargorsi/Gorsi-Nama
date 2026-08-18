@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
 import { EditStoryClient } from "@/components/blog/edit-story-client";
+import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Edit Story | Gorsi Nama",
@@ -15,15 +16,21 @@ export default async function EditStoryPage({
 
   return (
     <>
-      <PageBreadcrumb title="Edit story" />
+      <PageBreadcrumb
+        image={pageBanner.stories}
+        eyebrow="Stories"
+        title="Edit your story"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Stories", href: "/blog" },
+          { label: "Edit story" },
+        ]}
+        description="Update the title, excerpt, content, and featured image. Drafts stay on this device until the archive backend is live."
+      />
       <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
-        <p className="heritage-eyebrow">Stories</p>
-        <h2 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl">
-          Edit your story
-        </h2>
-        <div className="mt-10">
+        <Reveal mode="load">
           <EditStoryClient slug={slug} />
-        </div>
+        </Reveal>
       </div>
     </>
   );

@@ -1,13 +1,20 @@
 import Image from "next/image";
+import { Compass, PenLine, UserRound, Users, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { AccentIcon } from "@/components/accent-icon";
 import { HeritageKnot } from "@/components/heritage-ornaments";
 
 type FooterLink = { key: string; href: string };
 
-const columns: { titleKey: string; links: FooterLink[] }[] = [
+const columns: {
+  titleKey: string;
+  icon: LucideIcon;
+  links: FooterLink[];
+}[] = [
   {
     titleKey: "explore",
+    icon: Compass,
     links: [
       { key: "history", href: "/history" },
       { key: "stories", href: "/blog" },
@@ -17,6 +24,7 @@ const columns: { titleKey: string; links: FooterLink[] }[] = [
   },
   {
     titleKey: "community",
+    icon: Users,
     links: [
       { key: "communityFeed", href: "/community" },
       { key: "members", href: "/member" },
@@ -24,6 +32,7 @@ const columns: { titleKey: string; links: FooterLink[] }[] = [
   },
   {
     titleKey: "contribute",
+    icon: PenLine,
     links: [
       { key: "shareStory", href: "/blog/write" },
       { key: "sharePhoto", href: "/community" },
@@ -31,6 +40,7 @@ const columns: { titleKey: string; links: FooterLink[] }[] = [
   },
   {
     titleKey: "account",
+    icon: UserRound,
     links: [
       { key: "signIn", href: "/auth/login" },
       { key: "createAccount", href: "/auth/signup" },
@@ -64,7 +74,10 @@ export async function Footer() {
 
           {columns.map((column) => (
             <div key={column.titleKey} className="flex flex-col gap-3">
-              <h3 className="heritage-eyebrow">{t(column.titleKey)}</h3>
+              <h3 className="flex items-center gap-2.5">
+                <AccentIcon icon={column.icon} size="sm" tone="on-dark" />
+                <span className="heritage-eyebrow">{t(column.titleKey)}</span>
+              </h3>
               <ul className="flex flex-col gap-2">
                 {column.links.map((link) => (
                   <li key={link.key}>

@@ -1,9 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { LayoutGrid, MessagesSquare, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 import { useLocale } from "next-intl";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { AccentIcon } from "@/components/accent-icon";
 import { CommunityComposer } from "@/components/community/community-composer";
 import { CommunityPostCard } from "@/components/community/community-post-card";
 import {
@@ -23,6 +26,7 @@ import {
 import type { CommunityPost } from "@/data/community-posts";
 import { getPathname } from "@/i18n/navigation";
 import { formatTag } from "@/lib/parse-tags";
+import { FeedItem, motionEase } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
 import { cn } from "@/lib/utils";
 
@@ -144,25 +148,29 @@ export function CommunityFeed({
       ) : null}
 
       {showFilters ? (
-        <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
-          <FilterChip
-            label="All"
-            isActive={!activeCategory}
-            onClick={() => setActiveCategory(undefined)}
-          />
-          {communityCategories.map((category) => (
+        <LayoutGroup id="community-filters">
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
             <FilterChip
-              key={category.id}
-              label={category.label}
-              isActive={activeCategory === category.id}
-              onClick={() =>
-                setActiveCategory((current) =>
-                  current === category.id ? undefined : category.id
-                )
-              }
+              label="All"
+              icon={LayoutGrid}
+              isActive={!activeCategory}
+              onClick={() => setActiveCategory(undefined)}
             />
-          ))}
-        </div>
+            {communityCategories.map((category) => (
+              <FilterChip
+                key={category.id}
+                label={category.label}
+                icon={category.icon}
+                isActive={activeCategory === category.id}
+                onClick={() =>
+                  setActiveCategory((current) =>
+                    current === category.id ? undefined : category.id
+                  )
+                }
+              />
+            ))}
+          </div>
+        </LayoutGroup>
       ) : null}
 
       {activeTag ? (
@@ -179,14 +187,21 @@ export function CommunityFeed({
       ) : null}
 
       {posts.length === 0 ? (
-        <p
+        <div
           className={cn(
             surfaceClass,
-            "px-5 py-10 text-center text-sm text-warm-gray"
+            "flex flex-col items-center gap-3 px-5 py-14 text-center"
           )}
         >
-          No posts in this filter yet.
-        </p>
+          <AccentIcon icon={MessagesSquare} size="lg" />
+          <p className="font-heading text-lg font-semibold text-espresso">
+            No posts in this filter yet
+          </p>
+          <p className="max-w-sm text-sm leading-relaxed text-warm-gray">
+            Try another category, or be the first to share a photograph or a
+            link with the community.
+          </p>
+        </div>
       ) : isSliderLayout ? (
         <CommunityPostSlider
           posts={posts}
@@ -199,20 +214,23 @@ export function CommunityFeed({
         />
       ) : (
         <div className="flex flex-col gap-3">
-          {posts.map((post) => (
-            <CommunityPostCard
-              key={post.id}
-              post={post}
-              isLiked={likedIds.has(post.id)}
-              isSaved={savedIds.has(post.id)}
-              onLike={() => toggleEngagement(setLikedIds, post.id)}
-              onSave={() => toggleEngagement(setSavedIds, post.id)}
-              onShare={() => void sharePost(post)}
-              onTagClick={setActiveTag}
-              onEdit={() => setEditing(post)}
-              onDelete={() => deletePost(post)}
-            />
-          ))}
+          <AnimatePresence initial={false}>
+            {posts.map((post, index) => (
+              <FeedItem key={post.id} index={index}>
+                <CommunityPostCard
+                  post={post}
+                  isLiked={likedIds.has(post.id)}
+                  isSaved={savedIds.has(post.id)}
+                  onLike={() => toggleEngagement(setLikedIds, post.id)}
+                  onSave={() => toggleEngagement(setSavedIds, post.id)}
+                  onShare={() => void sharePost(post)}
+                  onTagClick={setActiveTag}
+                  onEdit={() => setEditing(post)}
+                  onDelete={() => deletePost(post)}
+                />
+              </FeedItem>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </div>
@@ -221,26 +239,45 @@ export function CommunityFeed({
 
 function FilterChip({
   label,
+  icon: Icon,
   isActive,
   onClick,
 }: {
   label: string;
+  icon?: LucideIcon;
   isActive: boolean;
   onClick: () => void;
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
       aria-pressed={isActive}
-      className={cn(
-        "h-11 shrink-0 rounded-full px-3.5 text-sm font-medium whitespace-nowrap transition-colors",
-        isActive
-          ? "bg-gold text-espresso"
-          : "bg-transparent text-warm-gray ring-1 ring-espresso/40 hover:text-espresso"
-      )}
+      whileTap={{ scale: 0.98 }}
+      className="relative h-11 shrink-0 overflow-hidden rounded-full px-3.5 text-sm font-medium whitespace-nowrap shadow-md"
     >
-      {label}
-    </button>
+      <span className="absolute inset-0 bg-ivory" />
+      {isActive ? (
+        <motion.span
+          layoutId="community-filter"
+          className="absolute inset-0 bg-gold"
+          transition={{ duration: 0.28, ease: motionEase }}
+        />
+      ) : null}
+      <span
+        className={cn(
+          "relative z-10 inline-flex items-center gap-1.5 transition-colors",
+          isActive ? "text-espresso" : "text-warm-gray hover:text-espresso"
+        )}
+      >
+        {Icon ? (
+          <Icon
+            className={cn("size-3.5", isActive ? "text-espresso" : "text-gold")}
+            strokeWidth={1.75}
+          />
+        ) : null}
+        {label}
+      </span>
+    </motion.button>
   );
 }

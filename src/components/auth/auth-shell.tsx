@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
+import { HeritageRule } from "@/components/heritage-ornaments";
 import { cn } from "@/lib/utils";
 
 const panelContainer: Variants = {
@@ -15,16 +16,6 @@ const fadeUp: Variants = {
   hidden: { opacity: 0, y: 12 },
   show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
 };
-
-function Ornament() {
-  return (
-    <div className="flex items-center gap-2 text-gold/60">
-      <span className="h-px w-10 bg-gold/40" />
-      <span className="size-1.5 rotate-45 bg-gold/60" />
-      <span className="h-px w-10 bg-gold/40" />
-    </div>
-  );
-}
 
 export function AuthShell({
   mode,
@@ -78,7 +69,7 @@ export function AuthShell({
             <p className="text-xs font-medium tracking-[0.35em] text-ivory/80">
               GORSI NAMA
             </p>
-            <Ornament />
+            <HeritageRule />
             <p className="text-sm text-ivory/75">
               Our People &bull; Our Stories &bull; Our Heritage
             </p>
@@ -89,7 +80,7 @@ export function AuthShell({
             className="relative z-10 h-[28svh] max-h-96 min-h-56 w-[28svh] max-w-96 min-w-56"
           >
             <Image
-              src="/lion-trademark.png"
+              src="/trademarkgorsi.png"
               alt=""
               fill
               sizes="384px"
@@ -108,7 +99,7 @@ export function AuthShell({
               <br />
               <span className="text-ivory/90">inspiring our future.</span>
             </p>
-            <Ornament />
+            <HeritageRule />
           </motion.div>
         </motion.div>
 
@@ -168,10 +159,11 @@ export function AuthHeading({
   description: string;
 }) {
   return (
-    <div className="flex flex-col gap-1.5 text-center sm:text-left">
+    <div className="flex flex-col gap-3 text-center sm:text-left">
       <h1 className="font-heading text-3xl font-semibold text-foreground sm:text-4xl">
         {title}
       </h1>
+      <HeritageRule className="justify-center sm:justify-start" />
       <p className="text-base text-muted-foreground">{description}</p>
     </div>
   );

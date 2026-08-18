@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { Clock, User } from "lucide-react";
 import { BlogCard } from "@/components/blog/blog-card";
 import { getBlogCategory } from "@/components/blog/blog-categories";
 import { StoryActions } from "@/components/blog/story-actions";
@@ -11,12 +11,12 @@ import {
   publishedStories,
   useMemberStories,
 } from "@/components/blog/member-stories";
+import { SectionHeading } from "@/components/home/section-heading";
 import { NotFoundPanel } from "@/components/not-found-panel";
-import { surfaceClass } from "@/components/surface";
+import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { readingMinutes, type BlogPost } from "@/data/blog-posts";
 import { formatTag } from "@/lib/parse-tags";
 import { useIsHydrated } from "@/lib/use-is-hydrated";
-import { cn } from "@/lib/utils";
 
 export function BlogArticle({
   slug,
@@ -37,7 +37,11 @@ export function BlogArticle({
 
   if (!post) {
     if (!isHydrated) {
-      return <p className="text-sm text-warm-gray">Loading this story…</p>;
+      return (
+        <p className="site-shell px-4 py-16 text-sm text-warm-gray sm:px-0">
+          Loading this story…
+        </p>
+      );
     }
 
     return (
@@ -53,43 +57,32 @@ export function BlogArticle({
     .slice(0, 3);
   const minutes = readingMinutes(post);
   const paragraphs = post.content.split(/\n\s*\n/).filter(Boolean);
+  const category = getBlogCategory(post.categoryId);
 
   return (
     <>
       <article className="site-shell px-4 py-12 sm:px-0 sm:py-16">
-        {post.featuredImage ? (
-          <div
-            className={cn(
-              surfaceClass,
-              "relative aspect-video w-full overflow-hidden"
-            )}
-          >
-            <Image
-              src={post.featuredImage}
-              alt={post.title}
-              fill
-              sizes="(min-width: 1280px) 1280px, 100vw"
-              className="object-cover"
-              priority
-            />
-          </div>
-        ) : null}
-
-        <p className="heritage-eyebrow mt-8">
-          {getBlogCategory(post.categoryId).label}
-        </p>
-        <h2 className="mt-3 max-w-3xl font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl">
-          {post.title}
-        </h2>
-        <p className="mt-2 text-sm text-warm-gray">
-          By {post.authorName}
-          <span className="text-gold/50"> · </span>
-          {minutes} min read
+        <Reveal mode="load">
+        <p className="heritage-eyebrow">{category.label}</p>
+        <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-gray">
+          <span className="inline-flex items-center gap-1.5">
+            <User className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
+            By {post.authorName}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Clock className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
+            {minutes} min read
+          </span>
         </p>
 
-        <div className="mt-8 max-w-3xl space-y-4 text-base leading-relaxed text-warm-gray">
+        <div className="mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-warm-gray">
           {paragraphs.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+            <p
+              key={index}
+              className={index === 0 ? "text-lg text-espresso/90" : undefined}
+            >
+              {paragraph}
+            </p>
           ))}
         </div>
 
@@ -109,22 +102,32 @@ export function BlogArticle({
         <StoryActions story={post} />
 
         <div className="mt-10 border-t border-gold/20 pt-6">
-          <p className="mb-3 text-sm font-medium text-espresso">Share this story</p>
+          <p className="heritage-eyebrow mb-4">Share</p>
           <BlogShareLinks title={post.title} />
         </div>
+        </Reveal>
       </article>
 
       {related.length > 0 ? (
         <div className="site-shell px-4 pb-16 sm:px-0 sm:pb-20">
-          <p className="heritage-eyebrow">More stories</p>
-          <h3 className="mt-3 font-heading text-2xl font-semibold tracking-tight text-espresso sm:text-3xl">
-            Continue reading
-          </h3>
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((item) => (
-              <BlogCard key={item.id} post={item} />
+          <Reveal>
+            <SectionHeading
+              eyebrow="More stories"
+              title="Continue reading"
+            />
+          </Reveal>
+          <Stagger className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((item, index) => (
+              <StaggerItem
+                key={item.id}
+                index={index}
+                isHoverable
+                className="h-full"
+              >
+                <BlogCard post={item} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       ) : null}
     </>

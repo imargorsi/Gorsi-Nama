@@ -1,10 +1,23 @@
+import {
+  Heart,
+  Landmark,
+  Languages,
+  ScrollText,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+
 export const blogCategories = [
-  { id: "heritage", label: "Heritage" },
-  { id: "community", label: "Community" },
-  { id: "family", label: "Family" },
-  { id: "history", label: "History" },
-  { id: "traditions", label: "Traditions" },
-] as const;
+  { id: "heritage", label: "Heritage", icon: Landmark },
+  { id: "community", label: "Community", icon: Users },
+  { id: "family", label: "Family", icon: Heart },
+  { id: "history", label: "History", icon: ScrollText },
+  { id: "traditions", label: "Traditions", icon: Languages },
+] as const satisfies readonly {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+}[];
 
 export type BlogCategoryId = (typeof blogCategories)[number]["id"];
 

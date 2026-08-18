@@ -1,20 +1,24 @@
 import type { ReactNode } from "react";
-import { HeritageDiamond } from "@/components/heritage-ornaments";
+import { HeritageRule } from "@/components/heritage-ornaments";
 import { cn } from "@/lib/utils";
 
 export function SectionHeading({
+  as = "h2",
   eyebrow,
   title,
   description,
   children,
   className,
 }: {
+  as?: "h1" | "h2";
   eyebrow?: string;
   title: string;
   description?: string;
   children?: ReactNode;
   className?: string;
 }) {
+  const HeadingTag = as;
+
   return (
     <div
       className={cn(
@@ -25,19 +29,20 @@ export function SectionHeading({
     >
       <div className="min-w-0">
         {eyebrow ? <p className="heritage-eyebrow">{eyebrow}</p> : null}
-        <div
-          className={cn("flex items-center gap-3", eyebrow && "mt-3")}
-          aria-hidden
+        <HeadingTag
+          className={cn(
+            "font-heading font-semibold tracking-tight text-espresso",
+            eyebrow ? "mt-3" : undefined,
+            as === "h1"
+              ? "text-3xl sm:text-4xl lg:text-5xl lg:leading-tight"
+              : "text-3xl sm:text-4xl lg:text-[2.75rem] lg:leading-tight"
+          )}
         >
-          <span className="h-px w-8 bg-gold/35" />
-          <HeritageDiamond />
-          <span className="h-px w-8 bg-gold/35" />
-        </div>
-        <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
           {title}
-        </h2>
+        </HeadingTag>
+        <HeritageRule className="mt-4" />
         {description ? (
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-warm-gray sm:text-base">
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base">
             {description}
           </p>
         ) : null}

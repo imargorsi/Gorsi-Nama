@@ -1,5 +1,7 @@
 import { BookOpen, Bookmark, ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { AccentIcon } from "@/components/accent-icon";
+import { SectionHeading } from "@/components/home/section-heading";
 import { surfaceClass } from "@/components/surface";
 import { cn } from "@/lib/utils";
 
@@ -24,13 +26,11 @@ const slots = [
 export function ProfileSavedContent() {
   return (
     <section>
-      <p className="heritage-eyebrow">Archive</p>
-      <h2 className="mt-3 font-heading text-2xl font-semibold tracking-tight sm:text-3xl">
-        Saved content
-      </h2>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        Stories, posts, and photos you save will gather here.
-      </p>
+      <SectionHeading
+        eyebrow="Archive"
+        title="Saved content"
+        description="Stories, posts, and photos you save will gather here."
+      />
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {slots.map((slot) => {
@@ -38,19 +38,16 @@ export function ProfileSavedContent() {
           return (
             <article
               key={slot.title}
-              className={cn(
-                surfaceClass,
-                "relative overflow-hidden px-5 py-6"
-              )}
+              className={cn(surfaceClass, "relative overflow-hidden px-5 py-6")}
             >
               <Image
-                src="/lion-trademark.png"
+                src="/trademarkgorsi.png"
                 alt=""
                 width={160}
                 height={160}
                 className="pointer-events-none absolute -right-6 -bottom-8 w-28 opacity-[0.06]"
               />
-              <Icon className="relative size-5 text-gold" aria-hidden />
+              <AccentIcon icon={Icon} size="sm" />
               <h3 className="relative mt-4 font-heading text-xl font-semibold">{slot.title}</h3>
               <p className="relative mt-1.5 text-sm leading-relaxed text-muted-foreground">
                 {slot.description}

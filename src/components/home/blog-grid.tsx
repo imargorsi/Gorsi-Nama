@@ -1,20 +1,19 @@
 "use client";
 
-import { motion } from "motion/react";
 import { ArrowRight, PenLine } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { AccentIcon } from "@/components/accent-icon";
 import { BlogCard } from "@/components/blog/blog-card";
 import {
   publishedStories,
   useMemberStories,
 } from "@/components/blog/member-stories";
+import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export function BlogGrid() {
   const [featured, ...rest] = publishedStories(useMemberStories());
@@ -26,12 +25,7 @@ export function BlogGrid() {
       className="relative scroll-mt-28 pt-10 pb-16 sm:scroll-mt-32 sm:pt-12 sm:pb-20"
     >
       <div className="site-shell px-4 sm:px-0">
-        <motion.header
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.4, ease }}
-        >
+        <Reveal as="header">
           <SectionHeading
             eyebrow="From Our Community"
             title="Stories From Our People"
@@ -39,47 +33,32 @@ export function BlogGrid() {
           >
             <SectionLink href="/blog">View All</SectionLink>
           </SectionHeading>
-        </motion.header>
+        </Reveal>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.12 }}
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.09, delayChildren: 0.08 } },
-          }}
-          className="mt-8 grid grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-stretch lg:gap-5"
-        >
+        <Stagger className="mt-8 grid grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-stretch lg:gap-5">
           {featured ? (
-            <motion.div
-              className="h-full min-h-0 min-w-0"
-              variants={{
-                hidden: { opacity: 0, y: 16 },
-                show: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
-              }}
-            >
+            <StaggerItem index={0} isHoverable className="h-full min-h-0">
               <BlogCard post={featured} variant="featured" />
-            </motion.div>
+            </StaggerItem>
           ) : null}
 
           <div className="grid h-full min-h-0 min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-2">
-            {stacked.map((post) => (
-              <motion.div
+            {stacked.map((post, index) => (
+              <StaggerItem
                 key={post.slug}
-                className="h-full min-h-0 min-w-0"
-                variants={{
-                  hidden: { opacity: 0, y: 16 },
-                  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
-                }}
+                index={index + 1}
+                isHoverable
+                className="h-full min-h-0"
               >
                 <BlogCard post={post} variant="compact" />
-              </motion.div>
+              </StaggerItem>
             ))}
           </div>
-        </motion.div>
+        </Stagger>
 
-        <StoryShareBar />
+        <Reveal className="mt-10 sm:mt-12">
+          <StoryShareBar />
+        </Reveal>
       </div>
     </section>
   );
@@ -87,16 +66,9 @@ export function BlogGrid() {
 
 function StoryShareBar() {
   return (
-    <div className={cn(surfaceClass, "relative mt-10 overflow-hidden px-5 py-5 sm:mt-12 sm:px-7 sm:py-6")}>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 w-40 bg-[url('/card-pattern.png')] bg-repeat-y bg-right bg-size-[auto_48%] opacity-20 mask-[linear-gradient(to_left,black_30%,transparent)] sm:w-56"
-      />
-
-      <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-        <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-gold/20 text-gold ring-1 ring-gold/40">
-          <PenLine className="size-5" strokeWidth={1.75} />
-        </span>
+    <div className={cn(surfaceClass, "px-5 py-5 sm:px-7 sm:py-6")}>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+        <AccentIcon icon={PenLine} size="lg" />
         <div className="min-w-0 flex-1">
           <p className="font-heading text-xl font-semibold tracking-tight text-espresso">
             Have a story to share?

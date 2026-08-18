@@ -1,4 +1,4 @@
-import { Briefcase, LogOut, MapPin, Pencil, Settings } from "lucide-react";
+import { Briefcase, LogOut, Mail, MapPin, Pencil, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
@@ -28,10 +28,7 @@ export function ProfilePortrait({
 
   return (
     <div>
-      <p className="heritage-eyebrow">Your profile</p>
-      <div className="heritage-rule mt-3" />
-
-      <div className="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
         <Avatar className="size-28 shrink-0 shadow-md ring-2 ring-gold/45 ring-offset-4 ring-offset-background after:hidden sm:size-32">
           <AvatarImage src={userDetails.profilePhoto || undefined} alt={userDetails.fullName} />
           <AvatarFallback className="bg-espresso font-heading text-3xl text-ivory">
@@ -40,9 +37,9 @@ export function ProfilePortrait({
         </Avatar>
 
         <div className="min-w-0 flex-1">
-          <h1 className="font-heading text-3xl leading-none font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="font-heading text-3xl leading-none font-semibold tracking-tight text-foreground sm:text-4xl">
             {userDetails.fullName}
-          </h1>
+          </h2>
 
           {hasMeta || userDetails.email || isLoadingProfile ? (
             <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-warm-gray">
@@ -68,7 +65,10 @@ export function ProfilePortrait({
                 <span className="size-1 rotate-45 bg-gold/50" aria-hidden />
               ) : null}
               {userDetails.email ? (
-                <span className="min-w-0 truncate">{userDetails.email}</span>
+                <span className="inline-flex min-w-0 items-center gap-1.5 truncate">
+                  <Mail className="size-3.5 shrink-0 text-gold" aria-hidden />
+                  {userDetails.email}
+                </span>
               ) : null}
             </p>
           ) : null}

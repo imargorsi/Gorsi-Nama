@@ -1,9 +1,11 @@
 "use client";
 
-import { User } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
-import { useTranslations } from "next-intl";
+import { LogOut, User } from "lucide-react";
+import { useClerk, useUser } from "@clerk/nextjs";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 
 export function AuthArea({
   onNavigate,
@@ -34,29 +36,70 @@ export function AuthArea({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={user.imageUrl || "/default.jpg"}
-      alt={user.fullName || t("profile")}
+      alt=""
       className="size-10 rounded-full object-cover ring-2 ring-gold/50"
     />
   );
 
   if (stacked) {
     return (
-      <Link
-        href="/profile"
-        onClick={onNavigate}
-        className="flex items-center gap-3 text-ivory hover:text-gold"
-      >
-        {avatar}
-        <span className="font-heading text-sm font-medium">
-          {user.fullName || t("profile")}
-        </span>
-      </Link>
+      <div className="flex flex-col gap-3">
+        <Link
+          href="/profile"
+          onClick={onNavigate}
+          className="flex items-center gap-3 text-ivory hover:text-gold"
+        >
+          {avatar}
+          <span className="font-heading text-sm font-medium">
+            {user.fullName || t("profile")}
+          </span>
+        </Link>
+        <SignOutButton onNavigate={onNavigate} stacked />
+      </div>
     );
   }
 
   return (
-    <Link href="/profile" onClick={onNavigate} aria-label={t("profile")} className="rounded-full">
-      {avatar}
-    </Link>
+    <div className="flex items-center gap-2">
+      <Link
+        href="/profile"
+        onClick={onNavigate}
+        aria-label={t("profile")}
+        className="rounded-full"
+      >
+        {avatar}
+      </Link>
+      <SignOutButton onNavigate={onNavigate} />
+    </div>
+  );
+}
+
+function SignOutButton({
+  onNavigate,
+  stacked = false,
+}: {
+  onNavigate?: () => void;
+  stacked?: boolean;
+}) {
+  const { signOut } = useClerk();
+  const locale = useLocale();
+  const t = useTranslations("Nav");
+  const homePath = locale === routing.defaultLocale ? "/" : `/${locale}`;
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        onNavigate?.();
+        void signOut({ redirectUrl: homePath });
+      }}
+      className={cn(
+        "inline-flex min-h-11 shrink-0 items-center gap-2 font-heading text-sm font-medium tracking-wide text-ivory/80 transition-colors hover:text-gold",
+        stacked ? "justify-start" : "px-2"
+      )}
+    >
+      <LogOut className="size-4" strokeWidth={1.75} />
+      {t("logOut")}
+    </button>
   );
 }

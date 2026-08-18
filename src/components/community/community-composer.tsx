@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { ImageIcon, Link2, X } from "lucide-react";
+import { motion } from "motion/react";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,7 @@ import { nativeSelectClassName } from "@/components/form-field";
 import { useUploadPhoto } from "@/components/uploads/use-upload-photo";
 import type { CommunityPost } from "@/data/community-posts";
 import { surfaceClass } from "@/components/surface";
+import { motionEase } from "@/components/reveal";
 import { maxImageUploadMb } from "@/lib/storage/upload.schemas";
 import { cn } from "@/lib/utils";
 
@@ -105,9 +107,11 @@ export function CommunityComposer({
 
   if (!isOpen) {
     return (
-      <button
+      <motion.button
         type="button"
         onClick={() => setIsOpen(true)}
+        whileHover={{ y: -2, transition: { duration: 0.2, ease: motionEase } }}
+        whileTap={{ scale: 0.99 }}
         className={cn(
           surfaceClass,
           "flex min-h-14 w-full items-center gap-3 px-4 py-3 text-start sm:px-5"
@@ -121,13 +125,16 @@ export function CommunityComposer({
         <span className="min-w-0 text-sm text-warm-gray sm:text-base">
           Share something with the Gorsi community...
         </span>
-      </button>
+      </motion.button>
     );
   }
 
   return (
-    <form
+    <motion.form
       onSubmit={handleSubmit(onSubmit)}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.28, ease: motionEase }}
       className={cn(surfaceClass, "p-3.5 sm:p-4")}
     >
       <div className="flex items-start gap-3">
@@ -248,6 +255,6 @@ export function CommunityComposer({
           </Button>
         </div>
       </div>
-    </form>
+    </motion.form>
   );
 }

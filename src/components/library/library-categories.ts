@@ -1,3 +1,5 @@
+import { BookMarked, FileText, ImageIcon, type LucideIcon } from "lucide-react";
+
 export const libraryCategories = [
   {
     id: "books",
@@ -7,6 +9,7 @@ export const libraryCategories = [
     cta: "Browse Books",
     image: "/book.jpg",
     emptyMessage: "No books yet — check back soon.",
+    icon: BookMarked,
   },
   {
     id: "documents",
@@ -16,6 +19,7 @@ export const libraryCategories = [
     cta: "Browse Documents",
     image: "/writing.jpg",
     emptyMessage: "No documents yet — check back soon.",
+    icon: FileText,
   },
   {
     id: "images",
@@ -25,8 +29,18 @@ export const libraryCategories = [
     cta: "Browse Images",
     image: "/history__image__4.jpg",
     emptyMessage: "No images yet — check back soon.",
+    icon: ImageIcon,
   },
-] as const;
+] as const satisfies readonly {
+  id: string;
+  title: string;
+  eyebrow: string;
+  description: string;
+  cta: string;
+  image: string;
+  emptyMessage: string;
+  icon: LucideIcon;
+}[];
 
 export type LibraryCategoryId = (typeof libraryCategories)[number]["id"];
 

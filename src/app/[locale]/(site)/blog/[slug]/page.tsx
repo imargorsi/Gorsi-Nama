@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
 import { BlogArticle } from "@/components/blog/blog-article";
 import { getBlogPostBySlug, blogPosts } from "@/data/blog-posts";
 
@@ -32,7 +32,17 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <PageBreadcrumb title="Stories" />
+      <PageBreadcrumb
+        image={seed?.featuredImage || pageBanner.stories}
+        eyebrow="Stories"
+        title={seed?.title ?? "Story"}
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Stories", href: "/blog" },
+          { label: seed?.title ?? "Story" },
+        ]}
+        description={seed?.excerpt}
+      />
       <BlogArticle slug={slug} seed={seed} />
     </>
   );

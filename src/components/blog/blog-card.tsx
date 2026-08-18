@@ -2,7 +2,6 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { HeritageDiamond } from "@/components/heritage-ornaments";
 import { getBlogCategory } from "@/components/blog/blog-categories";
 import { surfaceClass } from "@/components/surface";
 import { readingMinutes, type BlogPost } from "@/data/blog-posts";
@@ -45,11 +44,6 @@ export function BlogCard({
             <h3 className="line-clamp-3 font-heading text-lg font-semibold tracking-tight text-ivory sm:text-xl sm:leading-snug">
               {post.title}
             </h3>
-            <div className="mt-2.5 flex items-center gap-3" aria-hidden>
-              <span className="h-px w-8 bg-gold/50" />
-              <HeritageDiamond className="size-1.5 bg-gold" />
-              <span className="h-px w-8 bg-gold/50" />
-            </div>
           </div>
         </div>
         <div className="flex flex-col gap-3 px-4 py-3 sm:px-5">

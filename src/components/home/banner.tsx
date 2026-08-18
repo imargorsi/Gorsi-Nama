@@ -1,14 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "motion/react";
+import { Reveal } from "@/components/reveal";
 import { ArrowRight, Feather } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { HeritageDiamond, HeritageKnot } from "@/components/heritage-ornaments";
+import { HeritageKnot, HeritageRule } from "@/components/heritage-ornaments";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Banner() {
   return (
@@ -27,12 +25,7 @@ export function Banner() {
       </div>
 
       <div className="site-shell px-4 pt-16 pb-14 sm:px-0 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.4, ease }}
-        >
+        <Reveal>
           <p className="flex items-center gap-2.5">
             <HeritageKnot />
             <span className="heritage-eyebrow">Be Part of Our Journey</span>
@@ -44,10 +37,8 @@ export function Banner() {
             Chapter of Our Heritage
           </h2>
 
-          <div className="mt-6 flex max-w-xs items-center gap-3" aria-hidden>
-            <span className="h-px flex-1 bg-gold/40" />
-            <HeritageDiamond />
-            <span className="h-px flex-1 bg-gold/40" />
+          <div className="mt-6">
+            <HeritageRule />
           </div>
 
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-ivory/80 sm:text-base">
@@ -84,17 +75,7 @@ export function Banner() {
               <ArrowRight className="size-5 rtl:rotate-180" />
             </Link>
           </div>
-        </motion.div>
-      </div>
-
-      <div className="relative border-t border-gold/20 bg-espresso">
-        <div
-          aria-hidden
-          className="h-9 bg-[url('/card-pattern.png')] bg-repeat-x bg-center bg-size-[auto_180%] opacity-40 sm:h-10"
-        />
-        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-espresso px-4">
-          <HeritageKnot />
-        </span>
+        </Reveal>
       </div>
     </section>
   );

@@ -24,8 +24,8 @@ export function ComposerIcon({
       onClick={onClick}
       disabled={isDisabled}
       className={cn(
-        "inline-flex size-11 items-center justify-center rounded-lg text-warm-gray transition-colors hover:bg-espresso/5 hover:text-espresso disabled:pointer-events-none disabled:opacity-50",
-        isActive && "bg-espresso/8 text-espresso"
+        "inline-flex size-11 items-center justify-center rounded-lg text-gold transition-colors hover:bg-espresso/5 hover:text-espresso disabled:pointer-events-none disabled:opacity-50",
+        isActive && "bg-gold/20 text-espresso"
       )}
     >
       {children}

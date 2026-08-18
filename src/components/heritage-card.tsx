@@ -1,10 +1,11 @@
 import type { ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
+import { AccentIcon } from "@/components/accent-icon";
 import { surfaceClass } from "@/components/surface";
-import { HeritageDiamond, HeritageDiamondBand } from "@/components/heritage-ornaments";
+import { cn } from "@/lib/utils";
 
 export interface HeritageCardProps {
   index?: number | string;
@@ -15,6 +16,7 @@ export interface HeritageCardProps {
   imageAlt?: string;
   href?: string;
   cta?: string;
+  icon?: LucideIcon;
   className?: string;
 }
 
@@ -32,6 +34,7 @@ export function HeritageCard({
   imageAlt,
   href,
   cta,
+  icon,
   className,
 }: HeritageCardProps) {
   const classes = cn(
@@ -50,6 +53,11 @@ export function HeritageCard({
           sizes="(min-width: 1280px) 20vw, (min-width: 640px) 40vw, 90vw"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
+        {icon ? (
+          <span className="absolute bottom-3 start-3">
+            <AccentIcon icon={icon} size="sm" />
+          </span>
+        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col px-4 pt-3 pb-3 sm:px-5">
@@ -62,13 +70,7 @@ export function HeritageCard({
           <p className="heritage-eyebrow mt-1">{category}</p>
         </div>
 
-        <div className="my-2.5 flex items-center justify-center gap-3" aria-hidden>
-          <span className="h-px w-8 bg-gold/30" />
-          <HeritageDiamond className="size-1.5" />
-          <span className="h-px w-8 bg-gold/30" />
-        </div>
-
-        <h3 className="font-heading text-lg font-semibold tracking-tight text-espresso sm:text-xl">
+        <h3 className="mt-2.5 font-heading text-lg font-semibold tracking-tight text-espresso sm:text-xl">
           {title}
         </h3>
         <p className="mt-1.5 text-sm leading-snug text-warm-gray">{description}</p>
@@ -83,8 +85,6 @@ export function HeritageCard({
           </span>
         ) : null}
       </div>
-
-      <HeritageDiamondBand />
     </>
   );
 

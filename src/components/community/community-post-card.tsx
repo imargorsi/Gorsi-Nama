@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { Bookmark, Heart, Pencil, Share2, Trash2 } from "lucide-react";
+import { motion } from "motion/react";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import { CommunityLinkPreview } from "@/components/community/community-link-preview";
@@ -15,6 +16,7 @@ import {
   type CommunityPost,
 } from "@/data/community-posts";
 import { cn } from "@/lib/utils";
+import { motionEase } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
 
 const COMPACT_TAG_LIMIT = 3;
@@ -44,6 +46,7 @@ export function CommunityPostCard({
 }) {
   const { canManage } = useCanManageContent(post.authorId);
   const category = getCommunityCategory(post.categoryId);
+  const CategoryIcon = category.icon;
   const linkUrl = extractPostLink(post.body, post.linkUrl);
   const likeCount = post.likeCount + (isLiked ? 1 : 0);
   const saveCount = post.saveCount + (isSaved ? 1 : 0);
@@ -74,7 +77,13 @@ export function CommunityPostCard({
             <p className="mt-0.5 truncate text-xs text-warm-gray">
               {formatRelativeTime(post.createdAt)}
               <span className="mx-1.5">·</span>
-              {category.label}
+              <span className="inline-flex items-center gap-1">
+                <CategoryIcon
+                  className="size-3 text-gold"
+                  strokeWidth={1.75}
+                />
+                {category.label}
+              </span>
             </p>
           </header>
 
@@ -215,11 +224,13 @@ function PostAction({
   children: ReactNode;
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
       aria-label={label}
       aria-pressed={isActive}
+      whileTap={{ scale: 0.96 }}
+      transition={{ duration: 0.15, ease: motionEase }}
       className={cn(
         "inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2.5 text-sm transition-colors",
         isActive
@@ -231,6 +242,6 @@ function PostAction({
       {typeof count === "number" ? (
         <span className="tabular-nums">{count}</span>
       ) : null}
-    </button>
+    </motion.button>
   );
 }

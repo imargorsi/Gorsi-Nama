@@ -41,8 +41,9 @@ export function BlogShareLinks({ title }: { title: string }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={label}
+          className="flex size-11 items-center justify-center rounded-lg bg-ivory text-espresso ring-1 ring-gold/25 transition-colors hover:bg-espresso/5 hover:ring-gold/50"
         >
-          <Icon className="size-8" />
+          <Icon className="size-5" />
         </a>
       ))}
     </div>

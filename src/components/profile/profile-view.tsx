@@ -9,15 +9,9 @@ import { ProfilePortrait } from "@/components/profile/profile-portrait";
 import { ProfileSavedContent } from "@/components/profile/profile-saved-content";
 import { ProfileSidebar } from "@/components/profile/profile-sidebar";
 import { ProfileStories } from "@/components/profile/profile-stories";
+import { fadeUp } from "@/components/reveal";
 import { routing } from "@/i18n/routing";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
-
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const reveal = {
-  hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
-};
 
 export function ProfileView({
   userDetails,
@@ -57,7 +51,7 @@ export function ProfileView({
         }}
         className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start xl:grid-cols-[minmax(0,1fr)_22rem]"
       >
-        <motion.div variants={reveal} className="min-w-0">
+        <motion.div variants={fadeUp} className="min-w-0">
           <ProfilePortrait
             userDetails={userDetails}
             profile={profile}
@@ -70,7 +64,7 @@ export function ProfileView({
           />
         </motion.div>
 
-        <motion.div variants={reveal}>
+        <motion.div variants={fadeUp}>
           <ProfileSidebar
             details={profile}
             sharePath={sharePath}
@@ -78,11 +72,11 @@ export function ProfileView({
           />
         </motion.div>
 
-        <motion.div variants={reveal} className="lg:col-span-2">
+        <motion.div variants={fadeUp} className="lg:col-span-2">
           <ProfileStories userId={userDetails.userId} />
         </motion.div>
 
-        <motion.div variants={reveal} className="lg:col-span-2">
+        <motion.div variants={fadeUp} className="lg:col-span-2">
           <ProfileSavedContent />
         </motion.div>
       </motion.div>

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { HeritageRule } from "@/components/heritage-ornaments";
+import { Stagger, StaggerItem } from "@/components/reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -10,13 +12,15 @@ export function HistoryTeaser() {
       className="scroll-mt-28 pt-12 pb-16 sm:scroll-mt-32 sm:pt-16 sm:pb-20"
     >
       <div className="site-shell px-4 sm:px-0">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-stretch md:gap-14 lg:gap-20">
-          <div className="flex min-w-0 flex-col border-t border-espresso pt-8 md:justify-between md:gap-12">
+        <Stagger className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-stretch md:gap-14 lg:gap-20">
+          <StaggerItem index={0} className="flex min-w-0 flex-col border-t border-espresso pt-8 md:justify-between md:gap-12">
             <div>
+              <p className="heritage-eyebrow mb-4">Our History</p>
               <h2 className="font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-[2.5rem] lg:leading-tight">
                 Where Tradition Meets Technology: Uniting the Gorsi Tribe Across
                 Generations
               </h2>
+              <HeritageRule className="mt-4" />
               <p className="mt-6 text-sm leading-relaxed text-warm-gray sm:text-base">
                 The Gujars belong to the north-western parts of India like
                 Gujarat, Rajasthan, Himachal Pradesh, Jammu &amp; Kashmir, Uttar
@@ -46,9 +50,9 @@ export function HistoryTeaser() {
                 />
               </div>
             </div>
-          </div>
+          </StaggerItem>
 
-          <div className="flex min-w-0 flex-col border-b border-espresso pb-8">
+          <StaggerItem index={1} className="flex min-w-0 flex-col border-b border-espresso pb-8">
             <div className="relative aspect-16/10 overflow-hidden bg-espresso">
               <Image
                 src="/fortimage.jpg"
@@ -84,8 +88,8 @@ export function HistoryTeaser() {
             >
               Read More
             </Link>
-          </div>
-        </div>
+          </StaggerItem>
+        </Stagger>
       </div>
     </section>
   );
