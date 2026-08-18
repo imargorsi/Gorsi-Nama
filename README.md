@@ -21,6 +21,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Copy `.env.example` to `.env.local` and fill in any required values before running.
 
+The production site is deployed on Vercel at [https://community.argorsi.com/](https://community.argorsi.com/). See [`doc/deployment.md`](doc/deployment.md).
+
 ## Scripts
 
 - `npm run dev` — start the dev server

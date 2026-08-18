@@ -34,6 +34,15 @@ export const metadata: Metadata = {
   title: "Gorsi Nama",
   description:
     "A digital home for the Gorsi tribe — history, heritage, members, and stories.",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
 };
 
 export function generateStaticParams() {
