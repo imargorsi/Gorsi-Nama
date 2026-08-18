@@ -55,7 +55,7 @@ export function HeritageCard({
         />
         {icon ? (
           <span className="absolute bottom-3 start-3">
-            <AccentIcon icon={icon} size="sm" />
+            <AccentIcon icon={icon} size="sm" tone="on-photo" />
           </span>
         ) : null}
       </div>
@@ -73,10 +73,10 @@ export function HeritageCard({
         <h3 className="mt-2.5 font-heading text-lg font-semibold tracking-tight text-espresso sm:text-xl">
           {title}
         </h3>
-        <p className="mt-1.5 text-sm leading-snug text-warm-gray">{description}</p>
+        <p className="mt-1.5 mb-5 text-sm leading-snug text-warm-gray">{description}</p>
 
         {href && cta ? (
-          <span className="mt-auto inline-flex items-center gap-2 border-t border-gold/20 pt-3 text-sm font-medium tracking-wide text-gold">
+          <span className="mt-auto inline-flex items-center gap-2 border-t border-gold/20 pt-5 text-sm font-medium tracking-wide text-gold sm:pt-6">
             {cta}
             <ArrowRight
               className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"

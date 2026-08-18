@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { HeritageRule } from "@/components/heritage-ornaments";
 import { cn } from "@/lib/utils";
 
 export function SectionHeading({
@@ -7,13 +6,15 @@ export function SectionHeading({
   eyebrow,
   title,
   description,
+  descriptionClassName,
   children,
   className,
 }: {
   as?: "h1" | "h2";
   eyebrow?: string;
   title: string;
-  description?: string;
+  description?: ReactNode;
+  descriptionClassName?: string;
   children?: ReactNode;
   className?: string;
 }) {
@@ -40,9 +41,13 @@ export function SectionHeading({
         >
           {title}
         </HeadingTag>
-        <HeritageRule className="mt-4" />
         {description ? (
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base">
+          <p
+            className={cn(
+              "mt-2 max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base",
+              descriptionClassName
+            )}
+          >
             {description}
           </p>
         ) : null}

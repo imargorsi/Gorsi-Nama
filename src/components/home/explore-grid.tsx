@@ -1,5 +1,3 @@
-"use client";
-
 import { BookOpen, Landmark, Library, Users } from "lucide-react";
 import { HeritageCard, HeritageCardGrid } from "@/components/heritage-card";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
@@ -14,7 +12,7 @@ const cards = [
       "Trace our journey across generations and discover the roots of who we are.",
     href: "/history",
     cta: "Explore History",
-    image: "/history__image__4.jpg",
+    image: "/history-card.png",
     icon: Landmark,
   },
   {
@@ -22,10 +20,10 @@ const cards = [
     category: "Stories",
     title: "Our Stories",
     description:
-      "Read stories and memories shared by our community. Every story preserves a piece of us.",
+      "Read stories and memories that preserve a piece of who we are.",
     href: "/blog",
     cta: "Explore Stories",
-    image: "/writing.jpg",
+    image: "/our-story.png",
     icon: BookOpen,
   },
   {
@@ -44,7 +42,7 @@ const cards = [
     category: "Archive",
     title: "Our Archive",
     description:
-      "Explore books, documents, photographs and resources that preserve our shared heritage.",
+      "Browse books, documents and photographs that preserve our heritage.",
     href: "/library",
     cta: "Explore Library",
     image: "/book.jpg",
@@ -56,12 +54,18 @@ export function ExploreGrid() {
   return (
     <section
       id="explore-gorsi-nama"
-      className="scroll-mt-28 pt-10 pb-16 sm:scroll-mt-32 sm:pt-12 sm:pb-20"
+      className="relative overflow-hidden scroll-mt-28 pt-10 pb-16 sm:scroll-mt-32 sm:pt-12 sm:pb-20"
     >
-      <div className="site-shell px-4 sm:px-0">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 end-0 z-0 w-[min(72%,28rem)] [mask-image:linear-gradient(to_left,black_30%,transparent)] sm:w-[min(58%,36rem)] rtl:[mask-image:linear-gradient(to_right,black_30%,transparent)]"
+      >
+        <div className="h-full w-full bg-gold/30 [mask-image:url('/pattern-circle.png')] [mask-position:right_center] [mask-repeat:no-repeat] [mask-size:contain] [mask-mode:luminance] rtl:[mask-position:left_center]" />
+      </div>
+
+      <div className="site-shell relative z-10 px-4 sm:px-0">
         <Reveal as="header">
           <SectionHeading
-            eyebrow="The Gorsi Nama"
             title="Explore Gorsi Nama"
             description="Stories, people, history and memories that connect us across generations."
           />

@@ -9,7 +9,7 @@ import {
   useMemberStories,
 } from "@/components/blog/member-stories";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
-import { surfaceClass } from "@/components/surface";
+import { HeritagePatternBand } from "@/components/heritage-ornaments";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./section-heading";
@@ -29,7 +29,13 @@ export function BlogGrid() {
           <SectionHeading
             eyebrow="From Our Community"
             title="Stories From Our People"
-            description="Every family carries memories worth preserving. Discover the stories that connect generations."
+            description={
+              <>
+                Every family carries memories worth preserving.
+                <br />
+                Discover the stories that connect generations.
+              </>
+            }
           >
             <SectionLink href="/blog">View All</SectionLink>
           </SectionHeading>
@@ -66,14 +72,15 @@ export function BlogGrid() {
 
 function StoryShareBar() {
   return (
-    <div className={cn(surfaceClass, "px-5 py-5 sm:px-7 sm:py-6")}>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-        <AccentIcon icon={PenLine} size="lg" />
+    <div className="relative overflow-hidden rounded-xl bg-espresso px-5 py-8 sm:px-8 sm:py-10">
+      <HeritagePatternBand />
+      <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+        <AccentIcon icon={PenLine} size="lg" tone="on-dark" />
         <div className="min-w-0 flex-1">
-          <p className="font-heading text-xl font-semibold tracking-tight text-espresso">
+          <p className="font-heading text-xl font-semibold tracking-tight text-ivory">
             Have a story to share?
           </p>
-          <p className="mt-1 text-sm text-warm-gray">
+          <p className="mt-1 text-sm text-ivory/70">
             Your memories are a part of our shared heritage.
           </p>
         </div>
@@ -81,7 +88,8 @@ function StoryShareBar() {
           href="/blog/write"
           className={cn(
             buttonVariants({
-              className: "h-11 w-full gap-2 bg-gold px-5 text-espresso hover:bg-gold/90 sm:w-auto",
+              className:
+                "h-11 w-full gap-2 bg-ivory px-5 text-espresso hover:bg-ivory/90 sm:w-auto",
             })
           )}
         >

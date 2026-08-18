@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { AnimatePresence, motion } from "motion/react";
@@ -8,6 +8,7 @@ import { ArrowRight, BookOpen, Calendar, Diamond, Users } from "lucide-react";
 import { HeritageRule } from "@/components/heritage-ornaments";
 import { buttonVariants } from "@/components/ui/button";
 import { HeroSlideControls } from "@/components/home/hero-slide-controls";
+import { useHeroAutoplay } from "@/components/home/use-hero-autoplay";
 import {
   heroImageFade,
   heroKenBurnsDuration,
@@ -38,71 +39,69 @@ const stats = [
 
 const slides = [
   {
-    id: "gorsi-nama",
-    image: "/hero.jpg",
-    eyebrow: "Preserving Our Legacy",
+    id: "heritage",
+    image: "/slider/1.jpg",
+    eyebrow: "Our Heritage",
+    preview: "Discover the clan",
     title: (
       <>
-        Discover the Legacy
-        <br />
-        of the <span className="text-gold">Gorsi Tribe</span>
+        <span className="block whitespace-nowrap">Discover the Legacy of</span>
+        <span className="block whitespace-nowrap">
+          the Gorsi Clan & <span className="text-gold">Our Heritage</span>
+        </span>
       </>
     ),
     description:
-      "Unveiling our rich history, traditions, achievements and uniting generations across the world.",
-    primaryCta: { label: "Explore Our History", href: "/history" },
+      "Gorsi Nama is a digital home for the Gorsi clan — a place to discover who we are, where we come from, and the heritage we still carry.",
+    primaryCta: { label: "Explore Our Community", href: "/community" },
+    secondaryCta: { label: "Browse Library", href: "/library" },
+  },
+  {
+    id: "community",
+    image: "/slider/2.png",
+    eyebrow: "Our Community",
+    preview: "Connect worldwide",
+    title: (
+      <>
+        <span className="block whitespace-nowrap">Connecting the Gorsi</span>
+        <span className="block whitespace-nowrap">
+          Community <span className="text-gold">Worldwide</span>
+        </span>
+      </>
+    ),
+    description:
+      "Find Gorsi people across cities and countries. Share photographs and conversation on the community feed, stay connected with the clan.",
+    primaryCta: { label: "Explore Our Community", href: "/community" },
     secondaryCta: { label: "Browse Library", href: "/library" },
   },
   {
     id: "history",
-    image: "/oldhsitory.jpg",
+    image: "/slider/3.png",
     eyebrow: "Our History",
+    preview: "Read the chronicle",
     title: (
       <>
-        Where we came from
-        <br />
-        shapes who <span className="text-gold">we are today</span>
+        <span className="block whitespace-nowrap">The History Written</span>
+        <span className="block whitespace-nowrap">
+          by <span className="text-gold">Our Forefathers</span>
+        </span>
       </>
     ),
     description:
-      "Trace the roots, milestones, and historical memory that continue to define the Gorsi story across time.",
-    primaryCta: { label: "Explore Our History", href: "/history" },
+      "The Gorsi clan is a Gujjar people whose story runs through migration, settlement, and cultural memory across the Indian subcontinent. This is the chronicle they began — and that we still keep.",
+    primaryCta: { label: "Explore Our Community", href: "/community" },
     secondaryCta: { label: "Browse Library", href: "/library" },
-  },
-  {
-    id: "people",
-    image: "/history__image__4.jpg",
-    eyebrow: "Notable Gorsi",
-    title: (
-      <>
-        Meet the people
-        <br />
-        who <span className="text-gold">shaped our story</span>
-      </>
-    ),
-    description:
-      "Celebrate the lives, contributions, and presence of Gorsi figures whose legacy continues to inspire the community.",
-    primaryCta: { label: "Meet Notable Gorsi", href: "/people" },
-    secondaryCta: { label: "Explore Members", href: "/member" },
   },
 ] as const;
 
 const AUTO_ADVANCE_MS = 7000;
 
 export function Hero() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const { activeIndex, setIsPaused, progress, select } = useHeroAutoplay(
+    slides.length,
+    AUTO_ADVANCE_MS
+  );
   const activeSlide = slides[activeIndex];
-
-  useEffect(() => {
-    if (isPaused) return;
-
-    const interval = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % slides.length);
-    }, AUTO_ADVANCE_MS);
-
-    return () => window.clearInterval(interval);
-  }, [isPaused, activeIndex]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -113,16 +112,16 @@ export function Hero() {
         return;
       }
       if (event.key === "ArrowLeft") {
-        setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
+        select((activeIndex - 1 + slides.length) % slides.length);
       }
       if (event.key === "ArrowRight") {
-        setActiveIndex((current) => (current + 1) % slides.length);
+        select((activeIndex + 1) % slides.length);
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [activeIndex, select]);
 
   return (
     <section
@@ -194,12 +193,12 @@ export function Hero() {
 
                 <motion.h1
                   variants={slideContentItem}
-                  className="mt-6 max-w-2xl text-balance font-heading text-3xl font-semibold tracking-tight text-ivory sm:text-5xl lg:max-w-3xl lg:text-6xl lg:leading-[1.06]"
+                  className="mt-6 min-w-0 font-heading text-[clamp(1.2rem,4.4vw,3rem)] font-semibold leading-[1.15] tracking-tight text-ivory"
                 >
                   {activeSlide.title}
                 </motion.h1>
 
-                <motion.div variants={slideContentItem} className="mt-4">
+                <motion.div variants={slideContentItem} className="mt-5">
                   <HeritageRule />
                 </motion.div>
 
@@ -221,7 +220,7 @@ export function Hero() {
                       className={cn(
                         buttonVariants({
                           className:
-                            "h-11 w-full gap-2 rounded-lg bg-gold px-6 text-sm font-semibold text-espresso shadow-md hover:bg-gold/90 sm:w-auto",
+                            "h-11 w-full gap-2 rounded-lg bg-espresso px-6 text-sm font-semibold text-ivory shadow-md hover:bg-espresso/90 sm:w-auto",
                         })
                       )}
                     >
@@ -284,9 +283,9 @@ export function Hero() {
           <HeroSlideControls
             slides={slides}
             activeIndex={activeIndex}
-            isPaused={isPaused}
-            autoAdvanceMs={AUTO_ADVANCE_MS}
-            onSelect={setActiveIndex}
+            progress={progress}
+            onSelect={select}
+            setIsPaused={setIsPaused}
             variant="desktop"
           />
         </div>
@@ -294,9 +293,9 @@ export function Hero() {
         <HeroSlideControls
           slides={slides}
           activeIndex={activeIndex}
-          isPaused={isPaused}
-          autoAdvanceMs={AUTO_ADVANCE_MS}
-          onSelect={setActiveIndex}
+          progress={progress}
+          onSelect={select}
+          setIsPaused={setIsPaused}
           variant="mobile"
         />
       </div>

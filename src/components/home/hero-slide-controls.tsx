@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, type MotionValue } from "motion/react";
 import {
   mobileThumbContainer,
   mobileThumbItem,
@@ -15,21 +15,20 @@ type HeroSlide = {
   id: string;
   image: string;
   eyebrow: string;
+  preview: string;
   primaryCta: { label: string };
 };
 
 function SlideProgress({
   slides,
   activeIndex,
-  isPaused,
-  autoAdvanceMs,
+  progress,
   onSelect,
   className,
 }: {
   slides: readonly HeroSlide[];
   activeIndex: number;
-  isPaused: boolean;
-  autoAdvanceMs: number;
+  progress: MotionValue<number>;
   onSelect: (index: number) => void;
   className?: string;
 }) {
@@ -38,7 +37,7 @@ function SlideProgress({
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("flex items-center gap-2", className)}
+      className={cn("flex items-center gap-1.5", className)}
       role="tablist"
       aria-label="Hero slide progress"
     >
@@ -50,25 +49,18 @@ function SlideProgress({
           aria-selected={activeIndex === index}
           aria-label={`Slide ${index + 1}: ${slide.eyebrow}`}
           onClick={() => onSelect(index)}
-          className="relative h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-ivory/15"
+          className="flex min-h-11 min-w-0 flex-1 items-center"
         >
-          {index < activeIndex ? (
-            <motion.span
-              layout
-              className="absolute inset-0 rounded-full bg-gold/80"
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            />
-          ) : null}
-          {index === activeIndex ? (
-            <span
-              key={`progress-${activeIndex}`}
-              className="absolute inset-y-0 inset-s-0 w-full origin-[inline-start] rounded-full bg-gold fill-mode-[forwards] [animation-name:hero-slide-progress] [animation-timing-function:linear]"
-              style={{
-                animationDuration: `${autoAdvanceMs}ms`,
-                animationPlayState: isPaused ? "paused" : "running",
-              }}
-            />
-          ) : null}
+          <span className="relative h-1.5 w-full overflow-hidden rounded-full bg-ivory/20">
+            {index < activeIndex ? (
+              <span className="absolute inset-0 rounded-full bg-gold" />
+            ) : index === activeIndex ? (
+              <motion.span
+                className="absolute inset-y-0 inset-s-0 w-full origin-left rounded-full bg-gold rtl:origin-right"
+                style={{ scaleX: progress }}
+              />
+            ) : null}
+          </span>
         </button>
       ))}
     </motion.div>
@@ -131,7 +123,7 @@ function DesktopSlideCard({
           0{index + 1}
         </p>
         <p className="mt-1 font-heading text-lg text-ivory">{slide.eyebrow}</p>
-        <p className="mt-1 font-sans text-sm text-ivory/70">{slide.primaryCta.label}</p>
+        <p className="mt-1 font-sans text-sm text-ivory/70">{slide.preview}</p>
       </div>
       <motion.span
         className="relative ms-auto shrink-0"
@@ -147,18 +139,24 @@ function DesktopSlideCard({
 export function HeroSlideControls({
   slides,
   activeIndex,
-  isPaused,
-  autoAdvanceMs,
+  progress,
   onSelect,
+  setIsPaused,
   variant,
 }: {
   slides: readonly HeroSlide[];
   activeIndex: number;
-  isPaused: boolean;
-  autoAdvanceMs: number;
+  progress: MotionValue<number>;
   onSelect: (index: number) => void;
+  setIsPaused: (isPaused: boolean) => void;
   variant: "desktop" | "mobile";
 }) {
+  const keepPlaying = {
+    onMouseEnter: () => setIsPaused(false),
+    onMouseLeave: () => setIsPaused(true),
+    onFocusCapture: () => setIsPaused(false),
+  };
+
   if (variant === "desktop") {
     return (
       <motion.div
@@ -166,6 +164,7 @@ export function HeroSlideControls({
         initial="hidden"
         animate="show"
         className="hidden w-full max-w-sm space-y-3 lg:block"
+        {...keepPlaying}
       >
         {slides.map((slide, index) => (
           <motion.div key={slide.id} variants={slideControlItem}>
@@ -180,17 +179,18 @@ export function HeroSlideControls({
         <SlideProgress
           slides={slides}
           activeIndex={activeIndex}
-          isPaused={isPaused}
-          autoAdvanceMs={autoAdvanceMs}
+          progress={progress}
           onSelect={onSelect}
-          className="pt-1"
         />
       </motion.div>
     );
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-3 lg:hidden">
+    <div
+      className="flex w-full flex-col items-center gap-3 lg:hidden"
+      {...keepPlaying}
+    >
       <motion.div
         variants={mobileThumbContainer}
         initial="hidden"
@@ -231,8 +231,7 @@ export function HeroSlideControls({
       <SlideProgress
         slides={slides}
         activeIndex={activeIndex}
-        isPaused={isPaused}
-        autoAdvanceMs={autoAdvanceMs}
+        progress={progress}
         onSelect={onSelect}
         className="w-full max-w-xs"
       />

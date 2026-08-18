@@ -67,106 +67,106 @@ export function CommunityPostCard({
         compact && "h-full"
       )}
     >
-      <div className="flex min-h-0 flex-1 items-start gap-3">
+      <header className="flex min-w-0 items-start gap-3">
         <CommunityAvatar name={post.authorName} />
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <header className="min-w-0">
-            <h3 className="truncate font-heading text-base font-semibold text-espresso">
-              {post.authorName}
-            </h3>
-            <p className="mt-0.5 truncate text-xs text-warm-gray">
-              {formatRelativeTime(post.createdAt)}
-              <span className="mx-1.5">·</span>
-              <span className="inline-flex items-center gap-1">
-                <CategoryIcon
-                  className="size-3 text-gold"
-                  strokeWidth={1.75}
-                />
-                {category.label}
-              </span>
-            </p>
-          </header>
-
-          <div className="mt-2 min-w-0">
-            <CommunityPostBody body={post.body} compact={compact} />
-          </div>
-
-          {compact || visibleTags.length > 0 ? (
-            <ul className="mt-2.5 flex h-7 flex-wrap gap-1.5 overflow-hidden">
-              {visibleTags.map((tag) => (
-                <li key={tag}>
-                  <button
-                    type="button"
-                    onClick={() => onTagClick(tag)}
-                    className="rounded-full bg-espresso/8 px-2.5 py-1 text-xs font-medium text-espresso transition-colors hover:bg-espresso/12"
-                  >
-                    {formatTag(tag)}
-                  </button>
-                </li>
-              ))}
-              {hiddenTagCount > 0 ? (
-                <li className="px-1 py-1 text-xs text-warm-gray">
-                  +{hiddenTagCount}
-                </li>
-              ) : null}
-            </ul>
-          ) : null}
-
-          {linkUrl && !compact ? (
-            <div className="mt-3 min-w-0">
-              <CommunityLinkPreview url={linkUrl} />
-            </div>
-          ) : null}
-
-          {images.length > 0 ? (
-            <PostImages images={images} compact={compact} />
-          ) : compact ? (
-            <div className="mt-3 aspect-4/3 rounded-lg bg-espresso/8" />
-          ) : null}
-
-          <footer className="-ms-2 mt-auto flex flex-wrap items-center gap-1 pt-2">
-            <PostAction
-              label={isLiked ? "Unlike" : "Like"}
-              count={likeCount}
-              isActive={isLiked}
-              onClick={onLike}
-            >
-              <Heart
-                className="size-4"
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate font-heading text-base font-semibold text-espresso">
+            {post.authorName}
+          </h3>
+          <p className="mt-0.5 truncate text-xs text-warm-gray">
+            {formatRelativeTime(post.createdAt)}
+            <span className="mx-1.5">·</span>
+            <span className="inline-flex items-center gap-1">
+              <CategoryIcon
+                className="size-3 text-gold"
                 strokeWidth={1.75}
-                fill={isLiked ? "currentColor" : "none"}
               />
-            </PostAction>
-            <PostAction
-              label={isSaved ? "Unsave" : "Save"}
-              count={saveCount}
-              isActive={isSaved}
-              onClick={onSave}
-            >
-              <Bookmark
-                className="size-4"
-                strokeWidth={1.75}
-                fill={isSaved ? "currentColor" : "none"}
-              />
-            </PostAction>
-            <PostAction label="Share" onClick={onShare}>
-              <Share2 className="size-4" strokeWidth={1.75} />
-              Share
-            </PostAction>
-            {canManage && !compact && onEdit && onDelete ? (
-              <>
-                <PostAction label="Edit" onClick={onEdit}>
-                  <Pencil className="size-4" strokeWidth={1.75} />
-                  Edit
-                </PostAction>
-                <PostAction label="Delete" onClick={onDelete}>
-                  <Trash2 className="size-4" strokeWidth={1.75} />
-                  Delete
-                </PostAction>
-              </>
-            ) : null}
-          </footer>
+              {category.label}
+            </span>
+          </p>
         </div>
+      </header>
+
+      <div className="mt-2.5 flex min-h-0 min-w-0 flex-1 flex-col">
+        <div className="min-w-0">
+          <CommunityPostBody body={post.body} compact={compact} />
+        </div>
+
+        {compact || visibleTags.length > 0 ? (
+          <ul className="mt-2.5 flex h-7 flex-wrap gap-1.5 overflow-hidden">
+            {visibleTags.map((tag) => (
+              <li key={tag}>
+                <button
+                  type="button"
+                  onClick={() => onTagClick(tag)}
+                  className="rounded-full bg-espresso/8 px-2.5 py-1 text-xs font-medium text-espresso transition-colors hover:bg-espresso/12"
+                >
+                  {formatTag(tag)}
+                </button>
+              </li>
+            ))}
+            {hiddenTagCount > 0 ? (
+              <li className="px-1 py-1 text-xs text-warm-gray">
+                +{hiddenTagCount}
+              </li>
+            ) : null}
+          </ul>
+        ) : null}
+
+        {linkUrl && !compact ? (
+          <div className="mt-3 min-w-0">
+            <CommunityLinkPreview url={linkUrl} />
+          </div>
+        ) : null}
+
+        {images.length > 0 ? (
+          <PostImages images={images} compact={compact} />
+        ) : compact ? (
+          <div className="mt-3 aspect-4/3 rounded-lg bg-espresso/8" />
+        ) : null}
+
+        <footer className="-ms-2 mt-auto flex flex-wrap items-center gap-1 pt-2">
+          <PostAction
+            label={isLiked ? "Unlike" : "Like"}
+            count={likeCount}
+            isActive={isLiked}
+            onClick={onLike}
+          >
+            <Heart
+              className="size-4"
+              strokeWidth={1.75}
+              fill={isLiked ? "currentColor" : "none"}
+            />
+          </PostAction>
+          <PostAction
+            label={isSaved ? "Unsave" : "Save"}
+            count={saveCount}
+            isActive={isSaved}
+            onClick={onSave}
+          >
+            <Bookmark
+              className="size-4"
+              strokeWidth={1.75}
+              fill={isSaved ? "currentColor" : "none"}
+            />
+          </PostAction>
+          <PostAction label="Share" onClick={onShare}>
+            <Share2 className="size-4" strokeWidth={1.75} />
+            Share
+          </PostAction>
+          {canManage && !compact && onEdit && onDelete ? (
+            <>
+              <PostAction label="Edit" onClick={onEdit}>
+                <Pencil className="size-4" strokeWidth={1.75} />
+                Edit
+              </PostAction>
+              <PostAction label="Delete" onClick={onDelete}>
+                <Trash2 className="size-4" strokeWidth={1.75} />
+                Delete
+              </PostAction>
+            </>
+          ) : null}
+        </footer>
       </div>
     </article>
   );

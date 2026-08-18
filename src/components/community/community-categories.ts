@@ -28,3 +28,9 @@ export const communityCategoryIds = communityCategories.map(
 export function getCommunityCategory(id: CommunityCategoryId) {
   return communityCategories.find((category) => category.id === id)!;
 }
+
+export function isCommunityCategoryId(
+  value: string | undefined
+): value is CommunityCategoryId {
+  return communityCategoryIds.includes(value as CommunityCategoryId);
+}

@@ -9,7 +9,7 @@ export function AccentIcon({
 }: {
   icon: LucideIcon;
   size?: "sm" | "md" | "lg";
-  tone?: "on-light" | "on-dark";
+  tone?: "on-light" | "on-dark" | "on-photo";
   className?: string;
 }) {
   return (
@@ -21,6 +21,7 @@ export function AccentIcon({
         size === "lg" && "size-12",
         tone === "on-light" && "ring-1 ring-espresso/45",
         tone === "on-dark" && "ring-1 ring-ivory/50",
+        tone === "on-photo" && "text-ivory ring-1 ring-ivory",
         className
       )}
       aria-hidden

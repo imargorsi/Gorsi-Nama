@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb, pageBanner } from "@/components/page-breadcrumb";
 import { CommunityFeed } from "@/components/community/community-feed";
+import { isCommunityCategoryId } from "@/components/community/community-categories";
 
 export const metadata: Metadata = {
   title: "Community | Gorsi Nama",
@@ -9,9 +10,15 @@ export const metadata: Metadata = {
 
 export default async function CommunityPage({
   params,
+  searchParams,
 }: PageProps<"/[locale]/community">) {
   const { locale } = await params;
+  const { category } = await searchParams;
   setRequestLocale(locale);
+
+  const initialCategory = Array.isArray(category)
+    ? category[0]
+    : category;
 
   return (
     <>
@@ -22,7 +29,12 @@ export default async function CommunityPage({
         description="Share stories, questions, and photographs with the Gorsi community."
       />
       <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
-        <CommunityFeed showFilters />
+        <CommunityFeed
+          showFilters
+          initialCategory={
+            isCommunityCategoryId(initialCategory) ? initialCategory : undefined
+          }
+        />
       </div>
     </>
   );

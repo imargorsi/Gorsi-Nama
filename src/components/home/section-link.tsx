@@ -18,8 +18,7 @@ export function SectionLink({
       href={href}
       className={cn(
         buttonVariants({
-          className:
-            "h-11 w-full gap-2 bg-gold px-5 text-espresso hover:bg-gold/90 sm:w-auto",
+          className: "h-11 w-full gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90 sm:w-auto",
         }),
         className
       )}

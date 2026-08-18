@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { HeritageRule } from "@/components/heritage-ornaments";
 import { Stagger, StaggerItem } from "@/components/reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+const photoFrameClass =
+  "relative overflow-hidden rounded-lg bg-espresso ring-2 ring-gold";
 
 export function HistoryTeaser() {
   return (
@@ -20,8 +22,7 @@ export function HistoryTeaser() {
                 Where Tradition Meets Technology: Uniting the Gorsi Tribe Across
                 Generations
               </h2>
-              <HeritageRule className="mt-4" />
-              <p className="mt-6 text-sm leading-relaxed text-warm-gray sm:text-base">
+              <p className="mt-2 text-sm leading-relaxed text-warm-gray sm:text-base">
                 The Gujars belong to the north-western parts of India like
                 Gujarat, Rajasthan, Himachal Pradesh, Jammu &amp; Kashmir, Uttar
                 Pradesh, Uttranchal, Haryana, and Punjab. They are mostly
@@ -31,7 +32,7 @@ export function HistoryTeaser() {
             </div>
 
             <div className="mt-8 grid grid-cols-2 gap-4 md:mt-0">
-              <div className="relative aspect-square overflow-hidden bg-espresso">
+              <div className={cn(photoFrameClass, "aspect-square")}>
                 <Image
                   src="/history__image__3.jpg"
                   alt=""
@@ -40,7 +41,7 @@ export function HistoryTeaser() {
                   className="object-cover"
                 />
               </div>
-              <div className="relative aspect-square overflow-hidden bg-espresso">
+              <div className={cn(photoFrameClass, "aspect-square")}>
                 <Image
                   src="/history__image__4.jpg"
                   alt=""
@@ -53,13 +54,13 @@ export function HistoryTeaser() {
           </StaggerItem>
 
           <StaggerItem index={1} className="flex min-w-0 flex-col border-b border-espresso pb-8">
-            <div className="relative aspect-16/10 overflow-hidden bg-espresso">
+            <div className={cn(photoFrameClass, "aspect-16/10")}>
               <Image
-                src="/fortimage.jpg"
-                alt=""
+                src="/connecting-tech.png"
+                alt="Gorsi elders and younger members gathered on a traditional rug, sharing a laptop and tablets"
                 fill
                 sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
+                className="object-cover object-[center_45%]"
               />
             </div>
             <h3 className="mt-6 font-heading text-xl font-semibold tracking-tight text-espresso sm:text-2xl">
@@ -82,7 +83,7 @@ export function HistoryTeaser() {
               className={cn(
                 buttonVariants({
                   className:
-                    "mt-6 h-11 w-fit bg-gold px-6 text-espresso hover:bg-gold/90",
+                    "mt-6 h-11 w-fit bg-espresso px-6 text-ivory hover:bg-espresso/90",
                 })
               )}
             >

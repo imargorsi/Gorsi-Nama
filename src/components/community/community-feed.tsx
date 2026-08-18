@@ -35,11 +35,13 @@ export function CommunityFeed({
   limit,
   showComposer,
   showFilters = false,
+  initialCategory,
 }: {
   layout?: "feed" | "slider";
   showComposer?: boolean;
   showFilters?: boolean;
   limit?: number;
+  initialCategory?: CommunityCategoryId;
 }) {
   const locale = useLocale();
   const { isLoaded, isSignedIn } = useAuth();
@@ -48,7 +50,7 @@ export function CommunityFeed({
   const [activeTag, setActiveTag] = useState<string>();
   const [activeCategory, setActiveCategory] = useState<
     CommunityCategoryId | undefined
-  >();
+  >(initialCategory);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
 

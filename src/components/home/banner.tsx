@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { ArrowRight, Feather } from "lucide-react";
@@ -13,11 +11,11 @@ export function Banner() {
     <section id="your-story-belongs-here" className="relative isolate">
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <Image
-          src="/fortimage.jpg"
+          src="/footer-cta.png"
           alt=""
           fill
           sizes="100vw"
-          className="object-cover object-[center_35%]"
+          className="object-cover object-[center_45%]"
         />
         <div className="absolute inset-0 bg-linear-to-r from-espresso/96 via-espresso/84 to-espresso/50" />
         <div className="absolute inset-0 bg-gold/8" />
@@ -53,7 +51,7 @@ export function Banner() {
               className={cn(
                 buttonVariants({
                   className:
-                    "h-12 w-full gap-2.5 bg-gold px-6 text-base font-semibold text-espresso hover:bg-gold/90 sm:h-14 sm:w-auto sm:px-7",
+                    "h-12 w-full gap-2.5 bg-espresso px-6 text-base font-semibold text-ivory ring-1 ring-ivory/35 hover:bg-espresso/90 sm:h-14 sm:w-auto sm:px-7",
                 })
               )}
             >

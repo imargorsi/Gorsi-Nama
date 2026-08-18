@@ -1,9 +1,5 @@
-import {
-  MembershipCard,
-  MembershipCardGrid,
-} from "@/components/members/membership-card";
-import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
-import { placeholderMembers } from "@/data/members";
+import { Reveal } from "@/components/reveal";
+import { MemberSlider } from "@/components/members/member-slider";
 import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
 
@@ -24,25 +20,9 @@ export function CommunityPreview() {
           </SectionHeading>
         </Reveal>
 
-        <Stagger>
-          <MembershipCardGrid className="mt-10 lg:grid-cols-4">
-            {placeholderMembers.slice(0, 4).map((member, index) => (
-              <StaggerItem
-                key={member.id}
-                index={index}
-                isHoverable
-                className="h-full"
-              >
-                <MembershipCard
-                  name={member.name}
-                  membershipId={member.membershipId}
-                  image={member.image}
-                  href={`/member/${member.id}`}
-                />
-              </StaggerItem>
-            ))}
-          </MembershipCardGrid>
-        </Stagger>
+        <div className="mt-10">
+          <MemberSlider />
+        </div>
       </div>
     </section>
   );

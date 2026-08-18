@@ -5,19 +5,22 @@ export const libraryCategories = [
     id: "books",
     title: "Books",
     eyebrow: "Publications",
-    description: "Books and publications related to Gorsi history and heritage.",
-    cta: "Browse Books",
-    image: "/book.jpg",
+    description:
+      "Bound volumes on Gorsi history, genealogy, and the life of the tribe.",
+    cta: "Browse books",
+    image: "/icon-library-1.png",
+    imageAlt: "Heritage still-life of books, a scroll, and a quill",
     emptyMessage: "No books yet — check back soon.",
     icon: BookMarked,
   },
   {
     id: "documents",
     title: "Documents",
-    eyebrow: "Records & PDFs",
-    description: "PDFs, letters, and historical papers from the Gorsi archive.",
-    cta: "Browse Documents",
-    image: "/writing.jpg",
+    eyebrow: "Records",
+    description: "Letters, papers, and PDFs kept from the family archive.",
+    cta: "Browse records",
+    image: "/icon-library-2.png",
+    imageAlt: "Heritage still-life of maps, sealed letters, and archive papers",
     emptyMessage: "No documents yet — check back soon.",
     icon: FileText,
   },
@@ -25,9 +28,11 @@ export const libraryCategories = [
     id: "images",
     title: "Images",
     eyebrow: "Photographs",
-    description: "Photographs and visual records that preserve our shared memory.",
-    cta: "Browse Images",
-    image: "/history__image__4.jpg",
+    description:
+      "Photographs and visual records of people, places, and occasions.",
+    cta: "Browse photographs",
+    image: "/icon-library-3.png",
+    imageAlt: "Heritage still-life of a camera, photo albums, and prints",
     emptyMessage: "No images yet — check back soon.",
     icon: ImageIcon,
   },
@@ -38,11 +43,13 @@ export const libraryCategories = [
   description: string;
   cta: string;
   image: string;
+  imageAlt: string;
   emptyMessage: string;
   icon: LucideIcon;
 }[];
 
 export type LibraryCategoryId = (typeof libraryCategories)[number]["id"];
+export type LibraryCategory = (typeof libraryCategories)[number];
 
 export function isLibraryCategoryId(value: string): value is LibraryCategoryId {
   return libraryCategories.some((category) => category.id === value);

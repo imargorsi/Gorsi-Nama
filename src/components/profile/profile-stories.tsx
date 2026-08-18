@@ -15,7 +15,7 @@ export function ProfileStories({ userId }: { userId: string }) {
   const mine = stories.filter((story) => story.authorId === userId);
 
   return (
-    <section>
+    <section id="your-stories">
       <SectionHeading
         eyebrow="Your writing"
         title="Your stories"

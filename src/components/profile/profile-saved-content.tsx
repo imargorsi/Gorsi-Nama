@@ -25,7 +25,7 @@ const slots = [
 
 export function ProfileSavedContent() {
   return (
-    <section>
+    <section id="saved-content">
       <SectionHeading
         eyebrow="Archive"
         title="Saved content"
