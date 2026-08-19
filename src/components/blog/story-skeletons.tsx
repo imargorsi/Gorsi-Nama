@@ -164,8 +164,9 @@ export function ProfileStoriesSkeleton() {
             <Skeleton className="h-4 w-1/4" />
           </div>
           <div className="flex gap-3">
-            <Skeleton className="h-4 w-10" />
-            <Skeleton className="h-4 w-10" />
+            <Skeleton className="h-4 w-12" />
+            <Skeleton className="h-4 w-12" />
+            <Skeleton className="h-4 w-14" />
           </div>
         </li>
       ))}

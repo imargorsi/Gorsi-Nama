@@ -6,6 +6,14 @@ import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+function isExternalHref(href: string) {
+  return (
+    href.startsWith("mailto:") ||
+    href.startsWith("http://") ||
+    href.startsWith("https:")
+  );
+}
+
 export function CallToAction({
   eyebrow = "Contribute",
   title,
@@ -19,6 +27,16 @@ export function CallToAction({
   buttonText: string;
   href: string;
 }) {
+  const className = cn(
+    buttonVariants({ size: "lg", className: "w-full shrink-0 sm:w-auto" })
+  );
+  const label = (
+    <>
+      {buttonText}
+      <ArrowRight className="size-4 rtl:rotate-180" />
+    </>
+  );
+
   return (
     <section className="site-shell px-4 pt-4 pb-16 sm:px-0 sm:pb-20">
       <Reveal>
@@ -38,15 +56,15 @@ export function CallToAction({
                 {text}
               </Text>
             </div>
-            <Link
-              href={href}
-              className={cn(
-                buttonVariants({ size: "lg", className: "w-full shrink-0 sm:w-auto" })
-              )}
-            >
-              {buttonText}
-              <ArrowRight className="size-4 rtl:rotate-180" />
-            </Link>
+            {isExternalHref(href) ? (
+              <a href={href} className={className}>
+                {label}
+              </a>
+            ) : (
+              <Link href={href} className={className}>
+                {label}
+              </Link>
+            )}
           </div>
         </div>
       </Reveal>

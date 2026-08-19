@@ -19,6 +19,9 @@ export const communityCategories = [
   icon: LucideIcon;
 }[];
 
+export const communityDescription =
+  "A shared space for Gorsi families to exchange memories, ask questions, share photographs, and stay connected through the stories that bring us together.";
+
 export type CommunityCategoryId = (typeof communityCategories)[number]["id"];
 
 export const communityCategoryIds = communityCategories.map(

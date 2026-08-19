@@ -19,7 +19,7 @@ function StoryJoinCta() {
     <CallToAction
       eyebrow="From Our People"
       title="Share a Story From Your Family"
-      text="Title, excerpt, photographs, and the chapter of Gorsi life you carry — published to this archive."
+      text="Share the stories, memories, photographs, and family history that have shaped your Gorsi heritage for generations to come."
       buttonText="Write a story"
       href="/blog/write"
     />

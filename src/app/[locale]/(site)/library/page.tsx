@@ -29,7 +29,7 @@ export default async function LibraryPage({
       <PageBreadcrumb
         eyebrow="The Archive"
         title="The Gorsi Library"
-        description="One archive, two formats. Documents are PDFs — letters, records, and scanned papers. Photographs are JPEG, PNG, and WebP. Archive keepers add holdings; everyone can browse."
+        description="A growing record of family documents, photographs, land records, letters, and other materials that preserve the history and memory of the Gorsi people."
       />
 
       <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
@@ -39,9 +39,9 @@ export default async function LibraryPage({
       <CallToAction
         eyebrow="The Archive"
         title="Help Grow the Archive"
-        text="Official holdings are added by archive keepers. Family memories and photographs you want to share belong in Stories."
-        buttonText="Write a story"
-        href="/blog/write"
+        text="Have family records, photographs, or historical documents that preserve our story? Share them with Gorsi Nama and help safeguard our heritage for future generations."
+        buttonText="Email us"
+        href="mailto:hey@argorsi.com"
       />
     </>
   );

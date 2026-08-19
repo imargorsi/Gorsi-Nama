@@ -25,7 +25,7 @@ export default async function PeoplePage({
           { label: "Home", href: "/" },
           { label: "Famous Gorsi Personalities" },
         ]}
-        description="A first look at the notable-people directory. These cards are placeholders until verified biographies live in the archive."
+        description="Discover the individuals whose lives, work, and contributions have shaped the Gorsi story and left a lasting mark on our shared heritage."
       />
 
       <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
@@ -49,9 +49,9 @@ export default async function PeoplePage({
       <CallToAction
         eyebrow="The Archive"
         title="Help Complete This Directory"
-        text="If you know of notable Gorsi personalities who belong here, join Gorsi Nama and help us add them."
-        buttonText="Join Gorsi Nama"
-        href="/auth/signup"
+        text="Know a notable Gorsi personality who should be remembered? Share their story and help us build a more complete record of our people and heritage."
+        buttonText="Email us"
+        href="mailto:hey@argorsi.com"
       />
     </>
   );

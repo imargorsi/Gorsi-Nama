@@ -6,8 +6,8 @@ import { motion } from "motion/react";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import { CommunityLinkPreview } from "@/components/community/community-link-preview";
-import { CommunityPhoto } from "@/components/community/community-photo";
 import { CommunityPostBody } from "@/components/community/community-post-body";
+import { CommunityPostMedia } from "@/components/community/community-post-media";
 import { getCommunityCategory } from "@/components/community/community-categories";
 import { formatTag } from "@/lib/parse-tags";
 import {
@@ -64,8 +64,10 @@ export function CommunityPostCard({
       id={post.id}
       className={cn(
         surfaceClass,
-        "flex min-w-0 flex-col p-3.5 sm:p-4",
-        compact && "h-full"
+        "flex min-w-0 flex-col",
+        compact
+          ? "h-full p-3.5 sm:p-4"
+          : "p-5 transition-shadow hover:shadow-lg sm:px-6 sm:py-5"
       )}
     >
       <header className="flex min-w-0 items-start gap-3">
@@ -76,25 +78,37 @@ export function CommunityPostCard({
           </Heading>
           <Text variant="meta" className="mt-0.5 truncate">
             {formatRelativeTime(post.createdAt)}
-            <span className="mx-1.5">·</span>
-            <span className="inline-flex items-center gap-1">
-              <CategoryIcon
-                className="size-3 text-gold"
-                strokeWidth={1.75}
-              />
-              {category.label}
-            </span>
+            {compact ? (
+              <>
+                <span className="mx-1.5">·</span>
+                <span className="inline-flex items-center gap-1">
+                  <CategoryIcon className="size-3 text-gold" strokeWidth={1.75} />
+                  {category.label}
+                </span>
+              </>
+            ) : null}
           </Text>
         </div>
+        {compact ? null : (
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-espresso/15 px-2.5 py-1 text-xs font-medium text-espresso">
+            <CategoryIcon className="size-3 text-gold" strokeWidth={1.75} />
+            {category.label}
+          </span>
+        )}
       </header>
 
-      <div className="mt-2.5 flex min-h-0 min-w-0 flex-1 flex-col">
+      <div className={cn("flex min-h-0 min-w-0 flex-1 flex-col", compact ? "mt-2.5" : "mt-3.5")}>
         <div className="min-w-0">
           <CommunityPostBody body={post.body} compact={compact} />
         </div>
 
         {compact || visibleTags.length > 0 ? (
-          <ul className="mt-2.5 flex h-7 flex-wrap gap-1.5 overflow-hidden">
+          <ul
+            className={cn(
+              "flex flex-wrap gap-1.5",
+              compact ? "mt-2.5 h-7 overflow-hidden" : "mt-3"
+            )}
+          >
             {visibleTags.map((tag) => (
               <li key={tag}>
                 <button
@@ -115,48 +129,55 @@ export function CommunityPostCard({
         ) : null}
 
         {linkUrl && !compact ? (
-          <div className="mt-3 min-w-0">
+          <div className="mt-3.5 min-w-0">
             <CommunityLinkPreview url={linkUrl} />
           </div>
         ) : null}
 
-        {images.length > 0 ? (
-          <PostImages images={images} compact={compact} />
-        ) : compact ? (
-          <div className="mt-3 aspect-4/3 rounded-lg bg-espresso/8" />
+        {images.length > 0 || compact ? (
+          <CommunityPostMedia images={images} compact={compact} />
         ) : null}
 
-        <footer className="-ms-2 mt-auto flex flex-wrap items-center gap-1 pt-2">
-          <PostAction
-            label={isLiked ? "Unlike" : "Like"}
-            count={likeCount}
-            isActive={isLiked}
-            onClick={onLike}
-          >
-            <Heart
-              className="size-4"
-              strokeWidth={1.75}
-              fill={isLiked ? "currentColor" : "none"}
-            />
-          </PostAction>
-          <PostAction
-            label={isSaved ? "Unsave" : "Save"}
-            count={saveCount}
-            isActive={isSaved}
-            onClick={onSave}
-          >
-            <Bookmark
-              className="size-4"
-              strokeWidth={1.75}
-              fill={isSaved ? "currentColor" : "none"}
-            />
-          </PostAction>
-          <PostAction label="Share" onClick={onShare}>
-            <Share2 className="size-4" strokeWidth={1.75} />
-            Share
-          </PostAction>
+        <footer
+          className={cn(
+            "flex flex-wrap items-center",
+            compact
+              ? "-ms-2 mt-auto gap-1 pt-2"
+              : "mt-4 justify-between gap-2 border-t border-espresso/10 pt-2.5"
+          )}
+        >
+          <div className={cn("flex flex-wrap items-center gap-1", !compact && "-ms-2")}>
+            <PostAction
+              label={isLiked ? "Unlike" : "Like"}
+              count={likeCount}
+              isActive={isLiked}
+              onClick={onLike}
+            >
+              <Heart
+                className="size-4"
+                strokeWidth={1.75}
+                fill={isLiked ? "currentColor" : "none"}
+              />
+            </PostAction>
+            <PostAction
+              label={isSaved ? "Unsave" : "Save"}
+              count={saveCount}
+              isActive={isSaved}
+              onClick={onSave}
+            >
+              <Bookmark
+                className="size-4"
+                strokeWidth={1.75}
+                fill={isSaved ? "currentColor" : "none"}
+              />
+            </PostAction>
+            <PostAction label="Share" onClick={onShare}>
+              <Share2 className="size-4" strokeWidth={1.75} />
+              Share
+            </PostAction>
+          </div>
           {canManage && !compact && onEdit && onDelete ? (
-            <>
+            <div className="flex items-center gap-1">
               <PostAction label="Edit" onClick={onEdit}>
                 <Pencil className="size-4" strokeWidth={1.75} />
                 Edit
@@ -165,49 +186,11 @@ export function CommunityPostCard({
                 <Trash2 className="size-4" strokeWidth={1.75} />
                 Delete
               </PostAction>
-            </>
+            </div>
           ) : null}
         </footer>
       </div>
     </article>
-  );
-}
-
-function PostImages({
-  images,
-  compact,
-}: {
-  images: string[];
-  compact: boolean;
-}) {
-  if (images.length === 1) {
-    return (
-      <CommunityPhoto
-        src={images[0]!}
-        sizes="(min-width: 768px) 40vw, 100vw"
-        variant={compact ? "compact" : "post"}
-        className="mt-3"
-      />
-    );
-  }
-
-  return (
-    <div
-      className={cn(
-        "mt-3 grid gap-0.5 overflow-hidden rounded-lg",
-        images.length === 2 ? "grid-cols-2" : "grid-cols-3"
-      )}
-    >
-      {images.slice(0, 3).map((src) => (
-        <CommunityPhoto
-          key={src}
-          src={src}
-          sizes="(min-width: 768px) 20vw, 33vw"
-          variant="tile"
-          className="rounded-none"
-        />
-      ))}
-    </div>
   );
 }
 

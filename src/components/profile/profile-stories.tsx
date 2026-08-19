@@ -4,6 +4,7 @@ import { PenLine } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { EmptyWell } from "@/components/empty-well";
 import { getBlogCategory } from "@/components/blog/blog-categories";
+import { StoryRowActions } from "@/components/blog/story-actions";
 import { useMyStories } from "@/components/blog/use-stories";
 import { ProfileStoriesSkeleton } from "@/components/blog/story-skeletons";
 import { SectionHeading } from "@/components/home/section-heading";
@@ -91,22 +92,7 @@ export function ProfileStories({
                   {story.status === "publish" ? "Published" : "Draft"}
                 </Text>
               </div>
-              <div className="flex gap-2">
-                {story.status === "publish" ? (
-                  <Link
-                    href={`/blog/${story.slug}`}
-                    className={cn(buttonVariants({ variant: "link" }), "text-gold")}
-                  >
-                    View
-                  </Link>
-                ) : null}
-                <Link
-                  href={`/blog/${story.slug}/edit`}
-                  className={buttonVariants({ variant: "link" })}
-                >
-                  Edit
-                </Link>
-              </div>
+              <StoryRowActions story={story} />
             </li>
           ))}
         </ul>

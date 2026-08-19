@@ -31,7 +31,7 @@ export default async function HistoryPage({
       <CallToAction
         eyebrow="Our Chronicle"
         title="Help Grow This Chronicle"
-        text="Family records, elders' accounts, photographs, and land documents can fill the chapters still waiting to be discovered."
+        text="Family records, elders’ accounts, photographs, and land documents can uncover chapters that might otherwise fade with time."
         buttonText="Share a story"
         href="/blog/write"
       />

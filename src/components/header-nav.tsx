@@ -1,24 +1,31 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ChevronDown } from "lucide-react";
+import {
+  BookOpen,
+  Landmark,
+  Library,
+  MessagesSquare,
+  UserRound,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { HeaderMenu } from "@/components/header-menu";
 import { cn } from "@/lib/utils";
 
-type NavItem = { key: string; href: string };
+type NavItem = { key: string; href: string; icon: LucideIcon };
 
 const exploreLinks: NavItem[] = [
-  { key: "history", href: "/history" },
-  { key: "stories", href: "/blog" },
-  { key: "people", href: "/people" },
-  { key: "library", href: "/library" },
+  { key: "history", href: "/history", icon: Landmark },
+  { key: "stories", href: "/blog", icon: BookOpen },
+  { key: "people", href: "/people", icon: UserRound },
+  { key: "library", href: "/library", icon: Library },
 ];
 
 const communityLinks: NavItem[] = [
-  { key: "members", href: "/member" },
-  { key: "communityFeed", href: "/community" },
+  { key: "members", href: "/member", icon: Users },
+  { key: "community", href: "/community", icon: MessagesSquare },
 ];
 
 function isActivePath(pathname: string, href: string) {
@@ -30,32 +37,27 @@ function HeaderLink({
   children,
   onNavigate,
   variant = "bar",
+  icon: Icon,
 }: {
   href: string;
   children: ReactNode;
   onNavigate?: () => void;
-  variant?: "bar" | "menu" | "sheet";
+  variant?: "bar" | "sheet";
+  icon: LucideIcon;
 }) {
   const pathname = usePathname();
   const isActive = isActivePath(pathname, href);
 
   const classes = cn(
-    "font-heading text-sm tracking-wide whitespace-nowrap transition-colors",
+    "inline-flex items-center gap-1.5 font-heading text-sm font-medium tracking-wide whitespace-nowrap transition-colors",
     variant === "bar" &&
       cn(
-        "relative inline-flex h-full items-center py-1 font-medium after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-gold after:transition-transform hover:after:scale-x-100",
+        "relative h-full py-1 after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-gold after:transition-transform hover:after:scale-x-100",
         isActive && "text-gold after:scale-x-100",
         !isActive && "text-ivory/70 hover:text-gold"
       ),
-    variant === "menu" &&
-      cn(
-        "flex w-full items-center justify-between px-3.5 py-2.5 text-start font-medium",
-        isActive
-          ? "text-gold"
-          : "text-foreground hover:bg-espresso/5 hover:text-gold"
-      ),
     variant === "sheet" &&
-      cn("font-medium", isActive ? "text-gold" : "text-ivory/70 hover:text-gold")
+      cn("min-h-11", isActive ? "text-gold" : "text-ivory/70 hover:text-gold")
   );
 
   return (
@@ -63,61 +65,14 @@ function HeaderLink({
       href={href}
       onClick={onNavigate}
       className={classes}
-      role={variant === "menu" ? "menuitem" : undefined}
+      aria-current={isActive ? "page" : undefined}
     >
+      <Icon
+        className={cn("size-3.5 shrink-0", isActive ? "text-gold" : "text-gold/80")}
+        strokeWidth={1.75}
+      />
       {children}
     </Link>
-  );
-}
-
-function CommunityMenu({
-  onNavigate,
-}: {
-  onNavigate?: () => void;
-}) {
-  const t = useTranslations("Nav");
-  const pathname = usePathname();
-  const isActive = communityLinks.some((link) =>
-    isActivePath(pathname, link.href)
-  );
-
-  return (
-    <HeaderMenu
-      align="start"
-      trigger={({ open, menuId }) => (
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-haspopup="menu"
-          aria-controls={menuId}
-          className={cn(
-            "relative inline-flex h-full items-center gap-1 py-1 font-heading text-sm font-medium tracking-wide whitespace-nowrap transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-gold after:transition-transform hover:after:scale-x-100",
-            isActive || open
-              ? "text-gold after:scale-x-100"
-              : "text-ivory/70 hover:text-gold"
-          )}
-        >
-          {t("community")}
-          <ChevronDown
-            className={cn(
-              "size-3.5 opacity-70 transition-transform duration-200",
-              open && "rotate-180"
-            )}
-          />
-        </button>
-      )}
-    >
-      {communityLinks.map((link) => (
-        <HeaderLink
-          key={link.key}
-          href={link.href}
-          onNavigate={onNavigate}
-          variant="menu"
-        >
-          {t(link.key)}
-        </HeaderLink>
-      ))}
-    </HeaderMenu>
   );
 }
 
@@ -143,6 +98,7 @@ function NavGroup({
           href={link.href}
           onNavigate={onNavigate}
           variant="sheet"
+          icon={link.icon}
         >
           {t(link.key)}
         </HeaderLink>
@@ -168,23 +124,35 @@ export function NavLinks({
           links={exploreLinks}
           onNavigate={onNavigate}
         />
-        <NavGroup
-          titleKey="community"
-          links={communityLinks}
-          onNavigate={onNavigate}
-        />
+        <div className="flex flex-col gap-3">
+          {communityLinks.map((link) => (
+            <HeaderLink
+              key={link.key}
+              href={link.href}
+              onNavigate={onNavigate}
+              variant="sheet"
+              icon={link.icon}
+            >
+              {t(link.key)}
+            </HeaderLink>
+          ))}
+        </div>
       </>
     );
   }
 
   return (
-    <div className="flex h-full items-center gap-6 xl:gap-8">
-      {exploreLinks.map((link) => (
-        <HeaderLink key={link.key} href={link.href} onNavigate={onNavigate}>
+    <div className="flex h-full items-center gap-4 lg:gap-5 xl:gap-7">
+      {[...exploreLinks, ...communityLinks].map((link) => (
+        <HeaderLink
+          key={link.key}
+          href={link.href}
+          onNavigate={onNavigate}
+          icon={link.icon}
+        >
           {t(link.key)}
         </HeaderLink>
       ))}
-      <CommunityMenu onNavigate={onNavigate} />
     </div>
   );
 }

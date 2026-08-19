@@ -94,7 +94,7 @@ export const communityPosts: CommunityPost[] = [
     categoryId: "places-communities",
     body: "The evening bazaar in our town still smells of fresh bread and woodsmoke. I walk it whenever I am home, and it feels like the same street my uncles knew.",
     tags: ["VillageLife", "Punjab", "Memories"],
-    images: ["/fortimage.jpg"],
+    images: ["/fortimage.jpg", "/history__image__4.jpg"],
     likeCount: 27,
     saveCount: 9,
   },

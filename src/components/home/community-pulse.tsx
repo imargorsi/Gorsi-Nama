@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
+import { communityDescription } from "@/components/community/community-categories";
 import { CommunityFeed } from "@/components/community/community-feed";
 
 export function CommunityPulse() {
@@ -14,7 +15,7 @@ export function CommunityPulse() {
           <SectionHeading
             eyebrow="Community Pulse"
             title="What's Happening in Our Community"
-            description="Share stories, ideas and moments that matter to our people."
+            description={communityDescription}
           >
             <SectionLink href="/community">Explore Community</SectionLink>
           </SectionHeading>

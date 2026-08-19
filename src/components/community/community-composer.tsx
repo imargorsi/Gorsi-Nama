@@ -1,32 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { ImageIcon, Link2, X } from "lucide-react";
-import { motion } from "motion/react";
-import { useUser } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { ImageIcon, PenLine } from "lucide-react";
 import { CommunityAvatar } from "@/components/community/community-avatar";
-import { ComposerIcon } from "@/components/community/community-composer-toolbar";
-import {
-  ComposerLinkField,
-  ComposerPhotoPreview,
-} from "@/components/community/community-composer-fields";
+import { CommunityLinkPreview } from "@/components/community/community-link-preview";
+import { ComposerPhotoPreview } from "@/components/community/community-composer-fields";
 import { communityCategories } from "@/components/community/community-categories";
-import {
-  communityPostSchema,
-  type CommunityPostValues,
-} from "@/components/community/community.schemas";
-import { FieldError, nativeSelectClassName } from "@/components/form-field";
-import { useUploadPhoto } from "@/components/uploads/use-upload-photo";
-import type { CommunityPost } from "@/data/community-posts";
+import { useCommunityComposer } from "@/components/community/use-community-composer";
+import { FormField, nativeSelectClassName } from "@/components/form-field";
 import { surfaceClass } from "@/components/surface";
-import { Heading, Text } from "@/components/typography";
-import { motionEase } from "@/components/reveal";
+import { Text } from "@/components/typography";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import type { CommunityPost } from "@/data/community-posts";
 import { maxImageUploadMb } from "@/lib/storage/upload.schemas";
 import { cn } from "@/lib/utils";
 
@@ -34,228 +28,184 @@ export function CommunityComposer({
   post,
   onSave,
   onCancel,
+  showWriteButton = true,
 }: {
   post?: CommunityPost;
   onSave: (post: CommunityPost) => void;
   onCancel?: () => void;
+  showWriteButton?: boolean;
 }) {
-  const { user } = useUser();
-  const isEdit = Boolean(post);
-  const [isOpen, setIsOpen] = useState(isEdit);
-  const [isLinkOpen, setIsLinkOpen] = useState(Boolean(post?.linkUrl));
-  const [keptImage, setKeptImage] = useState(post?.images[0]);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const photo = useUploadPhoto();
-
+  const composer = useCommunityComposer({ post, onSave, onCancel });
   const {
     register,
     handleSubmit,
-    reset,
-    setValue,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm<CommunityPostValues>({
-    resolver: zodResolver(communityPostSchema),
-    defaultValues: {
-      body: post?.body ?? "",
-      categoryId: post?.categoryId ?? "our-stories",
-      linkUrl: post?.linkUrl ?? "",
-    },
-  });
+    formState: { errors },
+  } = composer.form;
 
-  const bodyRegister = register("body");
-  const linkUrl = watch("linkUrl");
-  const displayName = post?.authorName || user?.fullName || "Member";
-  const photoPreview = photo.photoPreview || photo.photoUrl || keptImage;
-  const isBusy = isSubmitting || photo.isUploading;
-
-  useEffect(() => {
-    if (isOpen) textareaRef.current?.focus();
-  }, [isOpen]);
-
-  function closeComposer() {
-    reset();
-    photo.clearPhoto();
-    setKeptImage(undefined);
-    setIsLinkOpen(false);
-    setIsOpen(false);
-    onCancel?.();
-  }
-
-  function onSubmit(values: CommunityPostValues) {
-    if (!isEdit && !user?.id) return;
-
-    onSave({
-      id: post?.id ?? `draft-${Date.now()}`,
-      authorId: post ? post.authorId : user?.id,
-      authorName: post ? post.authorName : displayName,
-      createdAt: post?.createdAt ?? new Date().toISOString(),
-      categoryId: values.categoryId,
-      body: values.body,
-      tags: post?.tags ?? [],
-      images: photo.photoUrl ? [photo.photoUrl] : keptImage ? [keptImage] : [],
-      likeCount: post?.likeCount ?? 0,
-      saveCount: post?.saveCount ?? 0,
-      linkUrl: values.linkUrl || undefined,
-    });
-    closeComposer();
-    toast.message(
-      isEdit
-        ? "This post is updated on this device for now. Saving to the community feed is next."
-        : "Your post is on this page for now. Saving to the community feed is next."
-    );
-  }
-
-  if (!isOpen) {
-    return (
-      <motion.button
+  return (
+    <>
+      <button
         type="button"
-        onClick={() => setIsOpen(true)}
-        whileHover={{ y: -2, transition: { duration: 0.2, ease: motionEase } }}
-        whileTap={{ scale: 0.99 }}
+        disabled={composer.isEdit}
+        aria-haspopup="dialog"
+        aria-expanded={composer.open}
+        aria-label="Write a post"
+        onClick={composer.openCreate}
         className={cn(
           surfaceClass,
-          "flex min-h-14 w-full items-center gap-3 px-4 py-3 text-start sm:px-5"
+          "flex w-full cursor-pointer gap-3 p-5 text-start transition-shadow hover:shadow-lg sm:px-6",
+          showWriteButton
+            ? "flex-col sm:flex-row sm:items-center sm:gap-4"
+            : "flex-row items-center",
+          composer.isEdit && "pointer-events-none opacity-70"
         )}
       >
         <CommunityAvatar
-          name={displayName}
-          imageUrl={user?.imageUrl}
+          name={composer.displayName}
+          imageUrl={composer.imageUrl}
           size="lg"
         />
-        <Text as="span" variant="muted" className="min-w-0">
-          Share something with the Gorsi community...
+        <Text as="span" variant="small" className="min-w-0 flex-1">
+          Share a memory, a question, or a photograph with the Gorsi community.
         </Text>
-      </motion.button>
-    );
-  }
-
-  return (
-    <motion.form
-      onSubmit={handleSubmit(onSubmit)}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.28, ease: motionEase }}
-      className={cn(surfaceClass, "p-3.5 sm:p-4")}
-    >
-      <div className="flex items-start gap-3">
-        <CommunityAvatar
-          name={displayName}
-          imageUrl={isEdit ? undefined : user?.imageUrl}
-          size="lg"
-        />
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <Heading as="p" variant="card" className="text-base sm:text-base">
-              {displayName}
-            </Heading>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={closeComposer}
-              aria-label="Close composer"
-            >
-              <X className="size-4" />
-            </Button>
-          </div>
-          <Label htmlFor="community-body" className="sr-only">
-            Your post
-          </Label>
-          <Textarea
-            {...bodyRegister}
-            id="community-body"
-            ref={(element) => {
-              bodyRegister.ref(element);
-              textareaRef.current = element;
-            }}
-            rows={3}
-            placeholder="Write your story, memory, thought or question."
-            className="mt-1 min-h-20 resize-none border-0 bg-transparent px-0 shadow-none focus-visible:ring-0"
-            aria-invalid={Boolean(errors.body)}
-          />
-          {errors.body ? <FieldError>{errors.body.message}</FieldError> : null}
-          {photoPreview ? (
-            <ComposerPhotoPreview
-              previewUrl={photoPreview}
-              isUploading={photo.isUploading}
-              onRemove={() => {
-                photo.clearPhoto();
-                setKeptImage(undefined);
-              }}
-            />
-          ) : null}
-          {isLinkOpen || linkUrl ? (
-            <ComposerLinkField
-              register={register}
-              setValue={setValue}
-              linkUrl={linkUrl}
-              errorMessage={errors.linkUrl?.message}
-              onClose={() => setIsLinkOpen(false)}
-            />
-          ) : null}
-        </div>
-      </div>
-
-      <div className="mt-3 flex flex-col gap-3 border-t border-espresso/10 pt-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center">
-          <ComposerIcon
-            label="Photo"
-            isDisabled={photo.isUploading}
-            isActive={Boolean(photoPreview)}
-            onClick={photo.openPicker}
-          >
-            <ImageIcon className="size-4" />
-          </ComposerIcon>
-          <ComposerIcon
-            label="Link"
-            isActive={isLinkOpen || Boolean(linkUrl)}
-            onClick={() => {
-              setIsLinkOpen(true);
-              requestAnimationFrame(() =>
-                document.getElementById("community-link")?.focus()
-              );
-            }}
-          >
-            <Link2 className="size-4" />
-          </ComposerIcon>
-          <input
-            {...photo.fileInputProps}
-            aria-describedby="community-photo-hint"
-          />
-          <span id="community-photo-hint" className="sr-only">
-            JPEG, PNG, WebP, or GIF. Max {maxImageUploadMb} MB.
+        {showWriteButton ? (
+          <span className={cn(buttonVariants(), "pointer-events-none w-full shrink-0 sm:w-auto")}>
+            <PenLine className="size-4" />
+            Write a post
           </span>
-        </div>
+        ) : null}
+      </button>
 
-        <div className="flex min-w-0 items-center gap-2">
-          <Label htmlFor="community-category" className="sr-only">
-            Category
-          </Label>
-          <select
-            id="community-category"
-            {...register("categoryId")}
-            className={cn(
-              nativeSelectClassName,
-              "min-w-0 flex-1 font-medium text-espresso sm:flex-none"
-            )}
+      <Dialog
+        open={composer.open}
+        onOpenChange={(next) => {
+          if (!next) composer.requestClose();
+        }}
+      >
+        <DialogContent
+          showCloseButton
+          overlayClassName="bg-espresso/55 backdrop-blur-none supports-backdrop-filter:backdrop-blur-none"
+          className="flex max-h-[90svh] flex-col gap-0 overflow-hidden bg-ivory p-0 shadow-[0_2px_6px_color-mix(in_srgb,var(--gorsi-espresso)_16%,transparent),0_24px_56px_color-mix(in_srgb,var(--gorsi-espresso)_28%,transparent)] ring-1 ring-espresso/12 sm:max-w-3xl lg:max-w-4xl"
+        >
+          <DialogHeader className="shrink-0 border-b border-espresso/10 px-6 pt-5 pe-14 pb-3 sm:px-8 sm:pt-6">
+            <p className="heritage-eyebrow">Community</p>
+            <DialogTitle className="mt-2 text-xl">
+              {composer.isEdit ? "Edit post" : "Write a post"}
+            </DialogTitle>
+            <DialogDescription>
+              A short note for the family to find. Add a photograph or a link if
+              you like.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form
+            onSubmit={handleSubmit(composer.onSubmit)}
+            className="flex min-h-0 flex-1 flex-col"
           >
-            {communityCategories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.label}
-              </option>
-            ))}
-          </select>
-          <Button
-            type="submit"
-            disabled={isBusy}
-            variant="gold"
-            className="shrink-0"
-          >
-            {isEdit ? "Save" : "Publish"}
-          </Button>
-        </div>
-      </div>
-    </motion.form>
+            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-4 sm:px-8">
+              <FormField
+                id="community-body"
+                label="Your post"
+                hint={`${composer.bodyValue.length}/2000`}
+                error={errors.body?.message}
+              >
+                <Textarea
+                  id="community-body"
+                  rows={4}
+                  autoFocus
+                  placeholder="Write your story, memory, thought, or question."
+                  className="min-h-28 resize-none"
+                  aria-invalid={Boolean(errors.body)}
+                  {...register("body")}
+                />
+              </FormField>
+
+              <FormField
+                id="community-photo"
+                label="Photograph"
+                hint={`Optional · max ${maxImageUploadMb} MB`}
+              >
+                {composer.photoPreview ? (
+                  <ComposerPhotoPreview
+                    previewUrl={composer.photoPreview}
+                    isUploading={composer.isUploading}
+                    onRemove={composer.onRemovePhoto}
+                  />
+                ) : (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full sm:w-auto"
+                    disabled={composer.isUploading}
+                    onClick={composer.photo.openPicker}
+                  >
+                    <ImageIcon className="size-4" />
+                    Add a photograph
+                  </Button>
+                )}
+                <input id="community-photo" {...composer.photo.fileInputProps} />
+              </FormField>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormField
+                  id="community-link"
+                  label="Link"
+                  hint="Optional"
+                  error={errors.linkUrl?.message}
+                >
+                  <Input
+                    id="community-link"
+                    type="url"
+                    placeholder="https://"
+                    aria-invalid={Boolean(errors.linkUrl)}
+                    {...register("linkUrl")}
+                  />
+                </FormField>
+                <FormField id="community-category" label="Category">
+                  <select
+                    id="community-category"
+                    {...register("categoryId")}
+                    className={nativeSelectClassName}
+                  >
+                    {communityCategories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </FormField>
+              </div>
+              {composer.linkUrl ? (
+                <CommunityLinkPreview url={composer.linkUrl} />
+              ) : null}
+            </div>
+
+            <DialogFooter className="mx-0 mb-0 rounded-b-xl border-espresso/10 bg-ivory px-6 py-3 sm:px-8">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={composer.isBusy}
+                onClick={composer.requestClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={composer.isBusy}
+                variant="gold"
+              >
+                {composer.isBusy
+                  ? composer.isEdit
+                    ? "Saving…"
+                    : "Publishing…"
+                  : composer.isEdit
+                    ? "Save"
+                    : "Publish"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
