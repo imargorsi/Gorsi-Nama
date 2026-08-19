@@ -3,6 +3,7 @@ import { Reveal } from "@/components/reveal";
 import { ArrowRight, Feather } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { HeritageKnot, HeritageRule } from "@/components/heritage-ornaments";
+import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -29,29 +30,30 @@ export function Banner() {
             <span className="heritage-eyebrow">Be Part of Our Journey</span>
           </p>
 
-          <h2 className="mt-5 max-w-3xl font-heading text-3xl font-semibold tracking-tight text-ivory sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+          <Heading as="h2" variant="h2" tone="onDark" className="mt-5 max-w-3xl">
             Help Write the Next
             <br />
             Chapter of Our Heritage
-          </h2>
+          </Heading>
 
           <div className="mt-6">
             <HeritageRule />
           </div>
 
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-ivory/80 sm:text-base">
+          <Text variant="muted" className="mt-6 max-w-2xl text-ivory/80">
             Gorsi Nama is more than a collection of stories — it&apos;s a living
             legacy. Share your memories and knowledge so the next generation
             inherits more than a name.
-          </p>
+          </Text>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href="/blog/write"
               className={cn(
                 buttonVariants({
+                  size: "lg",
                   className:
-                    "h-12 w-full gap-2.5 bg-espresso px-6 text-base font-semibold text-ivory ring-1 ring-ivory/35 hover:bg-espresso/90 sm:h-14 sm:w-auto sm:px-7",
+                    "w-full ring-1 ring-ivory/35 sm:h-14 sm:w-auto sm:px-7",
                 })
               )}
             >
@@ -63,9 +65,9 @@ export function Banner() {
               href="/auth/signup"
               className={cn(
                 buttonVariants({
-                  variant: "outline",
-                  className:
-                    "h-12 w-full gap-2.5 border-ivory/40 bg-transparent px-6 text-base font-semibold text-ivory hover:bg-ivory/10 hover:text-ivory sm:h-14 sm:w-auto sm:px-7",
+                  variant: "outlineLight",
+                  size: "lg",
+                  className: "w-full sm:h-14 sm:w-auto sm:px-7",
                 })
               )}
             >

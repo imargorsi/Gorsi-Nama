@@ -1,1 +1,2 @@
-export const surfaceClass = "rounded-xl border-0 bg-ivory shadow-md";
+/** Ivory card chrome. Prefer the `surface` Tailwind utility; this alias stays for existing imports. */
+export const surfaceClass = "surface";

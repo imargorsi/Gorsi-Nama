@@ -249,7 +249,7 @@ export function CommunityComposer({
           <Button
             type="submit"
             disabled={isBusy}
-            className="h-11 shrink-0 bg-gold px-5 text-espresso hover:bg-gold/90"
+            className="shrink-0 bg-gold text-espresso hover:bg-gold/90"
           >
             {isEdit ? "Save" : "Publish"}
           </Button>

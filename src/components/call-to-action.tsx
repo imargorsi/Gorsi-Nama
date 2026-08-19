@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { HeritageKnot, HeritagePatternBand, HeritageRule } from "@/components/heritage-ornaments";
 import { Reveal } from "@/components/reveal";
+import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -29,21 +30,18 @@ export function CallToAction({
                 <HeritageKnot />
                 <span className="heritage-eyebrow">{eyebrow}</span>
               </p>
-              <h2 className="mt-4 font-heading text-2xl font-semibold tracking-tight text-espresso sm:text-3xl lg:text-[2rem] lg:leading-tight">
+              <Heading as="h2" variant="h3" className="mt-4">
                 {title}
-              </h2>
+              </Heading>
               <HeritageRule className="mt-4" />
-              <p className="mt-4 text-sm leading-relaxed text-warm-gray sm:text-base">
+              <Text variant="muted" className="mt-4">
                 {text}
-              </p>
+              </Text>
             </div>
             <Link
               href={href}
               className={cn(
-                buttonVariants({
-                  className:
-                    "h-12 w-full shrink-0 gap-2 bg-espresso px-6 text-ivory hover:bg-espresso/90 sm:w-auto",
-                })
+                buttonVariants({ size: "lg", className: "w-full shrink-0 sm:w-auto" })
               )}
             >
               {buttonText}

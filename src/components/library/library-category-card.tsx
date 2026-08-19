@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 import type { LibraryCategory } from "@/components/library/library-categories";
 
@@ -31,12 +32,12 @@ export function LibraryCategoryCard({
 
       <div className="flex flex-1 flex-col px-4 pt-3 pb-4 sm:px-5">
         <p className="heritage-eyebrow">{category.eyebrow}</p>
-        <h3 className="mt-1.5 font-heading text-xl font-semibold tracking-tight text-espresso">
+        <Heading as="h3" variant="h4" className="mt-1.5">
           {category.title}
-        </h3>
-        <p className="mt-1.5 mb-4 text-sm leading-snug text-warm-gray">
+        </Heading>
+        <Text variant="small" className="mt-1.5 mb-4 leading-snug">
           {category.description}
-        </p>
+        </Text>
         <span className="mt-auto inline-flex items-center gap-2 border-t border-gold/20 pt-3 text-sm font-medium tracking-wide text-gold">
           {category.cta}
           <ArrowRight

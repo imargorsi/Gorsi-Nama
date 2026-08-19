@@ -7,6 +7,7 @@ import { getBlogCategory } from "@/components/blog/blog-categories";
 import { useMemberStories } from "@/components/blog/member-stories";
 import { SectionHeading } from "@/components/home/section-heading";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +28,7 @@ export function ProfileStories({
       <SectionHeading
         eyebrow="Your writing"
         title="Your Stories"
-        className="[&_h2]:text-2xl sm:[&_h2]:text-3xl lg:[&_h2]:text-3xl"
+        titleVariant="h3"
         description={
           mine.length === 0
             ? "Drafts and published stories you write will live here."
@@ -37,10 +38,7 @@ export function ProfileStories({
         <Link
           href="/blog/write"
           className={cn(
-            buttonVariants({
-              className:
-                "h-11 shrink-0 gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90",
-            })
+            buttonVariants({ className: "shrink-0" })
           )}
         >
           <PenLine className="size-4" />
@@ -56,13 +54,13 @@ export function ProfileStories({
           )}
         >
           <AccentIcon icon={PenLine} size="lg" />
-          <p className="font-heading text-lg font-semibold text-espresso">
+          <Heading as="p" variant="card">
             No Stories Yet
-          </p>
-          <p className="max-w-sm text-sm leading-relaxed text-warm-gray">
+          </Heading>
+          <Text variant="small" className="max-w-sm">
             {firstName ? `${firstName}, you` : "You"} have not written a story
             yet. Title, excerpt, and a photograph — then publish to Stories.
-          </p>
+          </Text>
         </div>
       ) : (
         <ul className="mt-6 flex flex-col gap-3">
@@ -75,9 +73,9 @@ export function ProfileStories({
               )}
             >
               <div className="min-w-0 flex-1">
-                <p className="font-heading text-lg font-semibold text-espresso">
+                <Heading as="p" variant="card">
                   {story.title}
-                </p>
+                </Heading>
                 <p className="mt-1 text-sm text-warm-gray">
                   {getBlogCategory(story.categoryId).label}
                   <span className="text-gold/50"> · </span>

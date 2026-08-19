@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { getBlogCategory } from "@/components/blog/blog-categories";
 import { surfaceClass } from "@/components/surface";
+import { Heading } from "@/components/typography";
 import { readingMinutes, type BlogPost } from "@/data/blog-posts";
 import { initialsFromName } from "@/lib/initials";
 
@@ -60,9 +61,9 @@ export function BlogCard({
         </span>
       </div>
       <div className="flex flex-1 flex-col gap-2.5 px-4 py-3 sm:px-5">
-        <h3 className="line-clamp-2 font-heading text-base font-semibold tracking-tight text-espresso sm:text-lg sm:leading-snug">
+        <Heading as="h3" variant="card" className="line-clamp-2">
           {post.title}
-        </h3>
+        </Heading>
         <PostMeta post={post} className="mt-auto" />
       </div>
     </Link>

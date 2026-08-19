@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { HeritageDiamond } from "@/components/heritage-ornaments";
 import { Reveal } from "@/components/reveal";
+import { Heading, Text } from "@/components/typography";
 import {
   formatChapterIndex,
   type ChronicleChapter as ChronicleChapterData,
@@ -19,9 +20,7 @@ function renderEmphasis(text: string): ReactNode {
 
 function Prose({ children }: { children: string }) {
   return (
-    <p className="text-sm leading-relaxed text-warm-gray sm:text-base">
-      {renderEmphasis(children)}
-    </p>
+    <Text variant="muted">{renderEmphasis(children)}</Text>
   );
 }
 
@@ -58,9 +57,9 @@ export function ChronicleChapter({
           {formatChapterIndex(chapter.number)}
         </p>
         <p className="heritage-eyebrow mt-3">{chapter.kicker}</p>
-        <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-espresso sm:text-3xl">
+        <Heading as="h2" variant="h3" className="mt-2">
           {chapter.title}
-        </h2>
+        </Heading>
 
         <div className="mt-6 flex flex-col gap-4">
           {chapter.paragraphs.map((paragraph) => (
@@ -82,10 +81,12 @@ export function ChronicleChapter({
               {chapter.list.map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-3 text-sm leading-relaxed text-warm-gray sm:text-base"
+                  className="flex items-start gap-3"
                 >
                   <HeritageDiamond className="mt-1.5 size-1.5 shrink-0" />
-                  <span>{item}</span>
+                  <Text as="span" variant="muted">
+                    {item}
+                  </Text>
                 </li>
               ))}
             </ul>
@@ -98,12 +99,9 @@ export function ChronicleChapter({
           {chapter.emphasized ? (
             <div className="mt-2 flex flex-col gap-1">
               {chapter.emphasized.map((line) => (
-                <p
-                  key={line}
-                  className="font-heading text-xl font-semibold tracking-tight text-espresso sm:text-2xl"
-                >
+                <Heading as="p" variant="h4" key={line}>
                   {line}
-                </p>
+                </Heading>
               ))}
             </div>
           ) : null}

@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useUploadPhoto } from "@/components/uploads/use-upload-photo";
 import { surfaceClass } from "@/components/surface";
+import { headingVariants } from "@/components/typography";
 import { excerptFromContent, type BlogPost } from "@/data/blog-posts";
 import { parseTags } from "@/lib/parse-tags";
 import { slugify, uniqueSlug } from "@/lib/slugify";
@@ -126,7 +127,10 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
             <Input
               id="story-title"
               {...register("title")}
-              className="h-auto min-h-12 border-0 bg-transparent px-0 font-heading text-3xl font-semibold tracking-tight text-espresso shadow-none placeholder:text-espresso/25 focus-visible:border-transparent focus-visible:ring-0 md:text-4xl"
+              className={cn(
+                headingVariants({ variant: "h1" }),
+                "h-auto min-h-12 border-0 bg-transparent px-0 shadow-none placeholder:text-espresso/25 focus-visible:border-transparent focus-visible:ring-0"
+              )}
               placeholder="Story title"
               aria-invalid={Boolean(errors.title)}
             />

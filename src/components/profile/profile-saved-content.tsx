@@ -2,6 +2,7 @@ import { Bookmark } from "lucide-react";
 import { AccentIcon } from "@/components/accent-icon";
 import { SectionHeading } from "@/components/home/section-heading";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 export function ProfileSavedContent() {
@@ -20,13 +21,13 @@ export function ProfileSavedContent() {
         )}
       >
         <AccentIcon icon={Bookmark} size="lg" />
-        <p className="font-heading text-lg font-semibold text-espresso">
+        <Heading as="p" variant="card">
           Nothing Saved Yet
-        </p>
-        <p className="max-w-sm text-sm leading-relaxed text-warm-gray">
+        </Heading>
+        <Text variant="small" className="max-w-sm">
           When you save a post on the community feed, it will appear here so you
           can find it again.
-        </p>
+        </Text>
       </div>
     </section>
   );

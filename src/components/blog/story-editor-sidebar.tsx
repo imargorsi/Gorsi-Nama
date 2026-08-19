@@ -7,6 +7,7 @@ import type { BlogPostValues } from "@/components/blog/blog.schemas";
 import { StoryTagsField } from "@/components/blog/story-tags-field";
 import { FormField, nativeSelectClassName } from "@/components/form-field";
 import { surfaceClass } from "@/components/surface";
+import { Text } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,10 +38,7 @@ export function StoryEditorActions({
         type="button"
         disabled={isBusy}
         onClick={onPublish}
-        className={cn(
-          "h-11 bg-espresso px-5 text-ivory hover:bg-espresso/90",
-          isRow ? "order-3 min-w-0 flex-1" : "w-full"
-        )}
+        className={cn(isRow ? "order-3 min-w-0 flex-1" : "w-full")}
       >
         {primaryLabel}
       </Button>
@@ -49,7 +47,7 @@ export function StoryEditorActions({
         variant="outline"
         disabled={isBusy}
         onClick={onDraft}
-        className={cn("h-11", isRow ? "order-2 min-w-0 flex-1" : "w-full")}
+        className={cn(isRow ? "order-2 min-w-0 flex-1" : "w-full")}
       >
         Save draft
       </Button>
@@ -58,7 +56,7 @@ export function StoryEditorActions({
         variant="ghost"
         disabled={isBusy}
         onClick={onCancel}
-        className={cn("h-11", isRow ? "order-1 px-3" : "w-full")}
+        className={cn(isRow ? "order-1 px-3" : "w-full")}
       >
         Cancel
       </Button>
@@ -99,10 +97,10 @@ export function StoryEditorSidebar({
     <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
       <section className={cn(surfaceClass, "p-5")}>
         <p className="heritage-eyebrow">Publish</p>
-        <p className="mt-3 text-sm leading-relaxed text-warm-gray">
+        <Text variant="small" className="mt-3">
           Published stories appear on Stories right away. Drafts stay on this
           device until you publish them.
-        </p>
+        </Text>
         <StoryEditorActions
           className="mt-4 hidden lg:flex"
           isBusy={isBusy}

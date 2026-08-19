@@ -1,6 +1,7 @@
 import { Briefcase, MapPin } from "lucide-react";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
+import { Heading, Text } from "@/components/typography";
 
 export function ProfilePortrait({
   userDetails,
@@ -23,9 +24,9 @@ export function ProfilePortrait({
           size="xl"
         />
         <div className="flex min-w-0 flex-1 flex-col justify-center">
-          <h1 className="font-heading text-2xl font-semibold tracking-tight text-espresso sm:text-3xl">
+          <Heading as="h1" variant="h3">
             {userDetails.fullName}
-          </h1>
+          </Heading>
           {isLoadingProfile && !profile.city && !profile.profession ? (
             <span className="mt-1 block h-4 w-40 animate-pulse rounded-md bg-espresso/10" />
           ) : profile.city || profile.profession ? (
@@ -59,14 +60,14 @@ export function ProfilePortrait({
             <div className="h-4 w-5/6 animate-pulse rounded-md bg-espresso/10" />
           </div>
         ) : profile.summary ? (
-          <p className="mt-3 min-w-0 text-base leading-relaxed wrap-break-word text-espresso/85 sm:text-lg">
+          <p className="mt-3 min-w-0 wrap-break-word text-base leading-relaxed text-espresso/85 sm:text-lg">
             {profile.summary}
           </p>
         ) : (
-          <p className="mt-3 text-sm leading-relaxed text-warm-gray sm:text-base">
+          <Text variant="muted" className="mt-3">
             {firstName}, a few sentences about you will appear here — hometown,
             craft, or the chapter of the Gorsi story you carry.
-          </p>
+          </Text>
         )}
       </section>
     </div>

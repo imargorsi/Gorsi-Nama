@@ -9,6 +9,7 @@ import {
 import { ProfileShareLink } from "@/components/profile/profile-share-link";
 import type { ProfileDetails } from "@/components/profile/profile.schemas";
 import { surfaceClass } from "@/components/surface";
+import { Text } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -121,9 +122,9 @@ export function ProfileSidebar({
 
       <section className={cn(surfaceClass, "p-5")}>
         <p className="heritage-eyebrow">Share</p>
-        <p className="mt-3 text-sm leading-relaxed text-warm-gray">
+        <Text variant="small" className="mt-3">
           Your public member link
-        </p>
+        </Text>
         <div className="mt-4">
           <ProfileShareLink path={sharePath} />
         </div>
@@ -132,7 +133,7 @@ export function ProfileSidebar({
       <section className={cn(surfaceClass, "flex flex-col gap-2 p-5")}>
         <p className="heritage-eyebrow">Account</p>
         <Button
-          className="mt-3 h-11 w-full gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90"
+          className="mt-3 w-full"
           disabled={!canEdit}
           title={canEdit ? undefined : "Loading your details…"}
           onClick={onEdit}
@@ -140,11 +141,11 @@ export function ProfileSidebar({
           <Pencil className="size-4" />
           Edit profile
         </Button>
-        <Button variant="outline" className="h-11 w-full gap-2" onClick={onManageAccount}>
+        <Button variant="outline" className="w-full" onClick={onManageAccount}>
           <Settings className="size-4" />
           Manage account
         </Button>
-        <Button variant="ghost" className="h-11 w-full gap-2" onClick={onSignOut}>
+        <Button variant="ghost" className="w-full" onClick={onSignOut}>
           <LogOut className="size-4" />
           {signOutLabel}
         </Button>

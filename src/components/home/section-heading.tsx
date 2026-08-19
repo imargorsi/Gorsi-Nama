@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 export function SectionHeading({
   as = "h2",
+  titleVariant,
   eyebrow,
   title,
   description,
@@ -11,6 +13,7 @@ export function SectionHeading({
   className,
 }: {
   as?: "h1" | "h2";
+  titleVariant?: "h1" | "h2" | "h3";
   eyebrow?: string;
   title: string;
   description?: ReactNode;
@@ -18,8 +21,6 @@ export function SectionHeading({
   children?: ReactNode;
   className?: string;
 }) {
-  const HeadingTag = as;
-
   return (
     <div
       className={cn(
@@ -30,26 +31,20 @@ export function SectionHeading({
     >
       <div className="min-w-0">
         {eyebrow ? <p className="heritage-eyebrow">{eyebrow}</p> : null}
-        <HeadingTag
-          className={cn(
-            "font-heading font-semibold tracking-tight text-espresso",
-            eyebrow ? "mt-3" : undefined,
-            as === "h1"
-              ? "text-3xl sm:text-4xl lg:text-5xl lg:leading-tight"
-              : "text-3xl sm:text-4xl lg:text-[2.75rem] lg:leading-tight"
-          )}
+        <Heading
+          as={as}
+          variant={titleVariant ?? (as === "h1" ? "h1" : "h2")}
+          className={eyebrow ? "mt-3" : undefined}
         >
           {title}
-        </HeadingTag>
+        </Heading>
         {description ? (
-          <p
-            className={cn(
-              "mt-2 max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base",
-              descriptionClassName
-            )}
+          <Text
+            variant="muted"
+            className={cn("mt-2 max-w-2xl", descriptionClassName)}
           >
             {description}
-          </p>
+          </Text>
         ) : null}
       </div>
       {children ? (

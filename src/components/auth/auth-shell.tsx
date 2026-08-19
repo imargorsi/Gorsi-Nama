@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 import { HeritageRule } from "@/components/heritage-ornaments";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 const panelContainer: Variants = {
@@ -160,11 +161,11 @@ export function AuthHeading({
 }) {
   return (
     <div className="flex flex-col gap-3 text-center sm:text-left">
-      <h1 className="font-heading text-3xl font-semibold text-foreground sm:text-4xl">
+      <Heading as="h1" variant="h1">
         {title}
-      </h1>
+      </Heading>
       <HeritageRule className="justify-center sm:justify-start" />
-      <p className="text-base text-muted-foreground">{description}</p>
+      <Text variant="muted">{description}</Text>
     </div>
   );
 }

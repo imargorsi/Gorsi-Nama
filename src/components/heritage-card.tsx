@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { AccentIcon } from "@/components/accent-icon";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 export interface HeritageCardProps {
@@ -70,10 +71,12 @@ export function HeritageCard({
           <p className="heritage-eyebrow mt-1">{category}</p>
         </div>
 
-        <h3 className="mt-2.5 font-heading text-lg font-semibold tracking-tight text-espresso sm:text-xl">
+        <Heading as="h3" variant="card" className="mt-2.5">
           {title}
-        </h3>
-        <p className="mt-1.5 mb-5 text-sm leading-snug text-warm-gray">{description}</p>
+        </Heading>
+        <Text variant="small" className="mt-1.5 mb-5 leading-snug">
+          {description}
+        </Text>
 
         {href && cta ? (
           <span className="mt-auto inline-flex items-center gap-2 border-t border-gold/20 pt-5 text-sm font-medium tracking-wide text-gold sm:pt-6">

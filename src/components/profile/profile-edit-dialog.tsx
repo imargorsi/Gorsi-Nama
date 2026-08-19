@@ -173,13 +173,12 @@ export function ProfileEditDialog({
             <Button
               type="button"
               variant="outline"
-              className="h-11 px-4"
               disabled={saveProfile.isPending}
               onClick={() => onOpenChange(false)}
             >
               Cancel
             </Button>
-            <Button type="submit" className="h-11 px-4" disabled={saveProfile.isPending}>
+            <Button type="submit" disabled={saveProfile.isPending}>
               {saveProfile.isPending ? "Saving…" : "Save profile"}
             </Button>
           </DialogFooter>

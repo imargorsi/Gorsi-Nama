@@ -16,12 +16,7 @@ export function SectionLink({
   return (
     <Link
       href={href}
-      className={cn(
-        buttonVariants({
-          className: "h-11 w-full gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90 sm:w-auto",
-        }),
-        className
-      )}
+      className={cn(buttonVariants({ className: "w-full sm:w-auto" }), className)}
     >
       {children}
       <ArrowRight className="size-4 rtl:rotate-180" />

@@ -11,6 +11,7 @@ import {
 } from "@/components/library/library-categories";
 import { LibrarySidebar } from "@/components/library/library-sidebar";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 const emptyCounts = Object.fromEntries(
@@ -103,13 +104,13 @@ function EmptyArchive({ categoryId }: { categoryId?: LibraryCategoryId }) {
     <div className={cn(surfaceClass, "overflow-hidden")}>
       <div className="px-5 py-10 text-center sm:px-8 sm:py-14">
         <AccentIcon icon={Archive} size="lg" className="mx-auto" />
-        <h2 className="mt-4 font-heading text-xl font-semibold tracking-tight text-espresso sm:text-2xl">
+        <Heading as="h2" variant="h4" className="mt-4">
           The Archive Is Being Prepared
-        </h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-warm-gray sm:text-base">
+        </Heading>
+        <Text variant="muted" className="mx-auto mt-3 max-w-md">
           Holdings are added by archive keepers. Two formats will live here —
           PDFs for records, and photographs for visual memory.
-        </p>
+        </Text>
       </div>
       <ul className="grid gap-px bg-espresso/8 sm:grid-cols-2">
         {libraryCategories.map((category) => {
@@ -117,13 +118,13 @@ function EmptyArchive({ categoryId }: { categoryId?: LibraryCategoryId }) {
           return (
             <li key={category.id} className="bg-ivory px-5 py-6 sm:px-6">
               <p className="heritage-eyebrow">{category.eyebrow}</p>
-              <p className="mt-2 flex items-center gap-2 font-heading text-lg font-semibold text-espresso">
+              <Heading as="p" variant="card" className="mt-2 flex items-center gap-2">
                 <Icon className="size-4 text-gold" strokeWidth={1.75} />
                 {category.title}
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-warm-gray">
+              </Heading>
+              <Text variant="small" className="mt-2">
                 {category.description}
-              </p>
+              </Text>
             </li>
           );
         })}
@@ -149,8 +150,12 @@ function EmptyState({
       )}
     >
       <AccentIcon icon={Icon} size="lg" />
-      <p className="font-heading text-lg font-semibold text-espresso">{title}</p>
-      <p className="max-w-sm text-sm leading-relaxed text-warm-gray">{text}</p>
+      <Heading as="p" variant="card">
+        {title}
+      </Heading>
+      <Text variant="small" className="max-w-sm">
+        {text}
+      </Text>
     </div>
   );
 }

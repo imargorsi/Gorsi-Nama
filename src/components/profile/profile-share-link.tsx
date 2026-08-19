@@ -53,10 +53,10 @@ export function ProfileShareLink({ path }: { path: string }) {
       <Button
         type="button"
         variant="outline"
-        size="icon"
+        size="icon-lg"
         onClick={copy}
         aria-label={copied ? "Copied" : "Copy profile link"}
-        className="size-11 shrink-0"
+        className="shrink-0"
       >
         {copied ? <Check /> : <Copy />}
       </Button>

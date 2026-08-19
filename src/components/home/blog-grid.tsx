@@ -10,6 +10,7 @@ import {
 } from "@/components/blog/member-stories";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { HeritagePatternBand } from "@/components/heritage-ornaments";
+import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "./section-heading";
@@ -77,19 +78,19 @@ function StoryShareBar() {
       <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
         <AccentIcon icon={PenLine} size="lg" tone="on-dark" />
         <div className="min-w-0 flex-1">
-          <p className="font-heading text-xl font-semibold tracking-tight text-ivory">
+          <Heading as="p" variant="h4" tone="onDark">
             Have a Story to Share?
-          </p>
-          <p className="mt-1 text-sm text-ivory/70">
+          </Heading>
+          <Text as="p" variant="small" className="mt-1 text-ivory/70">
             Your memories are a part of our shared heritage.
-          </p>
+          </Text>
         </div>
         <Link
           href="/blog/write"
           className={cn(
             buttonVariants({
-              className:
-                "h-11 w-full gap-2 bg-ivory px-5 text-espresso hover:bg-ivory/90 sm:w-auto",
+              variant: "light",
+              className: "w-full sm:w-auto",
             })
           )}
         >

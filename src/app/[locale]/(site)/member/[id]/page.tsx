@@ -5,6 +5,7 @@ import { CallToAction } from "@/components/call-to-action";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import { Reveal } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
+import { Text } from "@/components/typography";
 import { getPlaceholderMember } from "@/data/members";
 import { cn } from "@/lib/utils";
 
@@ -46,11 +47,11 @@ export default async function MemberProfilePage({
             )}
           >
             <CommunityAvatar name={name} imageUrl={member?.image} size="xl" />
-            <p className="max-w-2xl text-sm leading-relaxed text-warm-gray sm:text-base">
+            <Text variant="muted" className="max-w-2xl">
               Public profiles will show city, profession, and a short summary
               once members complete them. This page is the layout for that view
               — the Neon profile fields are not connected here yet.
-            </p>
+            </Text>
           </article>
         </Reveal>
       </div>

@@ -18,6 +18,7 @@ import {
 } from "@/components/blog/member-stories";
 import { Stagger, StaggerItem } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import type { BlogPost } from "@/data/blog-posts";
 import { cn } from "@/lib/utils";
@@ -28,12 +29,7 @@ export function BlogWriteButton() {
   return (
     <Link
       href={isSignedIn ? "/blog/write" : "/auth/login"}
-      className={cn(
-        buttonVariants({
-          className:
-            "h-11 w-full shrink-0 gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90 sm:w-auto",
-        })
-      )}
+      className={cn(buttonVariants({ className: "w-full shrink-0 sm:w-auto" }))}
     >
       <PenLine className="size-4" />
       Write a story
@@ -178,8 +174,12 @@ function EmptyState({
       )}
     >
       <AccentIcon icon={Icon} size="lg" />
-      <p className="font-heading text-lg font-semibold text-espresso">{title}</p>
-      <p className="max-w-sm text-sm leading-relaxed text-warm-gray">{text}</p>
+      <Heading as="p" variant="card">
+        {title}
+      </Heading>
+      <Text variant="small" className="max-w-sm">
+        {text}
+      </Text>
     </div>
   );
 }

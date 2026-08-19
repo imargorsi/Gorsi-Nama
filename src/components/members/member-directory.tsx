@@ -46,10 +46,7 @@ export function MemberDirectory() {
               )
             }
             className={cn(
-              buttonVariants({
-                className:
-                  "h-11 gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90",
-              })
+              buttonVariants({ className: "gap-2" })
             )}
           >
             Show more

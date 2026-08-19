@@ -219,8 +219,7 @@ export function Hero() {
                       href={activeSlide.primaryCta.href}
                       className={cn(
                         buttonVariants({
-                          className:
-                            "h-11 w-full gap-2 rounded-lg bg-espresso px-6 text-sm font-semibold text-ivory shadow-md hover:bg-espresso/90 sm:w-auto",
+                          className: "w-full shadow-md sm:w-auto",
                         })
                       )}
                     >
@@ -243,8 +242,8 @@ export function Hero() {
                     <Link
                       href={activeSlide.secondaryCta.href}
                       className={cn(
-                        buttonVariants({ variant: "outline" }),
-                        "h-11 w-full rounded-lg border-gold/50 bg-transparent px-6 text-sm font-semibold text-ivory shadow-none hover:bg-transparent hover:text-ivory sm:w-auto"
+                        buttonVariants({ variant: "outlineLight" }),
+                        "w-full border-gold/50 sm:w-auto"
                       )}
                     >
                       {activeSlide.secondaryCta.label}

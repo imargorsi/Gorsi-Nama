@@ -31,7 +31,7 @@ export function StoryActions({ story }: { story: BlogPost }) {
         className={cn(
           buttonVariants({
             variant: "outline",
-            className: "h-11 w-full gap-2",
+            className: "w-full",
           })
         )}
       >
@@ -44,8 +44,7 @@ export function StoryActions({ story }: { story: BlogPost }) {
         className={cn(
           buttonVariants({
             variant: "ghost",
-            className:
-              "h-11 w-full gap-2 text-destructive hover:text-destructive",
+            className: "w-full text-destructive hover:text-destructive",
           })
         )}
       >

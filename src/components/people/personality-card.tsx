@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Award } from "lucide-react";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 import type { NotablePerson } from "@/data/notable-people";
 
@@ -26,12 +27,12 @@ export function PersonalityCard({ person }: { person: NotablePerson }) {
           <Award className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
           {person.role}
         </p>
-        <h3 className="mt-2 font-heading text-xl font-semibold tracking-tight text-espresso">
+        <Heading as="h3" variant="h4" className="mt-2">
           {person.name}
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-warm-gray">
+        </Heading>
+        <Text variant="small" className="mt-2">
           {person.summary}
-        </p>
+        </Text>
       </div>
     </article>
   );

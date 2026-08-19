@@ -149,6 +149,10 @@
   @apply font-sans text-[0.65rem] font-semibold tracking-[0.18em] text-gold uppercase sm:text-xs sm:tracking-[0.28em];
 }
 
+@utility surface {
+  @apply rounded-xl border-0 bg-ivory shadow-md;
+}
+
 @utility site-shell {
   width: min(80vw, 1280px);
   margin-inline: auto;

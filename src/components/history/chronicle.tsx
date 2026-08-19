@@ -1,5 +1,6 @@
 import { ChronicleChapter } from "@/components/history/chronicle-chapter";
 import { ChronicleToc } from "@/components/history/chronicle-toc";
+import { Text } from "@/components/typography";
 import {
   chronicleChapters,
   chronicleIntro,
@@ -20,12 +21,10 @@ export function Chronicle() {
 
         <div className="mt-6 flex min-w-0 flex-col gap-16 lg:col-span-9 lg:mt-0 lg:gap-20">
           <header className="max-w-3xl">
-            <p className="text-base leading-relaxed text-espresso sm:text-lg">
-              {lead}
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-warm-gray sm:text-base">
+            <Text className="sm:text-lg">{lead}</Text>
+            <Text variant="muted" className="mt-4">
               {context}
-            </p>
+            </Text>
           </header>
 
           {chronicleChapters.map((chapter) => (

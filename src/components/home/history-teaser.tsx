@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Stagger, StaggerItem } from "@/components/reveal";
+import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { chronicleDescription } from "@/data/history-chronicle";
 import { cn } from "@/lib/utils";
@@ -19,13 +20,13 @@ export function HistoryTeaser() {
           <StaggerItem index={0} className="flex min-w-0 flex-col border-t border-espresso pt-8 md:justify-between md:gap-12">
             <div>
               <p className="heritage-eyebrow mb-4">Our History</p>
-              <h2 className="font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-[2.5rem] lg:leading-tight">
+              <Heading as="h2" variant="h2">
                 Where Tradition Meets Technology: Uniting the Gorsi Tribe Across
                 Generations
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-warm-gray sm:text-base">
+              </Heading>
+              <Text variant="muted" className="mt-2">
                 {chronicleDescription}
-              </p>
+              </Text>
             </div>
 
             <div className="mt-8 grid grid-cols-2 gap-4 md:mt-0">
@@ -60,29 +61,24 @@ export function HistoryTeaser() {
                 className="object-cover object-[center_45%]"
               />
             </div>
-            <h3 className="mt-6 font-heading text-xl font-semibold tracking-tight text-espresso sm:text-2xl">
+            <Heading as="h3" variant="h4" className="mt-6">
               A Brief History About Gorsi
-            </h3>
-            <p className="mt-4 text-sm leading-relaxed text-warm-gray sm:text-base">
+            </Heading>
+            <Text variant="muted" className="mt-4">
               The Gorsi community has a rich history rooted in culture, honor,
               and resilience. This platform is dedicated to preserving our
               heritage by sharing the stories of those who have made
               significant contributions to our tribe.
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-warm-gray sm:text-base">
+            </Text>
+            <Text variant="muted" className="mt-4">
               From historical accounts to the achievements of modern-day
               trailblazers, we aim to create a digital archive that connects
               Gorsi across generations. Join us in honoring our legacy and
               building a stronger, united future for our tribe.
-            </p>
+            </Text>
             <Link
               href="/history"
-              className={cn(
-                buttonVariants({
-                  className:
-                    "mt-6 h-11 w-fit bg-espresso px-6 text-ivory hover:bg-espresso/90",
-                })
-              )}
+              className={cn(buttonVariants({ className: "mt-6 w-fit" }))}
             >
               Read More
             </Link>

@@ -104,7 +104,7 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
         <Button
           type="submit"
           disabled={login.isPending}
-          className="mt-2 h-11 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
         >
           {login.isPending ? "Logging In..." : "Login"}
           <ArrowRight className="size-4" />
@@ -188,7 +188,7 @@ function ForgotPasswordStep({
         <Button
           type="submit"
           disabled={forgotPassword.isPending}
-          className="mt-2 h-11 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
         >
           {forgotPassword.isPending ? "Sending Code..." : "Send Reset Code"}
         </Button>
@@ -294,7 +294,7 @@ function ResetPasswordStep({
         <Button
           type="submit"
           disabled={resetPassword.isPending}
-          className="mt-2 h-11 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
         >
           {resetPassword.isPending ? "Resetting..." : "Reset Password"}
         </Button>

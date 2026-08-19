@@ -15,6 +15,7 @@ import { NotFoundPanel } from "@/components/not-found-panel";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import type { BlogPost } from "@/data/blog-posts";
 import { useIsHydrated } from "@/lib/use-is-hydrated";
 import { cn } from "@/lib/utils";
@@ -86,13 +87,13 @@ export function BlogArticle({
             <div className={cn(surfaceClass, "overflow-hidden")}>
               <div className="px-5 py-6 sm:px-8 sm:py-8">
                 <p className="heritage-eyebrow">{category.label}</p>
-                <h1 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:leading-tight">
+                <Heading as="h1" variant="h1" className="mt-3">
                   {post.title}
-                </h1>
+                </Heading>
                 {post.excerpt ? (
-                  <p className="mt-4 text-lg leading-relaxed text-espresso/80">
+                  <Text variant="lead" className="mt-4">
                     {post.excerpt}
-                  </p>
+                  </Text>
                 ) : null}
 
                 {post.featuredImage ? (
@@ -107,9 +108,11 @@ export function BlogArticle({
                   </div>
                 ) : null}
 
-                <div className="mt-6 space-y-5 border-t border-espresso/10 pt-6 text-base leading-relaxed text-warm-gray">
+                <div className="mt-6 space-y-5 border-t border-espresso/10 pt-6">
                   {paragraphs.map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
+                    <Text key={index} variant="muted">
+                      {paragraph}
+                    </Text>
                   ))}
                 </div>
               </div>
