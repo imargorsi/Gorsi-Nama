@@ -44,7 +44,11 @@ export function BlogGrid() {
 
         <Stagger className="mt-8 grid grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-stretch lg:gap-5">
           {featured ? (
-            <StaggerItem index={0} isHoverable className="h-full min-h-0">
+            <StaggerItem
+              index={0}
+              isHoverable
+              className="flex h-full min-h-0 flex-col"
+            >
               <BlogCard post={featured} variant="featured" />
             </StaggerItem>
           ) : null}
@@ -55,9 +59,13 @@ export function BlogGrid() {
                 key={post.slug}
                 index={index + 1}
                 isHoverable
-                className="h-full min-h-0"
+                className="flex h-full min-h-0 flex-col"
               >
-                <BlogCard post={post} variant="compact" />
+                <BlogCard
+                  post={post}
+                  variant="compact"
+                  className="[&_[data-slot=media]]:aspect-auto [&_[data-slot=media]]:h-36 lg:[&_[data-slot=media]]:h-40"
+                />
               </StaggerItem>
             ))}
           </div>

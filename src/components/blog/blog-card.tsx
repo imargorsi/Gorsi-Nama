@@ -12,10 +12,12 @@ export function BlogCard({
   post,
   variant = "compact",
   isFeatured = false,
+  className,
 }: {
   post: BlogPost;
   variant?: "featured" | "compact";
   isFeatured?: boolean;
+  className?: string;
 }) {
   const href = `/blog/${post.slug}`;
   const category = getBlogCategory(post.categoryId).label;
@@ -27,13 +29,15 @@ export function BlogCard({
       href={href}
       className={cn(
         surfaceClass,
-        "group flex h-full min-w-0 flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
+        "group flex h-full min-h-0 min-w-0 flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none",
+        className
       )}
     >
       <div
+        data-slot="media"
         className={cn(
           "relative overflow-hidden bg-espresso",
-          isHero ? "min-h-48 flex-1" : "aspect-4/3"
+          isHero ? "min-h-48 min-w-0 flex-1" : "aspect-16/9 shrink-0"
         )}
       >
         {post.featuredImage ? (
@@ -60,11 +64,16 @@ export function BlogCard({
           {showFeaturedBadge ? "Featured" : category}
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-2.5 px-4 py-3 sm:px-5">
+      <div
+        className={cn(
+          "flex flex-col gap-2.5 px-4 py-3 sm:px-5",
+          isHero ? "shrink-0" : "min-h-0 flex-1"
+        )}
+      >
         <Heading as="h3" variant="card" className="line-clamp-2">
           {post.title}
         </Heading>
-        <PostMeta post={post} className="mt-auto" />
+        <PostMeta post={post} className={isHero ? undefined : "mt-auto"} />
       </div>
     </Link>
   );
