@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { getBlogCategory } from "@/components/blog/blog-categories";
 import { surfaceClass } from "@/components/surface";
-import { Heading } from "@/components/typography";
+import { Heading, Text } from "@/components/typography";
 import { readingMinutes, type BlogPost } from "@/data/blog-posts";
 import { initialsFromName } from "@/lib/initials";
 
@@ -86,11 +86,11 @@ function PostMeta({
           {initialsFromName(post.authorName)}
         </span>
       </span>
-      <p className="min-w-0 truncate text-xs text-warm-gray">
+      <Text as="p" variant="meta" className="min-w-0 truncate">
         By {post.authorName}
         <span className="text-gold/50"> · </span>
         {minutes} min read
-      </p>
+      </Text>
       <span className="ms-auto inline-flex shrink-0 items-center gap-1.5 text-sm font-medium tracking-wide text-gold">
         <span className="hidden sm:inline">Read More</span>
         <ArrowRight

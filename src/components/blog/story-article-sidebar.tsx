@@ -7,8 +7,9 @@ import { StoryActions } from "@/components/blog/story-actions";
 import { BlogShareLinks } from "@/components/blog/blog-share-links";
 import { surfaceClass } from "@/components/surface";
 import { readingMinutes, type BlogPost } from "@/data/blog-posts";
-import { initialsFromName } from "@/lib/initials";
 import { formatTag } from "@/lib/parse-tags";
+import { initialsFromName } from "@/lib/initials";
+import { Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 function formatPublishedDate(iso?: string) {
@@ -23,8 +24,8 @@ function formatPublishedDate(iso?: string) {
 function MetaRow({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <p className="text-sm font-medium text-espresso">{label}</p>
-      <div className="text-sm leading-relaxed text-warm-gray">{children}</div>
+      <Text variant="label">{label}</Text>
+      <Text as="div" variant="small">{children}</Text>
     </div>
   );
 }

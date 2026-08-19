@@ -1,6 +1,8 @@
 "use client";
 
 import { ImagePlus, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/typography";
 import { maxImageUploadMb } from "@/lib/storage/upload.schemas";
 import { cn } from "@/lib/utils";
 
@@ -30,21 +32,19 @@ export function StoryCoverField({
           </p>
         ) : null}
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-end gap-2 bg-linear-to-t from-espresso/70 to-transparent p-3">
-          <button
-            type="button"
-            onClick={onPick}
-            className="inline-flex h-11 items-center rounded-lg bg-ivory/95 px-3 text-sm font-medium text-espresso hover:bg-ivory"
-          >
+          <Button type="button" variant="light" onClick={onPick}>
             Change
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="ghost"
+            size="icon-lg"
             onClick={onRemove}
             aria-label="Remove featured image"
-            className="inline-flex size-11 items-center justify-center rounded-lg bg-espresso/80 text-ivory hover:bg-espresso"
+            className="bg-espresso/80 text-ivory hover:bg-espresso hover:text-ivory"
           >
             <X className="size-4" />
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -62,10 +62,12 @@ export function StoryCoverField({
       <span className="flex size-9 items-center justify-center rounded-full bg-gold/15">
         <ImagePlus className="size-4 text-gold" strokeWidth={1.75} />
       </span>
-      <span className="text-sm font-medium">Add a featured image</span>
-      <span className="max-w-xs text-center text-xs leading-relaxed">
+      <Text as="span" variant="label">
+        Add a featured image
+      </Text>
+      <Text as="span" variant="meta" className="max-w-xs text-center leading-relaxed">
         Optional. JPEG, PNG, WebP, or GIF · max {maxImageUploadMb} MB.
-      </span>
+      </Text>
     </button>
   );
 }

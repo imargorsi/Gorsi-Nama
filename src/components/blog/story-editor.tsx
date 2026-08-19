@@ -23,8 +23,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useUploadPhoto } from "@/components/uploads/use-upload-photo";
+import { FieldError } from "@/components/form-field";
 import { surfaceClass } from "@/components/surface";
-import { headingVariants } from "@/components/typography";
+import { headingVariants, Text } from "@/components/typography";
 import { excerptFromContent, type BlogPost } from "@/data/blog-posts";
 import { parseTags } from "@/lib/parse-tags";
 import { slugify, uniqueSlug } from "@/lib/slugify";
@@ -135,7 +136,7 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
               aria-invalid={Boolean(errors.title)}
             />
             {errors.title ? (
-              <p className="mt-2 text-sm text-destructive">{errors.title.message}</p>
+              <FieldError className="mt-2">{errors.title.message}</FieldError>
             ) : null}
 
             <div className="mt-5">
@@ -162,14 +163,12 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
                 aria-invalid={Boolean(errors.content)}
               />
               {errors.content ? (
-                <p className="mt-2 text-sm text-destructive">
-                  {errors.content.message}
-                </p>
+                <FieldError className="mt-2">{errors.content.message}</FieldError>
               ) : (
-                <p className="mt-3 text-xs text-muted-foreground">
+                <Text variant="meta" className="mt-3">
                   Plain text for now. Add an excerpt in Details if you want a
                   different summary on cards.
-                </p>
+                </Text>
               )}
             </div>
           </div>

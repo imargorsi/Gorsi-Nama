@@ -152,6 +152,18 @@ export function AuthShell({
   );
 }
 
+export function AuthContinueDivider() {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="h-px flex-1 bg-border" />
+      <Text as="span" variant="meta">
+        or continue with
+      </Text>
+      <span className="h-px flex-1 bg-border" />
+    </div>
+  );
+}
+
 export function AuthHeading({
   title,
   description,

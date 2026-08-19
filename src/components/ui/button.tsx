@@ -17,6 +17,7 @@ const buttonVariants = cva(
           "border-ivory/40 bg-transparent text-ivory shadow-none hover:bg-ivory/10 hover:text-ivory",
         ghost:
           "bg-transparent text-espresso hover:bg-espresso/8 hover:text-espresso aria-expanded:bg-espresso/8 aria-expanded:text-espresso",
+        gold: "bg-gold text-espresso hover:bg-gold/90",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         destructive:

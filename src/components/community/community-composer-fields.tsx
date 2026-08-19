@@ -1,5 +1,6 @@
 import type { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { X } from "lucide-react";
+import { FieldError } from "@/components/form-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CommunityLinkPreview } from "@/components/community/community-link-preview";
@@ -69,9 +70,7 @@ export function ComposerLinkField({
         type="url"
         placeholder="https://"
       />
-      {errorMessage ? (
-        <p className="text-sm text-destructive">{errorMessage}</p>
-      ) : null}
+      {errorMessage ? <FieldError>{errorMessage}</FieldError> : null}
       {linkUrl ? <CommunityLinkPreview url={linkUrl} /> : null}
     </div>
   );

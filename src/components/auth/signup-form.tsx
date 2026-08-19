@@ -8,8 +8,9 @@ import { toast } from "sonner";
 import { ArrowRight, KeyRound, Lock, Mail, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { FieldError } from "@/components/form-field";
 import { getErrorMessage } from "@/lib/get-error-message";
-import { AuthHeading } from "./auth-shell";
+import { AuthContinueDivider, AuthHeading } from "./auth-shell";
 import { IconInput, PasswordInput } from "./auth-fields";
 import { GoogleContinueButton } from "./google-continue-button";
 import { StepTransition } from "./step-transition";
@@ -64,7 +65,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
             {...register("fullName")}
           />
           {errors.fullName && (
-            <p className="text-sm text-destructive">{errors.fullName.message}</p>
+            <FieldError>{errors.fullName.message}</FieldError>
           )}
         </div>
 
@@ -79,9 +80,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
             aria-invalid={!!errors.email}
             {...register("email")}
           />
-          {errors.email && (
-            <p className="text-sm text-destructive">{errors.email.message}</p>
-          )}
+          {errors.email && <FieldError>{errors.email.message}</FieldError>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -95,7 +94,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
             {...register("password")}
           />
           {errors.password && (
-            <p className="text-sm text-destructive">{errors.password.message}</p>
+            <FieldError>{errors.password.message}</FieldError>
           )}
         </div>
 
@@ -110,9 +109,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
-            <p className="text-sm text-destructive">
-              {errors.confirmPassword.message}
-            </p>
+            <FieldError>{errors.confirmPassword.message}</FieldError>
           )}
         </div>
 
@@ -121,19 +118,16 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
 
         <Button
           type="submit"
+          variant="gold"
           disabled={signup.isPending}
-          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2"
         >
           {signup.isPending ? "Registering..." : "Register"}
           <ArrowRight className="size-4" />
         </Button>
       </form>
 
-      <div className="flex items-center gap-3">
-        <span className="h-px flex-1 bg-border" />
-        <span className="text-xs text-muted-foreground">or continue with</span>
-        <span className="h-px flex-1 bg-border" />
-      </div>
+      <AuthContinueDivider />
 
       <GoogleContinueButton
         onClick={() => googleSignUp.mutate()}
@@ -185,15 +179,14 @@ function VerifyEmailForm() {
             aria-invalid={!!errors.code}
             {...register("code")}
           />
-          {errors.code && (
-            <p className="text-sm text-destructive">{errors.code.message}</p>
-          )}
+          {errors.code && <FieldError>{errors.code.message}</FieldError>}
         </div>
 
         <Button
           type="submit"
+          variant="gold"
           disabled={verifyEmail.isPending}
-          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2"
         >
           {verifyEmail.isPending ? "Verifying..." : "Verify Email"}
         </Button>

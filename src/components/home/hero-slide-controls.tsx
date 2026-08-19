@@ -9,6 +9,7 @@ import {
   slideControlItem,
   slideControlsContainer,
 } from "@/components/home/hero-motion";
+import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 type HeroSlide = {
@@ -119,11 +120,13 @@ function DesktopSlideCard({
         </motion.div>
       </div>
       <div className="relative min-w-0">
-        <p className="font-sans text-[0.65rem] font-semibold tracking-[0.22em] text-gold uppercase">
-          0{index + 1}
-        </p>
-        <p className="mt-1 font-heading text-lg text-ivory">{slide.eyebrow}</p>
-        <p className="mt-1 font-sans text-sm text-ivory/70">{slide.preview}</p>
+        <p className="heritage-eyebrow">0{index + 1}</p>
+        <Heading as="p" variant="card" tone="onDark" className="mt-1 font-normal">
+          {slide.eyebrow}
+        </Heading>
+        <Text variant="small" className="mt-1 text-ivory/70">
+          {slide.preview}
+        </Text>
       </div>
       <motion.span
         className="relative ms-auto shrink-0"

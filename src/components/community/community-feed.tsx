@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
 import { useLocale } from "next-intl";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
-import { AccentIcon } from "@/components/accent-icon";
+import { EmptyWell } from "@/components/empty-well";
 import { CommunityComposer } from "@/components/community/community-composer";
 import { CommunityPostCard } from "@/components/community/community-post-card";
 import {
@@ -27,7 +27,8 @@ import type { CommunityPost } from "@/data/community-posts";
 import { getPathname } from "@/i18n/navigation";
 import { formatTag } from "@/lib/parse-tags";
 import { FeedItem, motionEase } from "@/components/reveal";
-import { surfaceClass } from "@/components/surface";
+import { Text } from "@/components/typography";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function CommunityFeed({
@@ -138,7 +139,7 @@ export function CommunityFeed({
       )}
     >
       {isAuthPending ? (
-        <div className={cn(surfaceClass, "min-h-14")} aria-hidden />
+        <div className="surface min-h-14" aria-hidden />
       ) : editing ? (
         <CommunityComposer
           post={editing}
@@ -176,11 +177,13 @@ export function CommunityFeed({
       ) : null}
 
       {activeTag ? (
-        <div className="flex flex-wrap items-center gap-2 text-sm text-warm-gray">
-          <span>Showing {formatTag(activeTag)}</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <Text as="span" variant="small">
+            Showing {formatTag(activeTag)}
+          </Text>
           <button
             type="button"
-            className="h-11 px-2 text-gold hover:underline"
+            className={cn(buttonVariants({ variant: "link" }), "px-2 text-gold")}
             onClick={() => setActiveTag(undefined)}
           >
             Clear
@@ -189,21 +192,11 @@ export function CommunityFeed({
       ) : null}
 
       {posts.length === 0 ? (
-        <div
-          className={cn(
-            surfaceClass,
-            "flex flex-col items-center gap-3 px-5 py-14 text-center"
-          )}
-        >
-          <AccentIcon icon={MessagesSquare} size="lg" />
-          <p className="font-heading text-lg font-semibold text-espresso">
-            No posts in this filter yet
-          </p>
-          <p className="max-w-sm text-sm leading-relaxed text-warm-gray">
-            Try another category, or be the first to share a photograph or a
-            link with the community.
-          </p>
-        </div>
+        <EmptyWell
+          icon={MessagesSquare}
+          title="No Posts in This Filter Yet"
+          text="Try another category, or be the first to share a photograph or a link with the community."
+        />
       ) : isSliderLayout ? (
         <CommunityPostSlider
           posts={posts}

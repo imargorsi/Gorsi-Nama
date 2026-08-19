@@ -31,6 +31,8 @@ export const textVariants = cva("", {
       muted: "text-sm leading-relaxed text-warm-gray sm:text-base",
       small: "text-sm leading-relaxed text-warm-gray",
       meta: "text-xs text-warm-gray",
+      label: "text-sm font-medium text-espresso",
+      error: "text-sm text-destructive",
     },
   },
   defaultVariants: {

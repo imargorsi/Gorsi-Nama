@@ -5,6 +5,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { FormField } from "@/components/form-field";
+import { Text } from "@/components/typography";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -89,7 +90,6 @@ export function ProfileEditDialog({
               <Input
                 id="city"
                 placeholder="Lahore"
-                className="h-10"
                 aria-invalid={!!errors.city}
                 {...register("city")}
               />
@@ -98,7 +98,6 @@ export function ProfileEditDialog({
               <Input
                 id="profession"
                 placeholder="Historian"
-                className="h-10"
                 aria-invalid={!!errors.profession}
                 {...register("profession")}
               />
@@ -123,7 +122,9 @@ export function ProfileEditDialog({
           <div className="flex flex-col gap-4">
             <div>
               <p className="heritage-eyebrow">Links</p>
-              <p className="mt-1.5 text-sm text-muted-foreground">Optional. Leave blank to hide.</p>
+              <Text variant="small" className="mt-1.5">
+                Optional. Leave blank to hide.
+              </Text>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <FormField id="websiteUrl" label="Website" error={errors.websiteUrl?.message}>
@@ -131,7 +132,6 @@ export function ProfileEditDialog({
                   id="websiteUrl"
                   type="url"
                   placeholder="https://"
-                  className="h-10"
                   aria-invalid={!!errors.websiteUrl}
                   {...register("websiteUrl")}
                 />
@@ -141,7 +141,6 @@ export function ProfileEditDialog({
                   id="facebookUrl"
                   type="url"
                   placeholder="https://facebook.com/…"
-                  className="h-10"
                   aria-invalid={!!errors.facebookUrl}
                   {...register("facebookUrl")}
                 />
@@ -151,7 +150,6 @@ export function ProfileEditDialog({
                   id="instagramUrl"
                   type="url"
                   placeholder="https://instagram.com/…"
-                  className="h-10"
                   aria-invalid={!!errors.instagramUrl}
                   {...register("instagramUrl")}
                 />
@@ -161,7 +159,6 @@ export function ProfileEditDialog({
                   id="twitterUrl"
                   type="url"
                   placeholder="https://x.com/…"
-                  className="h-10"
                   aria-invalid={!!errors.twitterUrl}
                   {...register("twitterUrl")}
                 />

@@ -147,13 +147,10 @@ export function StoryEditorSidebar({
           <Input
             id="story-slug"
             {...slugRegister}
-            className="h-11"
             onChange={onSlugChange}
             aria-invalid={Boolean(errors.slug)}
           />
-          <p className="text-xs text-muted-foreground">
-            /blog/{slug || "your-title"}
-          </p>
+          <Text variant="meta">/blog/{slug || "your-title"}</Text>
         </FormField>
 
         <FormField
@@ -169,7 +166,7 @@ export function StoryEditorSidebar({
             placeholder="A short summary for cards. Leave blank to use the opening lines."
             aria-invalid={Boolean(errors.excerpt)}
           />
-          <p className="text-xs text-muted-foreground">{excerptLength}/300</p>
+          <Text variant="meta">{excerptLength}/300</Text>
         </FormField>
       </section>
     </aside>

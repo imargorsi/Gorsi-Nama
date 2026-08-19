@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Archive, Search } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { AccentIcon } from "@/components/accent-icon";
+import { EmptyWell } from "@/components/empty-well";
 import {
   getLibraryCategory,
   libraryCategories,
@@ -59,7 +60,7 @@ export function LibraryBrowser({
       </aside>
 
       <div className="mt-8 min-w-0 lg:col-span-9 lg:mt-0">
-        <p className="mb-6 text-sm text-warm-gray">
+        <Text variant="small" className="mb-6">
           {query.trim() ? (
             <>
               0 holdings matching “{query.trim()}”
@@ -72,10 +73,10 @@ export function LibraryBrowser({
               0 holdings
             </>
           )}
-        </p>
+        </Text>
 
         {query.trim() ? (
-          <EmptyState
+          <EmptyWell
             icon={Search}
             title="No Matching Holdings"
             text="The archive has no files yet. Try another search after holdings are added."
@@ -92,7 +93,7 @@ function EmptyArchive({ categoryId }: { categoryId?: LibraryCategoryId }) {
   if (categoryId) {
     const category = getLibraryCategory(categoryId);
     return (
-      <EmptyState
+      <EmptyWell
         icon={category.icon}
         title={category.emptyTitle}
         text={category.emptyMessage}
@@ -129,33 +130,6 @@ function EmptyArchive({ categoryId }: { categoryId?: LibraryCategoryId }) {
           );
         })}
       </ul>
-    </div>
-  );
-}
-
-function EmptyState({
-  title,
-  text,
-  icon: Icon,
-}: {
-  title: string;
-  text: string;
-  icon: typeof Archive;
-}) {
-  return (
-    <div
-      className={cn(
-        surfaceClass,
-        "flex flex-col items-center gap-3 px-5 py-14 text-center"
-      )}
-    >
-      <AccentIcon icon={Icon} size="lg" />
-      <Heading as="p" variant="card">
-        {title}
-      </Heading>
-      <Text variant="small" className="max-w-sm">
-        {text}
-      </Text>
     </div>
   );
 }

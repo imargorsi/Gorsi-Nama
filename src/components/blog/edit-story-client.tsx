@@ -8,6 +8,7 @@ import {
 } from "@/components/blog/member-stories";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
 import { NotFoundPanel } from "@/components/not-found-panel";
+import { Text } from "@/components/typography";
 import { getBlogPostBySlug } from "@/data/blog-posts";
 import { useIsHydrated } from "@/lib/use-is-hydrated";
 
@@ -20,7 +21,7 @@ export function EditStoryClient({ slug }: { slug: string }) {
   const isHydrated = useIsHydrated();
 
   if (!isLoaded || !isHydrated) {
-    return <p className="text-sm text-warm-gray">Loading this story…</p>;
+    return <Text variant="small">Loading this story…</Text>;
   }
 
   if (!story || !canManage) {

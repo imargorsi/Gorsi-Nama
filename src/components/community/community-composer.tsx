@@ -21,10 +21,11 @@ import {
   communityPostSchema,
   type CommunityPostValues,
 } from "@/components/community/community.schemas";
-import { nativeSelectClassName } from "@/components/form-field";
+import { FieldError, nativeSelectClassName } from "@/components/form-field";
 import { useUploadPhoto } from "@/components/uploads/use-upload-photo";
 import type { CommunityPost } from "@/data/community-posts";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 import { motionEase } from "@/components/reveal";
 import { maxImageUploadMb } from "@/lib/storage/upload.schemas";
 import { cn } from "@/lib/utils";
@@ -122,9 +123,9 @@ export function CommunityComposer({
           imageUrl={user?.imageUrl}
           size="lg"
         />
-        <span className="min-w-0 text-sm text-warm-gray sm:text-base">
+        <Text as="span" variant="muted" className="min-w-0">
           Share something with the Gorsi community...
-        </span>
+        </Text>
       </motion.button>
     );
   }
@@ -145,17 +146,18 @@ export function CommunityComposer({
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
-            <p className="font-heading text-base font-semibold text-espresso">
+            <Heading as="p" variant="card" className="text-base sm:text-base">
               {displayName}
-            </p>
-            <button
+            </Heading>
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={closeComposer}
               aria-label="Close composer"
-              className="inline-flex size-11 items-center justify-center rounded-lg text-warm-gray transition-colors hover:bg-espresso/5 hover:text-espresso"
             >
               <X className="size-4" />
-            </button>
+            </Button>
           </div>
           <Label htmlFor="community-body" className="sr-only">
             Your post
@@ -172,9 +174,7 @@ export function CommunityComposer({
             className="mt-1 min-h-20 resize-none border-0 bg-transparent px-0 shadow-none focus-visible:ring-0"
             aria-invalid={Boolean(errors.body)}
           />
-          {errors.body ? (
-            <p className="text-sm text-destructive">{errors.body.message}</p>
-          ) : null}
+          {errors.body ? <FieldError>{errors.body.message}</FieldError> : null}
           {photoPreview ? (
             <ComposerPhotoPreview
               previewUrl={photoPreview}
@@ -249,7 +249,8 @@ export function CommunityComposer({
           <Button
             type="submit"
             disabled={isBusy}
-            className="shrink-0 bg-gold text-espresso hover:bg-gold/90"
+            variant="gold"
+            className="shrink-0"
           >
             {isEdit ? "Save" : "Publish"}
           </Button>

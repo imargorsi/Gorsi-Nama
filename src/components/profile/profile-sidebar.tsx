@@ -26,8 +26,10 @@ function MetaRow({
     <div className="flex items-start gap-3">
       <Icon className="mt-0.5 size-4 shrink-0 text-gold" strokeWidth={1.75} aria-hidden />
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-espresso">{label}</p>
-        <div className="mt-1 text-sm leading-relaxed text-warm-gray">{children}</div>
+        <Text variant="label">{label}</Text>
+        <Text as="div" variant="small" className="mt-1">
+          {children}
+        </Text>
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import { motionEase } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
+import { Heading, Text } from "@/components/typography";
 
 const COMPACT_TAG_LIMIT = 3;
 
@@ -70,10 +71,10 @@ export function CommunityPostCard({
       <header className="flex min-w-0 items-start gap-3">
         <CommunityAvatar name={post.authorName} />
         <div className="min-w-0 flex-1">
-          <h3 className="truncate font-heading text-base font-semibold text-espresso">
+          <Heading as="h3" variant="card" className="truncate text-base sm:text-base">
             {post.authorName}
-          </h3>
-          <p className="mt-0.5 truncate text-xs text-warm-gray">
+          </Heading>
+          <Text variant="meta" className="mt-0.5 truncate">
             {formatRelativeTime(post.createdAt)}
             <span className="mx-1.5">·</span>
             <span className="inline-flex items-center gap-1">
@@ -83,7 +84,7 @@ export function CommunityPostCard({
               />
               {category.label}
             </span>
-          </p>
+          </Text>
         </div>
       </header>
 

@@ -2,11 +2,10 @@
 
 import { PenLine } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { AccentIcon } from "@/components/accent-icon";
+import { EmptyWell } from "@/components/empty-well";
 import { getBlogCategory } from "@/components/blog/blog-categories";
 import { useMemberStories } from "@/components/blog/member-stories";
 import { SectionHeading } from "@/components/home/section-heading";
-import { surfaceClass } from "@/components/surface";
 import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -47,53 +46,48 @@ export function ProfileStories({
       </SectionHeading>
 
       {mine.length === 0 ? (
-        <div
-          className={cn(
-            surfaceClass,
-            "mt-6 flex flex-col items-center gap-3 px-5 py-8 text-center"
-          )}
-        >
-          <AccentIcon icon={PenLine} size="lg" />
-          <Heading as="p" variant="card">
-            No Stories Yet
-          </Heading>
-          <Text variant="small" className="max-w-sm">
-            {firstName ? `${firstName}, you` : "You"} have not written a story
-            yet. Title, excerpt, and a photograph — then publish to Stories.
-          </Text>
-        </div>
+        <EmptyWell
+          icon={PenLine}
+          className="mt-6 py-8"
+          title="No Stories Yet"
+          text={
+            <>
+              {firstName ? `${firstName}, you` : "You"} have not written a story
+              yet. Title, excerpt, and a photograph — then publish to Stories.
+            </>
+          }
+        />
       ) : (
         <ul className="mt-6 flex flex-col gap-3">
           {mine.map((story) => (
             <li
               key={story.id}
               className={cn(
-                surfaceClass,
-                "flex flex-col gap-3 px-5 py-4 transition-shadow duration-300 hover:shadow-lg sm:flex-row sm:items-center"
+                "surface flex flex-col gap-3 px-5 py-4 transition-shadow duration-300 hover:shadow-lg sm:flex-row sm:items-center"
               )}
             >
               <div className="min-w-0 flex-1">
                 <Heading as="p" variant="card">
                   {story.title}
                 </Heading>
-                <p className="mt-1 text-sm text-warm-gray">
+                <Text variant="meta" className="mt-1 text-sm">
                   {getBlogCategory(story.categoryId).label}
                   <span className="text-gold/50"> · </span>
                   {story.status === "publish" ? "Published" : "Draft"}
-                </p>
+                </Text>
               </div>
               <div className="flex gap-2">
                 {story.status === "publish" ? (
                   <Link
                     href={`/blog/${story.slug}`}
-                    className="inline-flex h-11 items-center px-3 text-sm font-medium text-gold hover:underline"
+                    className={cn(buttonVariants({ variant: "link" }), "text-gold")}
                   >
                     View
                   </Link>
                 ) : null}
                 <Link
                   href={`/blog/${story.slug}/edit`}
-                  className="inline-flex h-11 items-center px-3 text-sm font-medium text-espresso hover:text-gold"
+                  className={buttonVariants({ variant: "link" })}
                 >
                   Edit
                 </Link>

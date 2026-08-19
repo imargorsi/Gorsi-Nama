@@ -11,6 +11,7 @@ import { ProfileSidebar } from "@/components/profile/profile-sidebar";
 import { ProfileStories } from "@/components/profile/profile-stories";
 import { fadeUp } from "@/components/reveal";
 import { routing } from "@/i18n/routing";
+import { FieldError } from "@/components/form-field";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
 
 export function ProfileView({
@@ -37,9 +38,11 @@ export function ProfileView({
   return (
     <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
       {loadError ? (
-        <p className="mb-6 rounded-xl bg-ivory px-4 py-3 text-sm text-destructive shadow-md">
-          {loadError} You can still manage your account.
-        </p>
+        <div className="mb-6 rounded-xl bg-ivory px-4 py-3 shadow-md">
+          <FieldError>
+            {loadError} You can still manage your account.
+          </FieldError>
+        </div>
       ) : null}
 
       <motion.div

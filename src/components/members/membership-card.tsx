@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { initialsFromName } from "@/lib/initials";
+import { Heading } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
 export interface MembershipCardProps {
@@ -51,15 +52,18 @@ export function MembershipCard({
         )}
       </div>
 
-      <p className="relative mt-3.5 font-sans text-[0.65rem] font-semibold tracking-[0.16em] text-gold/80 uppercase">
+      <p className="heritage-eyebrow relative mt-3.5 text-gold/80">
         Membership ID# {membershipId}
       </p>
-      <h3
+      <Heading
+        as="h3"
+        variant="card"
+        tone="onDark"
         title={name}
-        className="relative mt-1.5 line-clamp-2 font-heading text-lg font-semibold tracking-tight text-ivory sm:text-xl"
+        className="relative mt-1.5 line-clamp-2"
       >
         {name}
-      </h3>
+      </Heading>
     </article>
   );
 

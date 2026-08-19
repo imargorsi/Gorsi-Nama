@@ -30,24 +30,24 @@ export function ProfilePortrait({
           {isLoadingProfile && !profile.city && !profile.profession ? (
             <span className="mt-1 block h-4 w-40 animate-pulse rounded-md bg-espresso/10" />
           ) : profile.city || profile.profession ? (
-            <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-gray">
+            <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
               {profile.city ? (
-                <span className="inline-flex items-center gap-1.5">
+                <Text as="span" variant="small" className="inline-flex items-center gap-1.5">
                   <MapPin className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
                   {profile.city}
-                </span>
+                </Text>
               ) : null}
               {profile.profession ? (
-                <span className="inline-flex items-center gap-1.5">
+                <Text as="span" variant="small" className="inline-flex items-center gap-1.5">
                   <Briefcase className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
                   {profile.profession}
-                </span>
+                </Text>
               ) : null}
             </p>
           ) : (
-            <p className="mt-1 text-sm text-warm-gray">
+            <Text variant="small" className="mt-1">
               {firstName}, this is your place in Gorsi Nama.
-            </p>
+            </Text>
           )}
         </div>
       </div>
@@ -60,9 +60,9 @@ export function ProfilePortrait({
             <div className="h-4 w-5/6 animate-pulse rounded-md bg-espresso/10" />
           </div>
         ) : profile.summary ? (
-          <p className="mt-3 min-w-0 wrap-break-word text-base leading-relaxed text-espresso/85 sm:text-lg">
+          <Text variant="lead" className="mt-3 min-w-0 wrap-break-word">
             {profile.summary}
-          </p>
+          </Text>
         ) : (
           <Text variant="muted" className="mt-3">
             {firstName}, a few sentences about you will appear here — hometown,

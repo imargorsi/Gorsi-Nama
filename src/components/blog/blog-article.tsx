@@ -54,9 +54,9 @@ export function BlogArticle({
       return (
         <>
           <StoryBreadcrumb title="Story" />
-          <p className="site-shell px-4 py-16 text-sm text-warm-gray sm:px-0">
+          <Text variant="small" className="site-shell px-4 py-16 sm:px-0">
             Loading this story…
-          </p>
+          </Text>
         </>
       );
     }

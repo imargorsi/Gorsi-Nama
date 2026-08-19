@@ -1,9 +1,6 @@
 import { Bookmark } from "lucide-react";
-import { AccentIcon } from "@/components/accent-icon";
+import { EmptyWell } from "@/components/empty-well";
 import { SectionHeading } from "@/components/home/section-heading";
-import { surfaceClass } from "@/components/surface";
-import { Heading, Text } from "@/components/typography";
-import { cn } from "@/lib/utils";
 
 export function ProfileSavedContent() {
   return (
@@ -14,21 +11,12 @@ export function ProfileSavedContent() {
         description="Community posts you save will gather here."
       />
 
-      <div
-        className={cn(
-          surfaceClass,
-          "mt-8 flex flex-col items-center gap-3 px-5 py-12 text-center"
-        )}
-      >
-        <AccentIcon icon={Bookmark} size="lg" />
-        <Heading as="p" variant="card">
-          Nothing Saved Yet
-        </Heading>
-        <Text variant="small" className="max-w-sm">
-          When you save a post on the community feed, it will appear here so you
-          can find it again.
-        </Text>
-      </div>
+      <EmptyWell
+        icon={Bookmark}
+        className="mt-8 py-12"
+        title="Nothing Saved Yet"
+        text="When you save a post on the community feed, it will appear here so you can find it again."
+      />
     </section>
   );
 }

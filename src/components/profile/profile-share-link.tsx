@@ -48,7 +48,7 @@ export function ProfileShareLink({ path }: { path: string }) {
         readOnly
         value={url}
         aria-label="Shareable profile link"
-        className="h-11 min-w-0 text-sm md:text-xs"
+        className="min-w-0 text-sm md:text-xs"
       />
       <Button
         type="button"

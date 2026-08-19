@@ -9,8 +9,10 @@ import { ArrowRight, KeyRound, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { FieldError } from "@/components/form-field";
+import { Text } from "@/components/typography";
 import { getErrorMessage } from "@/lib/get-error-message";
-import { AuthHeading } from "./auth-shell";
+import { AuthContinueDivider, AuthHeading } from "./auth-shell";
 import { IconInput, PasswordInput } from "./auth-fields";
 import { GoogleContinueButton } from "./google-continue-button";
 import { StepTransition } from "./step-transition";
@@ -68,9 +70,7 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
             aria-invalid={!!errors.email}
             {...register("email")}
           />
-          {errors.email && (
-            <p className="text-sm text-destructive">{errors.email.message}</p>
-          )}
+          {errors.email && <FieldError>{errors.email.message}</FieldError>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -84,7 +84,7 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
             {...register("password")}
           />
           {errors.password && (
-            <p className="text-sm text-destructive">{errors.password.message}</p>
+            <FieldError>{errors.password.message}</FieldError>
           )}
           <button
             type="button"
@@ -96,39 +96,38 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
         </div>
 
         {/* Session persistence is managed by Clerk itself; this control is visual only. */}
-        <label className="flex items-center gap-2 text-sm text-muted-foreground">
+        <label className="flex items-center gap-2">
           <Checkbox />
-          Remember me
+          <Text as="span" variant="small">
+            Remember me
+          </Text>
         </label>
 
         <Button
           type="submit"
+          variant="gold"
           disabled={login.isPending}
-          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2"
         >
           {login.isPending ? "Logging In..." : "Login"}
           <ArrowRight className="size-4" />
         </Button>
       </form>
 
-      <div className="flex items-center gap-3">
-        <span className="h-px flex-1 bg-border" />
-        <span className="text-xs text-muted-foreground">or continue with</span>
-        <span className="h-px flex-1 bg-border" />
-      </div>
+      <AuthContinueDivider />
 
       <GoogleContinueButton
         onClick={() => googleSignIn.mutate()}
         isPending={googleSignIn.isPending}
       />
 
-      <div className="flex items-start gap-2 text-xs text-muted-foreground">
+      <div className="flex items-start gap-2">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-gold" />
-        <p>
+        <Text variant="meta">
           Your data is safe with us.
           <br />
           We respect your privacy and never share your information.
-        </p>
+        </Text>
       </div>
     </div>
   );
@@ -180,15 +179,14 @@ function ForgotPasswordStep({
             aria-invalid={!!errors.email}
             {...register("email")}
           />
-          {errors.email && (
-            <p className="text-sm text-destructive">{errors.email.message}</p>
-          )}
+          {errors.email && <FieldError>{errors.email.message}</FieldError>}
         </div>
 
         <Button
           type="submit"
+          variant="gold"
           disabled={forgotPassword.isPending}
-          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2"
         >
           {forgotPassword.isPending ? "Sending Code..." : "Send Reset Code"}
         </Button>
@@ -197,7 +195,7 @@ function ForgotPasswordStep({
       <button
         type="button"
         onClick={onBack}
-        className="text-sm font-medium text-gold hover:underline"
+        className="self-start text-sm font-medium text-gold hover:underline"
       >
         Back to Login
       </button>
@@ -254,9 +252,7 @@ function ResetPasswordStep({
             aria-invalid={!!errors.code}
             {...register("code")}
           />
-          {errors.code && (
-            <p className="text-sm text-destructive">{errors.code.message}</p>
-          )}
+          {errors.code && <FieldError>{errors.code.message}</FieldError>}
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -270,7 +266,7 @@ function ResetPasswordStep({
             {...register("password")}
           />
           {errors.password && (
-            <p className="text-sm text-destructive">{errors.password.message}</p>
+            <FieldError>{errors.password.message}</FieldError>
           )}
         </div>
 
@@ -285,16 +281,15 @@ function ResetPasswordStep({
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
-            <p className="text-sm text-destructive">
-              {errors.confirmPassword.message}
-            </p>
+            <FieldError>{errors.confirmPassword.message}</FieldError>
           )}
         </div>
 
         <Button
           type="submit"
+          variant="gold"
           disabled={resetPassword.isPending}
-          className="mt-2 bg-gold text-espresso hover:bg-gold/90"
+          className="mt-2"
         >
           {resetPassword.isPending ? "Resetting..." : "Reset Password"}
         </Button>
@@ -303,7 +298,7 @@ function ResetPasswordStep({
       <button
         type="button"
         onClick={onBack}
-        className="text-sm font-medium text-gold hover:underline"
+        className="self-start text-sm font-medium text-gold hover:underline"
       >
         Back to Login
       </button>

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { BookOpen, PenLine, Search } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
-import { AccentIcon } from "@/components/accent-icon";
+import { EmptyWell } from "@/components/empty-well";
 import { BlogCard } from "@/components/blog/blog-card";
 import { BlogSidebar } from "@/components/blog/blog-sidebar";
 import {
@@ -17,8 +17,7 @@ import {
   useMemberStories,
 } from "@/components/blog/member-stories";
 import { Stagger, StaggerItem } from "@/components/reveal";
-import { surfaceClass } from "@/components/surface";
-import { Heading, Text } from "@/components/typography";
+import { Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import type { BlogPost } from "@/data/blog-posts";
 import { cn } from "@/lib/utils";
@@ -105,7 +104,7 @@ export function BlogList({
       </aside>
 
       <div className="mt-8 min-w-0 lg:col-span-9 lg:mt-0">
-        <p className="mb-6 text-sm text-warm-gray">
+        <Text variant="small" className="mb-6">
           {query.trim() ? (
             <>
               {filtered.length} {filtered.length === 1 ? "story" : "stories"} matching
@@ -119,15 +118,16 @@ export function BlogList({
               {filtered.length} {filtered.length === 1 ? "story" : "stories"}
             </>
           )}
-        </p>
+        </Text>
 
         {posts.length === 0 ? (
-          <EmptyState
+          <EmptyWell
+            icon={BookOpen}
             title="No Published Stories Yet"
             text="The first published story from the community will appear here."
           />
         ) : filtered.length === 0 ? (
-          <EmptyState
+          <EmptyWell
             icon={Search}
             title="No Matching Stories"
             text="Try a different search, or choose another category."
@@ -153,33 +153,6 @@ export function BlogList({
           </Stagger>
         )}
       </div>
-    </div>
-  );
-}
-
-function EmptyState({
-  title,
-  text,
-  icon: Icon = BookOpen,
-}: {
-  title: string;
-  text: string;
-  icon?: typeof BookOpen;
-}) {
-  return (
-    <div
-      className={cn(
-        surfaceClass,
-        "flex flex-col items-center gap-3 px-5 py-14 text-center"
-      )}
-    >
-      <AccentIcon icon={Icon} size="lg" />
-      <Heading as="p" variant="card">
-        {title}
-      </Heading>
-      <Text variant="small" className="max-w-sm">
-        {text}
-      </Text>
     </div>
   );
 }
