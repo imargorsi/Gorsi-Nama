@@ -3,7 +3,6 @@ import { Link } from "@/i18n/navigation";
 import { Stagger, StaggerItem } from "@/components/reveal";
 import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
-import { chronicleDescription } from "@/data/history-chronicle";
 import { cn } from "@/lib/utils";
 
 const photoFrameClass =
@@ -21,11 +20,14 @@ export function HistoryTeaser() {
             <div>
               <p className="heritage-eyebrow mb-4">Our History</p>
               <Heading as="h2" variant="h2">
-                Where Tradition Meets Technology: Uniting the Gorsi Tribe Across
-                Generations
+                Where Tradition Meets Technology: Uniting the Gujjar People
+                Across Generations
               </Heading>
               <Text variant="muted" className="mt-2">
-                {chronicleDescription}
+                A journey of ancestry, migration, settlement, and cultural
+                memory across the Indian subcontinent — tracing the histories of
+                Gujjar communities, the places they shaped, and the traditions
+                and stories carried through generations.
               </Text>
             </div>
 
@@ -54,33 +56,34 @@ export function HistoryTeaser() {
           <StaggerItem index={1} className="flex min-w-0 flex-col border-b border-espresso pb-8">
             <div className={cn(photoFrameClass, "aspect-16/10")}>
               <Image
-                src="/connecting-tech.png"
-                alt="Gorsi elders and younger members gathered on a traditional rug, sharing a laptop and tablets"
+                src="/connecting-tech.jpg"
+                alt="Gujjar elders and younger members gathered on a traditional rug, sharing a laptop and tablets"
                 fill
                 sizes="(min-width: 768px) 50vw, 100vw"
                 className="object-cover object-[center_45%]"
               />
             </div>
             <Heading as="h3" variant="h4" className="mt-6">
-              A Brief History About Gorsi
+              A Brief History of the Gujjar People
             </Heading>
             <Text variant="muted" className="mt-4">
-              The Gorsi community has a rich history rooted in culture, honor,
-              and resilience. This platform is dedicated to preserving our
-              heritage by sharing the stories of those who have made
-              significant contributions to our tribe.
+              The Gujjar people have a long and diverse history shaped by
+              migration, settlement, pastoral traditions, regional kingdoms, and
+              changing societies across South Asia. Their story is preserved not
+              only in historical records, but also in family memories, oral
+              traditions, places, and generations of lived experience.
             </Text>
             <Text variant="muted" className="mt-4">
-              From historical accounts to the achievements of modern-day
-              trailblazers, we aim to create a digital archive that connects
-              Gorsi across generations. Join us in honoring our legacy and
-              building a stronger, united future for our tribe.
+              From ancient and medieval history to the lives and achievements of
+              Gujjars today, Gujjar Nama brings these stories together in one
+              growing archive — helping preserve our shared heritage and pass it
+              forward to generations yet to come.
             </Text>
             <Link
               href="/history"
               className={cn(buttonVariants({ className: "mt-6 w-fit" }))}
             >
-              Read More
+              Read the Gorsi chronicle
             </Link>
           </StaggerItem>
         </Stagger>

@@ -8,7 +8,7 @@ import {
 } from "@/components/community/community-categories";
 
 export const metadata: Metadata = {
-  title: "Community | Gorsi Nama",
+  title: "Community | Gujjar Nama",
   description: communityDescription,
 };
 

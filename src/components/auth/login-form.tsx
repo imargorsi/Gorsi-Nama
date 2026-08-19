@@ -55,7 +55,7 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
     <div className="flex flex-col gap-6">
       <AuthHeading
         title="Welcome Back"
-        description="Login to continue your journey with Gorsi Nama"
+        description="Login to continue your journey with Gujjar Nama"
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">

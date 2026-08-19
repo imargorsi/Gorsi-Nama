@@ -23,7 +23,7 @@ const stats = [
   {
     icon: Users,
     label: "Global Community",
-    value: "Connecting Gorsi worldwide",
+    value: "Connecting Gujjar people worldwide",
   },
   {
     icon: BookOpen,
@@ -42,17 +42,17 @@ const slides = [
     id: "heritage",
     image: "/slider/1.jpg",
     eyebrow: "Our Heritage",
-    preview: "Discover the clan",
+    preview: "Discover our heritage",
     title: (
       <>
         <span className="block whitespace-nowrap">Discover the Legacy of</span>
         <span className="block whitespace-nowrap">
-          the Gorsi Clan & <span className="text-gold">Our Heritage</span>
+          the Gujjar People & <span className="text-gold">Our Heritage</span>
         </span>
       </>
     ),
     description:
-      "Gorsi Nama is a digital home for the Gorsi clan — a place to discover who we are, where we come from, and the heritage we still carry.",
+      "Gujjar Nama is a digital home for the Gujjar people — a place to discover who we are, where we come from, and the heritage we still carry.",
     primaryCta: { label: "Explore Our Community", href: "/community" },
     secondaryCta: { label: "Browse Library", href: "/library" },
   },
@@ -63,20 +63,20 @@ const slides = [
     preview: "Connect worldwide",
     title: (
       <>
-        <span className="block whitespace-nowrap">Connecting the Gorsi</span>
+        <span className="block whitespace-nowrap">Connecting the Gujjar</span>
         <span className="block whitespace-nowrap">
           Community <span className="text-gold">Worldwide</span>
         </span>
       </>
     ),
     description:
-      "Find Gorsi people across cities and countries. Share photographs and conversation on the community feed, stay connected with the clan.",
+      "Find Gujjar people across cities and countries. Share photographs and conversation on the community feed, stay connected with our people.",
     primaryCta: { label: "Explore Our Community", href: "/community" },
     secondaryCta: { label: "Browse Library", href: "/library" },
   },
   {
     id: "history",
-    image: "/slider/3.png",
+    image: "/slider/3.jpg",
     eyebrow: "Our History",
     preview: "Read the chronicle",
     title: (
@@ -130,7 +130,7 @@ export function Hero() {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      aria-label="Gorsi Nama hero"
+      aria-label="Gujjar Nama hero"
     >
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <AnimatePresence initial={false} mode="sync">

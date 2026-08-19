@@ -4,7 +4,7 @@ import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { OwnProfileClient } from "@/components/profile/own-profile-client";
 
 export const metadata: Metadata = {
-  title: "My Profile | Gorsi Nama",
+  title: "My Profile | Gujjar Nama",
 };
 
 export default async function ProfilePage({

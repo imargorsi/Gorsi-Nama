@@ -5,7 +5,7 @@ import { EditStoryClient } from "@/components/blog/edit-story-client";
 import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
-  title: "Edit Story | Gorsi Nama",
+  title: "Edit Story | Gujjar Nama",
 };
 
 export default async function EditStoryPage({

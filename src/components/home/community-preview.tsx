@@ -13,8 +13,8 @@ export function CommunityPreview() {
         <Reveal as="header">
           <SectionHeading
             eyebrow="Our People"
-            title="Meet the Gorsi Community"
-            description="Gorsi people connected across generations, cities and countries."
+            title="Meet the Gujjar Community"
+            description="Gujjar people connected across generations, cities, and countries."
           >
             <SectionLink href="/member">Explore Members</SectionLink>
           </SectionHeading>

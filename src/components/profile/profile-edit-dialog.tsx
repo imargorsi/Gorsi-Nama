@@ -79,7 +79,7 @@ export function ProfileEditDialog({
           <p className="heritage-eyebrow">Your details</p>
           <DialogTitle className="mt-2 text-xl">Edit profile</DialogTitle>
           <DialogDescription>
-            These details appear on your Gorsi Nama profile. Name, email, and photo are
+            These details appear on your Gujjar Nama profile. Name, email, and photo are
             managed in your account.
           </DialogDescription>
         </DialogHeader>

@@ -49,7 +49,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
     <div className="flex flex-col gap-6">
       <AuthHeading
         title="Create Account"
-        description="Join Gorsi Nama and start your journey with us"
+        description="Join Gujjar Nama and start your journey with us"
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">

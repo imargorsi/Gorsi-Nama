@@ -1,4 +1,3 @@
-import { BookOpen, Landmark, Library, Users } from "lucide-react";
 import { HeritageCard, HeritageCardGrid } from "@/components/heritage-card";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { SectionHeading } from "./section-heading";
@@ -12,8 +11,7 @@ const cards = [
       "Trace our journey across generations and discover the roots of who we are.",
     href: "/history",
     cta: "Explore History",
-    image: "/history-card.png",
-    icon: Landmark,
+    image: "/history-card.jpg",
   },
   {
     index: 2,
@@ -24,7 +22,6 @@ const cards = [
     href: "/blog",
     cta: "Explore Stories",
     image: "/our-story.png",
-    icon: BookOpen,
   },
   {
     index: 3,
@@ -35,7 +32,6 @@ const cards = [
     href: "/member",
     cta: "Meet the Community",
     image: "/people.jpg",
-    icon: Users,
   },
   {
     index: 4,
@@ -45,8 +41,7 @@ const cards = [
       "Browse documents and photographs that preserve our heritage.",
     href: "/library",
     cta: "Explore Library",
-    image: "/book.jpg",
-    icon: Library,
+    image: "/slider/3.jpg",
   },
 ] as const;
 
@@ -66,7 +61,7 @@ export function ExploreGrid() {
       <div className="site-shell relative z-10 px-4 sm:px-0">
         <Reveal as="header">
           <SectionHeading
-            title="Explore Gorsi Nama"
+            title="Explore Gujjar Nama"
             description="Stories, people, history and memories that connect us across generations."
           />
         </Reveal>

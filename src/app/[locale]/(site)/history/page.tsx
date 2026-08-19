@@ -6,7 +6,7 @@ import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { chronicleDescription } from "@/data/history-chronicle";
 
 export const metadata: Metadata = {
-  title: "History | Gorsi Nama",
+  title: "History | Gujjar Nama",
   description: chronicleDescription,
 };
 

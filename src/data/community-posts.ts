@@ -116,7 +116,7 @@ export const communityPosts: CommunityPost[] = [
     categoryId: "language-traditions",
     body: "If you still greet elders the old way, write the phrase below. I am collecting the greetings we use from Poonch to the cities.",
     tags: ["Gojri", "Traditions", "Gorsi"],
-    images: ["/hero.jpg"],
+    images: ["/connecting-tech.jpg"],
     likeCount: 38,
     saveCount: 14,
   },

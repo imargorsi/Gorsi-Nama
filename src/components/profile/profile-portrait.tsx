@@ -47,7 +47,7 @@ export function ProfilePortrait({
             </p>
           ) : (
             <Text variant="small" className="mt-1">
-              {firstName}, this is your place in Gorsi Nama.
+              {firstName}, this is your place in Gujjar Nama.
             </Text>
           )}
         </div>

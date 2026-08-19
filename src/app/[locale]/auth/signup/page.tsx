@@ -4,7 +4,7 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { SignupForm } from "@/components/auth/signup-form";
 
 export const metadata: Metadata = {
-  title: "Register | Gorsi Nama",
+  title: "Register | Gujjar Nama",
 };
 
 export default async function SignupPage({

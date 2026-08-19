@@ -5,7 +5,7 @@ import { StoryEditor } from "@/components/blog/story-editor";
 import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
-  title: "Write a Story | Gorsi Nama",
+  title: "Write a Story | Gujjar Nama",
 };
 
 export default async function WriteStoryPage({

@@ -15,8 +15,8 @@ export function LibraryPreview() {
         <Reveal as="header">
           <SectionHeading
             eyebrow="The Archive"
-            title="The Gorsi Library"
-            description="PDF documents and photographs kept in one archive so the generations after us can still find, read, and remember what we were careful to keep."
+            title="The Gujjar Library"
+            description="PDF documents and photographs of the Gujjar people, kept in one archive so the generations after us can still find, read, and remember what we were careful to keep."
           >
             <SectionLink href="/library">Explore the Library</SectionLink>
           </SectionHeading>

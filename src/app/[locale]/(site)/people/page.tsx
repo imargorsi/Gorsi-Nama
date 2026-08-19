@@ -7,7 +7,7 @@ import { Stagger, StaggerItem } from "@/components/reveal";
 import { notablePeople } from "@/data/notable-people";
 
 export const metadata: Metadata = {
-  title: "Famous Gorsi Personalities | Gorsi Nama",
+  title: "Famous Gorsi Personalities | Gujjar Nama",
 };
 
 export default async function PeoplePage({

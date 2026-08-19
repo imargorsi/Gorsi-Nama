@@ -20,7 +20,7 @@ export const notablePeople: NotablePerson[] = [
     name: "Haji Abdul Rahman",
     role: "Oral historian",
     summary:
-      "Placeholder portrait for the notable-people directory. Join Gorsi Nama to help complete this biography.",
+      "Placeholder portrait for the notable-people directory. Join Gujjar Nama to help complete this biography.",
     image: "/history__image__3.jpg",
   },
   {

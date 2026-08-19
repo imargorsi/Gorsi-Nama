@@ -10,7 +10,7 @@ import { getPlaceholderMember } from "@/data/members";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Member Profile | Gorsi Nama",
+  title: "Member Profile | Gujjar Nama",
 };
 
 export default async function MemberProfilePage({
@@ -58,8 +58,8 @@ export default async function MemberProfilePage({
       <CallToAction
         eyebrow="The Directory"
         title="This Could Be Your Profile"
-        text="Create your Gorsi Nama account to claim a profile and appear in the member directory."
-        buttonText="Join Gorsi Nama"
+        text="Create your Gujjar Nama account to claim a profile and appear in the member directory."
+        buttonText="Join Gujjar Nama"
         href="/auth/signup"
       />
     </>

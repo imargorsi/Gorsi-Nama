@@ -31,9 +31,9 @@ const fontUrdu = Noto_Nastaliq_Urdu({
 });
 
 export const metadata: Metadata = {
-  title: "Gorsi Nama",
+  title: "Gujjar Nama",
   description:
-    "A digital home for the Gorsi tribe — history, heritage, members, and stories.",
+    "A digital archive and community platform documenting the history, people, stories, heritage, and collective memory of the Gujjar people.",
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png", sizes: "any" }],
     shortcut: "/favicon.png",

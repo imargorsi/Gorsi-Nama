@@ -25,7 +25,7 @@ export const chronicleDescription =
 
 export const chronicleIntro = [
   "The history of the Gorsi clan is part of the wider story of the Gujjar people of South Asia. Across generations, Gorsi families have lived, migrated, settled, farmed, raised livestock, served their communities, and preserved traditions across the Punjab, Kashmir and surrounding regions.",
-  "Much of this history survives through a combination of historical records, colonial-era ethnographic accounts, local traditions, family histories and oral memory. Gorsi Nama brings these sources together as an evolving chronicle — one that can grow as our community discovers and contributes more of its past.",
+  "Much of this history survives through a combination of historical records, colonial-era ethnographic accounts, local traditions, family histories and oral memory. Gujjar Nama brings these sources together as an evolving chronicle — one that can grow as our community discovers and contributes more of its past.",
 ] as const;
 
 export const chronicleChapters: ChronicleChapter[] = [
@@ -134,7 +134,7 @@ export const chronicleChapters: ChronicleChapter[] = [
     callout:
       "This part of the story should currently be treated as oral history rather than a firmly dated historical fact.",
     afterList: [
-      "Gorsi Nama will continue collecting family records, elders' accounts, land documents, photographs and other evidence to better establish this chapter.",
+      "Gujjar Nama will continue collecting family records, elders' accounts, land documents, photographs and other evidence to better establish this chapter.",
     ],
   },
   {
@@ -160,7 +160,7 @@ export const chronicleChapters: ChronicleChapter[] = [
       "These records are valuable, but they must also be read critically. They were produced by colonial administrators who categorized communities according to the administrative and ethnographic ideas of their time.",
     ],
     callout:
-      "For Gorsi Nama, these documents are sources to examine — not the final definition of our identity.",
+      "For Gujjar Nama, these documents are sources to examine — not the final definition of our identity.",
   },
   {
     id: "partition-1947",
@@ -226,7 +226,7 @@ export const chronicleChapters: ChronicleChapter[] = [
       "Some chapters are documented.",
       "Some survive only through oral tradition.",
       "And some are still waiting to be discovered.",
-      "Gorsi Nama exists to bring these fragments together.",
+      "Gujjar Nama exists to bring these fragments together.",
     ],
   },
 ];

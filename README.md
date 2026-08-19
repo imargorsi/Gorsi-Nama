@@ -1,6 +1,10 @@
-# Gorsi Nama
+# Gujjar Nama
 
-A digital community and heritage platform for the Gorsi community — history, stories, people, and a shared space for members to connect.
+A digital archive and community platform documenting the history, people, stories, heritage, and collective memory of the Gujjar people.
+
+**Tagline:** Our People. Our Stories. Our Heritage.
+
+Gorsi remains a documented clan within this platform. See [`doc/rebrand.md`](doc/rebrand.md) for the Gorsi Nama → Gujjar Nama migration notes.
 
 ## Tech stack
 
@@ -8,7 +12,7 @@ A digital community and heritage platform for the Gorsi community — history, s
 - Tailwind CSS v4 + [shadcn/ui](https://ui.shadcn.com)
 - [TanStack Query](https://tanstack.com/query) for server-state
 - React Hook Form + Zod for forms
-- Clerk (auth), Neon + Drizzle ORM (database) — planned, not yet wired in
+- Clerk (auth), Neon + Drizzle ORM (database), Cloudflare R2 (uploads)
 
 ## Getting started
 

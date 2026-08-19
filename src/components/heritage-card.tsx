@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { AccentIcon } from "@/components/accent-icon";
+import { HeritageCardSeam } from "@/components/heritage-ornaments";
 import { surfaceClass } from "@/components/surface";
 import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
@@ -17,7 +16,6 @@ export interface HeritageCardProps {
   imageAlt?: string;
   href?: string;
   cta?: string;
-  icon?: LucideIcon;
   className?: string;
 }
 
@@ -35,7 +33,6 @@ export function HeritageCard({
   imageAlt,
   href,
   cta,
-  icon,
   className,
 }: HeritageCardProps) {
   const classes = cn(
@@ -54,12 +51,9 @@ export function HeritageCard({
           sizes="(min-width: 1280px) 20vw, (min-width: 640px) 40vw, 90vw"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
-        {icon ? (
-          <span className="absolute bottom-3 start-3">
-            <AccentIcon icon={icon} size="sm" tone="on-photo" />
-          </span>
-        ) : null}
       </div>
+
+      <HeritageCardSeam />
 
       <div className="flex flex-1 flex-col px-4 pt-3 pb-3 sm:px-5">
         <div>

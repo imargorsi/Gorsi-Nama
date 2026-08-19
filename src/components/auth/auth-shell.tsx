@@ -26,29 +26,29 @@ export function AuthShell({
   children: ReactNode;
 }) {
   return (
-    <div className="w-full bg-espresso p-4 sm:p-8 lg:p-12">
+    <div className="relative isolate min-h-svh w-full overflow-hidden p-4 sm:p-8 lg:p-12">
+      <Image
+        src="/auth-bg.jpg"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover"
+        priority
+      />
+      <div className="absolute inset-0 bg-espresso/65" />
+      <div className="absolute inset-0 bg-linear-to-t from-espresso/90 via-espresso/45 to-espresso/70" />
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-7xl flex-col overflow-hidden rounded-2xl ring-2 ring-gold/45 shadow-xl sm:min-h-[calc(100svh-4rem)] sm:flex-row lg:min-h-[calc(100svh-6rem)]"
+        className="relative z-10 mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-7xl flex-col overflow-hidden rounded-2xl ring-2 ring-gold/45 shadow-xl sm:min-h-[calc(100svh-4rem)] sm:flex-row lg:min-h-[calc(100svh-6rem)]"
       >
         <motion.div
           variants={panelContainer}
           initial="hidden"
           animate="show"
-          className="relative hidden flex-col items-center justify-between gap-6 overflow-hidden px-10 py-10 text-center sm:flex sm:w-1/2"
+          className="relative hidden flex-col items-center justify-between gap-6 overflow-hidden bg-espresso px-10 py-10 text-center sm:flex sm:w-1/2"
         >
-          <Image
-            src="/hero.jpg"
-            alt=""
-            fill
-            sizes="(min-width: 640px) 50vw, 100vw"
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-espresso/60" />
-          <div className="absolute inset-0 bg-linear-to-t from-espresso/95 via-espresso/40 to-espresso/50" />
           <div
             aria-hidden
             className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/10 blur-3xl"
@@ -56,24 +56,18 @@ export function AuthShell({
 
           <motion.div
             variants={fadeUp}
-            className="relative z-10 flex flex-col items-center gap-5"
+            className="relative z-10 flex flex-col items-center"
           >
-            <Link href="/" className="relative h-20 w-72 transition-opacity hover:opacity-80">
+            <Link href="/" className="relative h-28 w-96 transition-opacity hover:opacity-80 sm:h-32 sm:w-[28rem]">
               <Image
-                src="/white-version.png"
-                alt="Gorsi Nama"
+                src="/veriosn-v2.png"
+                alt="Gujjar Nama"
                 fill
-                sizes="288px"
-                className="object-contain"
+                sizes="448px"
+                className="object-contain mix-blend-lighten"
+                unoptimized
               />
             </Link>
-            <p className="text-xs font-medium tracking-[0.35em] text-ivory/80">
-              GORSI NAMA
-            </p>
-            <HeritageRule />
-            <p className="text-sm text-ivory/75">
-              Our People &bull; Our Stories &bull; Our Heritage
-            </p>
           </motion.div>
 
           <motion.div
@@ -81,11 +75,13 @@ export function AuthShell({
             className="relative z-10 h-[28svh] max-h-96 min-h-56 w-[28svh] max-w-96 min-w-56"
           >
             <Image
-              src="/trademarkgorsi.png"
-              alt=""
+              src="/gujjar-emblem.png"
+              alt="Gujjar Nama emblem"
               fill
               sizes="384px"
-              className="object-contain"
+              className="object-contain mix-blend-lighten"
+              priority
+              unoptimized
             />
           </motion.div>
 
@@ -111,6 +107,20 @@ export function AuthShell({
             transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
             className="mx-auto flex w-full max-w-md flex-col gap-6"
           >
+            <Link
+              href="/"
+              className="relative mx-auto size-28 overflow-hidden rounded-full bg-espresso ring-1 ring-gold/25 sm:hidden"
+            >
+              <Image
+                src="/gujjar-emblem.png"
+                alt="Gujjar Nama emblem"
+                fill
+                sizes="112px"
+                className="object-contain mix-blend-lighten"
+                priority
+                unoptimized
+              />
+            </Link>
             <div className="relative flex items-center justify-center gap-6">
               <Link
                 href="/auth/login"

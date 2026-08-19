@@ -19,7 +19,7 @@ function StoryJoinCta() {
     <CallToAction
       eyebrow="From Our People"
       title="Share a Story From Your Family"
-      text="Share the stories, memories, photographs, and family history that have shaped your Gorsi heritage for generations to come."
+      text="Share the stories, memories, photographs, and family history that have shaped your heritage for generations to come."
       buttonText="Write a story"
       href="/blog/write"
     />
@@ -34,13 +34,13 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const post = await getPublishedStoryBySlug(slug);
-    if (!post) return { title: "Story | Gorsi Nama" };
+    if (!post) return { title: "Story | Gujjar Nama" };
     return {
-      title: `${post.title} | Gorsi Nama`,
+      title: `${post.title} | Gujjar Nama`,
       description: post.excerpt,
     };
   } catch {
-    return { title: "Story | Gorsi Nama" };
+    return { title: "Story | Gujjar Nama" };
   }
 }
 

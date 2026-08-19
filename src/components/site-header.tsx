@@ -56,31 +56,24 @@ export function SiteHeader() {
               : "h-20 px-5 shadow-lg ring-1 ring-gold/20 sm:px-8"
           )}
         >
-          <Link href="/" className="flex shrink-0 flex-col items-start gap-0.5">
+          <Link href="/" className="flex h-full shrink-0 items-center">
             <span
               className={cn(
                 "relative transition-[height,width] duration-300",
                 scrolled
-                  ? "h-9 w-36 sm:h-10 sm:w-40"
-                  : "h-10 w-40 sm:h-11 sm:w-44"
+                  ? "h-12 w-52 sm:w-60"
+                  : "h-14 w-60 sm:h-16 sm:w-72"
               )}
             >
               <Image
                 src="/veriosn-v2.png"
-                alt="Gorsi Nama"
+                alt="Gujjar Nama"
                 fill
-                sizes="176px"
-                className="object-contain object-left rtl:object-right"
+                sizes="288px"
+                className="object-contain object-left mix-blend-lighten rtl:object-right"
                 priority
+                unoptimized
               />
-            </span>
-            <span
-              className={cn(
-                "hidden font-sans text-[0.65rem] font-medium tracking-[0.2em] text-ivory transition-opacity duration-300 sm:block",
-                scrolled ? "h-0 overflow-hidden opacity-0" : "opacity-100"
-              )}
-            >
-              {t("tagline")}
             </span>
           </Link>
 
@@ -116,13 +109,14 @@ export function SiteHeader() {
               >
                 <SheetHeader className="flex-row items-center justify-between gap-3">
                   <SheetTitle className="sr-only">{t("openMenu")}</SheetTitle>
-                  <span className="relative h-9 w-36">
+                  <span className="relative h-11 w-48">
                     <Image
                       src="/veriosn-v2.png"
-                      alt="Gorsi Nama"
+                      alt="Gujjar Nama"
                       fill
-                      sizes="144px"
-                      className="object-contain object-left rtl:object-right"
+                      sizes="192px"
+                      className="object-contain object-left mix-blend-lighten rtl:object-right"
+                      unoptimized
                     />
                   </span>
                   <SheetClose

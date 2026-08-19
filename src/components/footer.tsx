@@ -46,13 +46,14 @@ export async function Footer() {
       <div className="site-shell relative z-10 px-4 pt-16 pb-20 sm:px-0 sm:pb-24">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-start md:gap-x-8 md:gap-y-12">
           <div className="flex flex-col gap-3 md:col-span-6 lg:pe-8">
-            <Link href="/" className="relative h-10 w-40">
+            <Link href="/" className="relative h-16 w-72 sm:h-[4.5rem] sm:w-80">
               <Image
                 src="/veriosn-v2.png"
-                alt="Gorsi Nama"
+                alt="Gujjar Nama"
                 fill
-                sizes="160px"
-                className="object-contain object-left rtl:object-right"
+                sizes="320px"
+                className="object-contain object-left mix-blend-lighten rtl:object-right"
+                unoptimized
               />
             </Link>
             <p className="text-sm text-ivory/65">{t("tagline")}</p>

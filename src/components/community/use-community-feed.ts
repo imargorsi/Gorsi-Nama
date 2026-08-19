@@ -157,7 +157,7 @@ export function useCommunityFeed({
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "Gorsi Nama",
+          title: "Gujjar Nama",
           text: post.body.slice(0, 120),
           url,
         });

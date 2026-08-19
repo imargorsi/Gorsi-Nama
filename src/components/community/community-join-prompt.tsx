@@ -12,13 +12,13 @@ import { cn } from "@/lib/utils";
 export function CommunityJoinPrompt() {
   return (
     <div className={cn(surfaceClass, "flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6")}>
-      <CommunityAvatar name="Gorsi Nama" size="lg" />
+      <CommunityAvatar name="Gujjar Nama" size="lg" />
       <div className="min-w-0 flex-1">
         <Heading as="p" variant="card">
           Sit With the Conversation
         </Heading>
         <Text variant="small" className="mt-1">
-          Sign in to share a memory, a question, or a photograph with the Gorsi
+          Sign in to share a memory, a question, or a photograph with the Gujjar
           community.
         </Text>
       </div>
@@ -27,7 +27,7 @@ export function CommunityJoinPrompt() {
           Sign in
         </Link>
         <Link href="/auth/signup" className={cn(buttonVariants())}>
-          Join Gorsi Nama
+          Join Gujjar Nama
         </Link>
       </div>
     </div>
@@ -46,7 +46,7 @@ export function CommunityEmptyPrompt({
       text={
         isFiltered
           ? "Try another category or tag, or be the first to share a photograph or a question here."
-          : "Be the first to share a memory, a question, or a photograph with the Gorsi community."
+          : "Be the first to share a memory, a question, or a photograph with the Gujjar community."
       }
     />
   );

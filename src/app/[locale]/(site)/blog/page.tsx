@@ -6,8 +6,8 @@ import { BlogList, BlogWriteButton } from "@/components/blog/blog-list";
 import { isBlogCategoryId } from "@/components/blog/blog-categories";
 
 export const metadata: Metadata = {
-  title: "Stories | Gorsi Nama",
-  description: "Stories, updates, and heritage articles from the Gorsi community.",
+  title: "Stories | Gujjar Nama",
+  description: "Stories, updates, and heritage articles from the Gujjar community.",
 };
 
 export default async function BlogPage({
@@ -25,7 +25,7 @@ export default async function BlogPage({
       <PageBreadcrumb
         eyebrow="From Our People"
         title="Stories From Our People"
-        description="Stories, updates, and heritage articles from the Gorsi community."
+        description="Stories, updates, and heritage articles from the Gujjar community."
       >
         <BlogWriteButton />
       </PageBreadcrumb>
@@ -37,7 +37,7 @@ export default async function BlogPage({
       <CallToAction
         eyebrow="From Our People"
         title="Share a Story From Your Family"
-        text="Share the stories, memories, photographs, and family history that have shaped your Gorsi heritage for generations to come."
+        text="Share the stories, memories, photographs, and family history that have shaped your heritage for generations to come."
         buttonText="Write a story"
         href="/blog/write"
       />

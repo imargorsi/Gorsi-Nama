@@ -66,7 +66,7 @@ export function CommunityComposer({
           size="lg"
         />
         <Text as="span" variant="small" className="min-w-0 flex-1">
-          Share a memory, a question, or a photograph with the Gorsi community.
+          Share a memory, a question, or a photograph with the Gujjar community.
         </Text>
         {showWriteButton ? (
           <span className={cn(buttonVariants(), "pointer-events-none w-full shrink-0 sm:w-auto")}>

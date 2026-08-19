@@ -31,12 +31,23 @@ export function MembershipCard({
         className
       )}
     >
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <Image
+          src="/MEMEBER-CARD.jpg"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+          className="object-cover object-[center_35%] opacity-45"
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-espresso/70 via-espresso/40 to-espresso/72" />
+      </div>
+
       <span
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-0.5 bg-gold/40"
+        className="absolute inset-x-0 bottom-0 z-10 h-0.5 bg-gold/40"
       />
 
-      <div className="relative size-20 shrink-0 overflow-hidden rounded-full bg-ivory ring-2 ring-gold/45 ring-offset-2 ring-offset-espresso sm:size-24">
+      <div className="relative z-10 size-20 shrink-0 overflow-hidden rounded-full bg-ivory ring-2 ring-gold/45 ring-offset-2 ring-offset-espresso sm:size-24">
         {image ? (
           <Image
             src={image}
@@ -52,7 +63,7 @@ export function MembershipCard({
         )}
       </div>
 
-      <p className="heritage-eyebrow relative mt-3.5 text-gold/80">
+      <p className="heritage-eyebrow relative z-10 mt-3.5 text-gold/80">
         Membership ID# {membershipId}
       </p>
       <Heading
@@ -60,7 +71,7 @@ export function MembershipCard({
         variant="card"
         tone="onDark"
         title={name}
-        className="relative mt-1.5 line-clamp-2"
+        className="relative z-10 mt-1.5 line-clamp-2"
       >
         {name}
       </Heading>

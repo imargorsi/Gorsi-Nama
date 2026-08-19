@@ -4,7 +4,7 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata: Metadata = {
-  title: "Login | Gorsi Nama",
+  title: "Login | Gujjar Nama",
 };
 
 export default async function LoginPage({

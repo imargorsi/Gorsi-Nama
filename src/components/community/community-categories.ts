@@ -20,7 +20,7 @@ export const communityCategories = [
 }[];
 
 export const communityDescription =
-  "A shared space for Gorsi families to exchange memories, ask questions, share photographs, and stay connected through the stories that bring us together.";
+  "A shared space for Gujjar families to exchange memories, ask questions, share photographs, and stay connected through the stories that bring us together.";
 
 export type CommunityCategoryId = (typeof communityCategories)[number]["id"];
 

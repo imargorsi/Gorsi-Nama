@@ -56,3 +56,15 @@ export function HeritagePatternBand({ className }: { className?: string }) {
     </div>
   );
 }
+
+/** Gold `pattern-2.png` divider at the start of a card's text block. */
+export function HeritageCardSeam({ className }: { className?: string }) {
+  return (
+    <div
+      aria-hidden
+      className={cn("relative h-10 overflow-hidden sm:h-11", className)}
+    >
+      <div className="h-full w-full bg-gold [mask-image:url('/pattern-2.png')] [mask-mode:luminance] [mask-position:center_bottom] [mask-repeat:repeat-x] [mask-size:auto_220%]" />
+    </div>
+  );
+}

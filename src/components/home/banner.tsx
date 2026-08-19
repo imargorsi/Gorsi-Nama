@@ -41,7 +41,7 @@ export function Banner() {
           </div>
 
           <Text variant="muted" className="mt-6 max-w-2xl text-ivory/80">
-            Gorsi Nama is more than a collection of stories — it&apos;s a living
+            Gujjar Nama is more than a collection of stories — it&apos;s a living
             legacy. Share your memories and knowledge so the next generation
             inherits more than a name.
           </Text>
