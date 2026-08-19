@@ -8,26 +8,29 @@ export function CommunityAvatar({
   name,
   imageUrl,
   size = "default",
+  className,
 }: {
   name: string;
   imageUrl?: string;
   size?: "default" | "lg" | "xl";
+  className?: string;
 }) {
   return (
     <Avatar
-      size={size === "default" ? "default" : "lg"}
       className={cn(
-        "bg-espresso text-ivory ring-1 ring-gold/30 after:border-gold/25",
-        size === "lg" && "size-11",
+        "shrink-0 bg-espresso text-ivory",
+        size === "default" && "size-8 ring-1 ring-gold/30 after:border-gold/25",
+        size === "lg" && "size-11 ring-1 ring-gold/30 after:border-gold/25",
         size === "xl" &&
-          "size-28 shadow-md ring-2 ring-gold/45 ring-offset-4 ring-offset-background after:hidden sm:size-32"
+          "size-20 ring-2 ring-gold/45 after:hidden sm:size-24",
+        className
       )}
     >
       {imageUrl ? <AvatarImage src={imageUrl} alt="" /> : null}
       <AvatarFallback
         className={cn(
           "bg-espresso font-heading font-semibold text-ivory",
-          size === "xl" ? "text-3xl" : "text-sm"
+          size === "xl" ? "text-xl sm:text-2xl" : "text-sm"
         )}
       >
         {initialsFromName(name)}

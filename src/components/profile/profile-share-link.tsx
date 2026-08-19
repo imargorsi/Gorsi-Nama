@@ -48,7 +48,7 @@ export function ProfileShareLink({ path }: { path: string }) {
         readOnly
         value={url}
         aria-label="Shareable profile link"
-        className="h-11 min-w-0 border-ivory/25 bg-ivory/10 text-ivory md:text-xs"
+        className="h-11 min-w-0 text-sm md:text-xs"
       />
       <Button
         type="button"
@@ -56,7 +56,7 @@ export function ProfileShareLink({ path }: { path: string }) {
         size="icon"
         onClick={copy}
         aria-label={copied ? "Copied" : "Copy profile link"}
-        className="size-11 shrink-0 border-gold/40 bg-transparent text-ivory hover:bg-ivory/10 hover:text-ivory"
+        className="size-11 shrink-0"
       >
         {copied ? <Check /> : <Copy />}
       </Button>

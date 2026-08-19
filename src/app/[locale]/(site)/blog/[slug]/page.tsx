@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { BlogArticle } from "@/components/blog/blog-article";
+import { CallToAction } from "@/components/call-to-action";
 import { getBlogPostBySlug, blogPosts } from "@/data/blog-posts";
 
 export function generateStaticParams() {
@@ -29,5 +30,16 @@ export default async function BlogPostPage({
 
   const seed = getBlogPostBySlug(slug);
 
-  return <BlogArticle slug={slug} seed={seed} />;
+  return (
+    <>
+      <BlogArticle slug={slug} seed={seed} />
+      <CallToAction
+        eyebrow="From Our People"
+        title="Share a Story From Your Family"
+        text="Title, excerpt, photographs, and the chapter of Gorsi life you carry — published to this archive."
+        buttonText="Write a story"
+        href="/blog/write"
+      />
+    </>
+  );
 }

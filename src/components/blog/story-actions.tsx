@@ -25,10 +25,15 @@ export function StoryActions({ story }: { story: BlogPost }) {
   }
 
   return (
-    <div className="mt-6 flex flex-wrap gap-2">
+    <div className="flex flex-col gap-2">
       <Link
         href={`/blog/${story.slug}/edit`}
-        className={cn(buttonVariants({ variant: "outline", className: "h-11 gap-2" }))}
+        className={cn(
+          buttonVariants({
+            variant: "outline",
+            className: "h-11 w-full gap-2",
+          })
+        )}
       >
         <Pencil className="size-4" />
         Edit
@@ -39,7 +44,8 @@ export function StoryActions({ story }: { story: BlogPost }) {
         className={cn(
           buttonVariants({
             variant: "ghost",
-            className: "h-11 gap-2 text-destructive hover:text-destructive",
+            className:
+              "h-11 w-full gap-2 text-destructive hover:text-destructive",
           })
         )}
       >

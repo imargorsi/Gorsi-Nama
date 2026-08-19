@@ -2,15 +2,13 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  isLibraryCategoryId,
-  libraryCategories,
-} from "@/components/library/library-categories";
-import { LibraryEmpty } from "@/components/library/library-empty";
+import { LibraryBrowser } from "@/components/library/library-browser";
+import { isLibraryCategoryId } from "@/components/library/library-categories";
 
 export const metadata: Metadata = {
   title: "Library | Gorsi Nama",
+  description:
+    "The Gorsi archive of PDF documents and photographs, kept so later generations can still find what we were careful to keep.",
 };
 
 export default async function LibraryPage({
@@ -23,56 +21,27 @@ export default async function LibraryPage({
   const query = await searchParams;
   const requested =
     typeof query.category === "string" ? query.category : undefined;
-  const category = requested && isLibraryCategoryId(requested) ? requested : "books";
+  const category =
+    requested && isLibraryCategoryId(requested) ? requested : undefined;
 
   return (
     <>
       <PageBreadcrumb
         eyebrow="The Archive"
-        title="Browse the Gorsi Library"
-        description="Three collections: books, documents (PDFs and records), and images. Holdings will appear here as the archive grows."
+        title="The Gorsi Library"
+        description="One archive, two formats. Documents are PDFs — letters, records, and scanned papers. Photographs are JPEG, PNG, and WebP. Archive keepers add holdings; everyone can browse."
       />
 
-      <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
-        <Tabs defaultValue={category}>
-          <TabsList
-            variant="line"
-            className="h-auto w-full max-w-full justify-start gap-1 rounded-none bg-transparent p-0 sm:gap-6"
-          >
-            {libraryCategories.map((item) => {
-              const Icon = item.icon;
-              return (
-                <TabsTrigger
-                  key={item.id}
-                  value={item.id}
-                  className="h-11 flex-none rounded-none px-3 font-heading text-base data-active:bg-transparent data-active:text-gold data-active:shadow-none after:bg-gold sm:px-0"
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <Icon className="size-3.5 text-gold" strokeWidth={1.75} />
-                    {item.title}
-                  </span>
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-          {libraryCategories.map((item) => (
-            <TabsContent key={item.id} value={item.id} className="mt-8">
-              <LibraryEmpty
-                icon={item.icon}
-                title={item.title}
-                message={item.emptyMessage}
-              />
-            </TabsContent>
-          ))}
-        </Tabs>
+      <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
+        <LibraryBrowser initialCategory={category} />
       </div>
 
       <CallToAction
         eyebrow="The Archive"
         title="Help Grow the Archive"
-        text="Books, documents, and photographs will be added as the library takes shape. Join Gorsi Nama to contribute."
-        buttonText="Join Gorsi Nama"
-        href="/auth/signup"
+        text="Official holdings are added by archive keepers. Family memories and photographs you want to share belong in Stories."
+        buttonText="Write a story"
+        href="/blog/write"
       />
     </>
   );

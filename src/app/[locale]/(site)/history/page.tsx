@@ -32,7 +32,7 @@ export default async function HistoryPage({
         eyebrow="Our Chronicle"
         title="Help Grow This Chronicle"
         text="Family records, elders' accounts, photographs, and land documents can fill the chapters still waiting to be discovered."
-        buttonText="Share a Story"
+        buttonText="Share a story"
         href="/blog/write"
       />
     </>

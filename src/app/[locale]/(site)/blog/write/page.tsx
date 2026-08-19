@@ -24,9 +24,9 @@ export default async function WriteStoryPage({
           { label: "Stories", href: "/blog" },
           { label: "Write a story" },
         ]}
-        description="Title, excerpt, content, category, tags, and a featured image."
+        description="Write about family, heritage, or a memory worth keeping. Publish it to Stories, or save a draft on this device."
       />
-      <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
+      <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
         <Reveal mode="load">
           <StoryEditor />
         </Reveal>

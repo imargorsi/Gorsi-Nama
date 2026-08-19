@@ -4,21 +4,22 @@ import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { ImageIcon } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "@/i18n/navigation";
-import { blogCategories } from "@/components/blog/blog-categories";
 import {
   blogPostSchema,
   type BlogPostValues,
+  type BlogStatus,
 } from "@/components/blog/blog.schemas";
 import {
   takenStorySlugs,
   upsertMemberStory,
 } from "@/components/blog/member-stories";
-import { ComposerPhotoPreview } from "@/components/community/community-composer-fields";
-import { FormField, nativeSelectClassName } from "@/components/form-field";
-import { Button } from "@/components/ui/button";
+import { StoryCoverField } from "@/components/blog/story-cover-field";
+import {
+  StoryEditorActions,
+  StoryEditorSidebar,
+} from "@/components/blog/story-editor-sidebar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useUploadPhoto } from "@/components/uploads/use-upload-photo";
@@ -26,7 +27,6 @@ import { surfaceClass } from "@/components/surface";
 import { excerptFromContent, type BlogPost } from "@/data/blog-posts";
 import { parseTags } from "@/lib/parse-tags";
 import { slugify, uniqueSlug } from "@/lib/slugify";
-import { maxImageUploadMb } from "@/lib/storage/upload.schemas";
 import { cn } from "@/lib/utils";
 
 export function StoryEditor({ story }: { story?: BlogPost }) {
@@ -57,7 +57,9 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
   });
 
   const title = useWatch({ control, name: "title" });
+  const slug = useWatch({ control, name: "slug" });
   const excerpt = useWatch({ control, name: "excerpt" });
+  const tags = useWatch({ control, name: "tags" });
   const featuredImage = useWatch({ control, name: "featuredImage" });
   const { onChange: onSlugChange, ...slugRegister } = register("slug");
 
@@ -73,6 +75,8 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
   const featuredPreview =
     photo.photoPreview || photo.photoUrl || featuredImage;
   const isBusy = isSubmitting || photo.isUploading;
+  const primaryLabel =
+    isEdit && story?.status === "publish" ? "Update story" : "Publish story";
 
   function onSubmit(values: BlogPostValues) {
     if (!story && !user?.id) return;
@@ -103,148 +107,99 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
     router.push(saved.status === "publish" ? `/blog/${saved.slug}` : "/profile");
   }
 
+  function submitWithStatus(status: BlogStatus) {
+    setValue("status", status);
+    void handleSubmit(onSubmit)();
+  }
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={cn(surfaceClass, "mx-auto max-w-3xl p-5 sm:p-8")}
-    >
-      <div className="flex flex-col gap-5">
-        <FormField id="story-title" label="Title" error={errors.title?.message}>
-          <Input
-            id="story-title"
-            {...register("title")}
-            className="h-11"
-            placeholder="A memory, a person, a place…"
-            aria-invalid={Boolean(errors.title)}
-          />
-        </FormField>
+    <form onSubmit={(event) => event.preventDefault()}>
+      <input type="hidden" {...register("status")} />
+      <input {...photo.fileInputProps} />
 
-        <FormField
-          id="story-slug"
-          label="Permalink"
-          hint="Auto from the title"
-          error={errors.slug?.message}
-        >
-          <Input
-            id="story-slug"
-            {...slugRegister}
-            className="h-11"
-            onChange={(event) => {
-              setSlugTouched(true);
-              void onSlugChange(event);
-            }}
-            aria-invalid={Boolean(errors.slug)}
-          />
-        </FormField>
-
-        <FormField
-          id="story-excerpt"
-          label="Excerpt"
-          hint="Optional — used on cards"
-          error={errors.excerpt?.message}
-        >
-          <Textarea
-            id="story-excerpt"
-            {...register("excerpt")}
-            rows={3}
-            placeholder="A short summary. Leave blank to use the opening lines."
-            aria-invalid={Boolean(errors.excerpt)}
-          />
-          <p className="text-xs text-muted-foreground">{excerpt?.length ?? 0}/300</p>
-        </FormField>
-
-        <FormField id="story-content" label="Content" error={errors.content?.message}>
-          <Textarea
-            id="story-content"
-            {...register("content")}
-            rows={12}
-            placeholder="Write the story in plain text."
-            aria-invalid={Boolean(errors.content)}
-          />
-        </FormField>
-
-        <div className="grid gap-5 sm:grid-cols-2">
-          <FormField
-            id="story-category"
-            label="Category"
-            error={errors.categoryId?.message}
-          >
-            <select
-              id="story-category"
-              {...register("categoryId")}
-              className={nativeSelectClassName}
-            >
-              {blogCategories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
-          </FormField>
-          <FormField
-            id="story-tags"
-            label="Tags"
-            hint="Comma-separated"
-            error={errors.tags?.message}
-          >
+      <div className="grid gap-6 pb-24 lg:grid-cols-[minmax(0,1fr)_19.5rem] lg:items-start lg:pb-0">
+        <div className={cn(surfaceClass, "overflow-hidden")}>
+          <div className="px-5 py-6 sm:px-8 sm:py-8">
+            <label htmlFor="story-title" className="sr-only">
+              Title
+            </label>
             <Input
-              id="story-tags"
-              {...register("tags")}
-              className="h-11"
-              placeholder="Gorsi, Family, Memories"
+              id="story-title"
+              {...register("title")}
+              className="h-auto min-h-12 border-0 bg-transparent px-0 font-heading text-3xl font-semibold tracking-tight text-espresso shadow-none placeholder:text-espresso/25 focus-visible:border-transparent focus-visible:ring-0 md:text-4xl"
+              placeholder="Story title"
+              aria-invalid={Boolean(errors.title)}
             />
-          </FormField>
+            {errors.title ? (
+              <p className="mt-2 text-sm text-destructive">{errors.title.message}</p>
+            ) : null}
+
+            <div className="mt-5">
+              <StoryCoverField
+                previewUrl={featuredPreview}
+                isUploading={photo.isUploading}
+                onPick={photo.openPicker}
+                onRemove={() => {
+                  photo.clearPhoto();
+                  setValue("featuredImage", "");
+                }}
+              />
+            </div>
+
+            <div className="mt-6 border-t border-espresso/10 pt-5">
+              <label htmlFor="story-content" className="sr-only">
+                Content
+              </label>
+              <Textarea
+                id="story-content"
+                {...register("content")}
+                className="min-h-88 resize-y border-0 bg-transparent px-0 text-base leading-relaxed shadow-none focus-visible:border-transparent focus-visible:ring-0 sm:min-h-112 md:text-base"
+                placeholder="Start writing the story. A memory, a person, a place…"
+                aria-invalid={Boolean(errors.content)}
+              />
+              {errors.content ? (
+                <p className="mt-2 text-sm text-destructive">
+                  {errors.content.message}
+                </p>
+              ) : (
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Plain text for now. Add an excerpt in Details if you want a
+                  different summary on cards.
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
-        <FormField id="story-image" label="Featured image">
-          {featuredPreview ? (
-            <ComposerPhotoPreview
-              previewUrl={featuredPreview}
-              isUploading={photo.isUploading}
-              onRemove={() => {
-                photo.clearPhoto();
-                setValue("featuredImage", "");
-              }}
-            />
-          ) : (
-            <button
-              type="button"
-              onClick={photo.openPicker}
-              className="mt-1 flex h-28 w-full items-center justify-center gap-2 rounded-lg border border-dashed border-espresso/20 text-sm text-warm-gray hover:text-espresso"
-            >
-              <ImageIcon className="size-4" />
-              Add a featured image
-            </button>
-          )}
-          <input {...photo.fileInputProps} />
-          <p className="text-xs text-muted-foreground">
-            JPEG, PNG, WebP, or GIF. Max {maxImageUploadMb} MB.
-          </p>
-        </FormField>
+        <StoryEditorSidebar
+          register={register}
+          errors={errors}
+          slugRegister={slugRegister}
+          onSlugChange={(event) => {
+            setSlugTouched(true);
+            void onSlugChange(event);
+          }}
+          excerptLength={excerpt?.length ?? 0}
+          slug={slug}
+          tags={tags ?? ""}
+          onTagsChange={(value) => setValue("tags", value, { shouldValidate: true })}
+          isBusy={isBusy}
+          primaryLabel={primaryLabel}
+          onPublish={() => submitWithStatus("publish")}
+          onDraft={() => submitWithStatus("draft")}
+          onCancel={() => router.back()}
+        />
+      </div>
 
-        <FormField id="story-status" label="Status">
-          <select
-            id="story-status"
-            {...register("status")}
-            className={cn(nativeSelectClassName, "sm:max-w-xs")}
-          >
-            <option value="publish">Published</option>
-            <option value="draft">Draft</option>
-          </select>
-        </FormField>
-
-        <div className="flex flex-col gap-3 border-t border-espresso/10 pt-5 sm:flex-row sm:justify-end">
-          <Button type="button" variant="ghost" className="h-11" onClick={() => router.back()}>
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            disabled={isBusy}
-            className="h-11 bg-gold px-5 text-espresso hover:bg-gold/90"
-          >
-            {isEdit ? "Update story" : "Save story"}
-          </Button>
-        </div>
+      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-espresso/12 bg-ivory/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
+        <StoryEditorActions
+          layout="row"
+          isBusy={isBusy}
+          primaryLabel={primaryLabel}
+          onPublish={() => submitWithStatus("publish")}
+          onDraft={() => submitWithStatus("draft")}
+          onCancel={() => router.back()}
+        />
       </div>
     </form>
   );

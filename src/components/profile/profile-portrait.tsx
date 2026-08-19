@@ -1,119 +1,74 @@
-import { Briefcase, LogOut, Mail, MapPin, Pencil, Settings } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Briefcase, MapPin } from "lucide-react";
+import { CommunityAvatar } from "@/components/community/community-avatar";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
-import { initialsFromName } from "@/lib/initials";
 
 export function ProfilePortrait({
   userDetails,
   profile,
-  canEdit,
   isLoadingProfile,
-  onEdit,
-  onManageAccount,
-  onSignOut,
-  signOutLabel,
 }: {
   userDetails: UserInfo;
   profile: ProfileDetails;
-  canEdit: boolean;
   isLoadingProfile: boolean;
-  onEdit: () => void;
-  onManageAccount: () => void;
-  onSignOut: () => void;
-  signOutLabel: string;
 }) {
-  const initials = initialsFromName(userDetails.fullName);
-  const hasMeta = Boolean(profile.city || profile.profession);
+  const firstName = userDetails.firstName || userDetails.fullName.split(/\s+/)[0];
 
   return (
     <div>
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
-        <Avatar className="size-28 shrink-0 shadow-md ring-2 ring-gold/45 ring-offset-4 ring-offset-background after:hidden sm:size-32">
-          <AvatarImage src={userDetails.profilePhoto || undefined} alt={userDetails.fullName} />
-          <AvatarFallback className="bg-espresso font-heading text-3xl text-ivory">
-            {initials}
-          </AvatarFallback>
-        </Avatar>
-
-        <div className="min-w-0 flex-1">
-          <h1 className="font-heading text-3xl leading-none font-semibold tracking-tight text-foreground sm:text-4xl">
+      <p className="heritage-eyebrow">Welcome Back</p>
+      <div className="mt-5 flex items-center gap-4 sm:gap-5">
+        <CommunityAvatar
+          name={userDetails.fullName}
+          imageUrl={userDetails.profilePhoto || undefined}
+          size="xl"
+        />
+        <div className="flex min-w-0 flex-1 flex-col justify-center">
+          <h1 className="font-heading text-2xl font-semibold tracking-tight text-espresso sm:text-3xl">
             {userDetails.fullName}
           </h1>
-
-          {hasMeta || userDetails.email || isLoadingProfile ? (
-            <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-warm-gray">
-              {isLoadingProfile && !hasMeta ? (
-                <span className="h-4 w-40 animate-pulse rounded-md bg-espresso/10" />
-              ) : null}
+          {isLoadingProfile && !profile.city && !profile.profession ? (
+            <span className="mt-1 block h-4 w-40 animate-pulse rounded-md bg-espresso/10" />
+          ) : profile.city || profile.profession ? (
+            <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-gray">
               {profile.city ? (
                 <span className="inline-flex items-center gap-1.5">
-                  <MapPin className="size-3.5 text-gold" aria-hidden />
+                  <MapPin className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
                   {profile.city}
                 </span>
               ) : null}
-              {profile.city && profile.profession ? (
-                <span className="size-1 rotate-45 bg-gold/50" aria-hidden />
-              ) : null}
               {profile.profession ? (
                 <span className="inline-flex items-center gap-1.5">
-                  <Briefcase className="size-3.5 text-gold" aria-hidden />
+                  <Briefcase className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
                   {profile.profession}
                 </span>
               ) : null}
-              {(profile.city || profile.profession) && userDetails.email ? (
-                <span className="size-1 rotate-45 bg-gold/50" aria-hidden />
-              ) : null}
-              {userDetails.email ? (
-                <span className="inline-flex min-w-0 items-center gap-1.5 truncate">
-                  <Mail className="size-3.5 shrink-0 text-gold" aria-hidden />
-                  {userDetails.email}
-                </span>
-              ) : null}
             </p>
-          ) : null}
+          ) : (
+            <p className="mt-1 text-sm text-warm-gray">
+              {firstName}, this is your place in Gorsi Nama.
+            </p>
+          )}
         </div>
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <Button
-          className="h-11 px-4"
-          disabled={!canEdit}
-          title={canEdit ? undefined : "Loading your details…"}
-          onClick={onEdit}
-        >
-          <Pencil />
-          Edit profile
-        </Button>
-        <Button variant="outline" className="h-11 px-4" onClick={onManageAccount}>
-          <Settings />
-          Manage account
-        </Button>
-        <Button
-          variant="ghost"
-          className="h-11 px-4 text-warm-gray hover:text-foreground"
-          onClick={onSignOut}
-        >
-          <LogOut />
-          {signOutLabel}
-        </Button>
-      </div>
-
-      {isLoadingProfile ? (
-        <div className="mt-10 max-w-2xl space-y-2" aria-hidden>
-          <div className="h-4 w-full animate-pulse rounded-md bg-espresso/10" />
-          <div className="h-4 w-5/6 animate-pulse rounded-md bg-espresso/10" />
-        </div>
-      ) : profile.summary ? (
-        <p className="mt-10 max-w-2xl text-lg leading-relaxed text-foreground/85">
-          {profile.summary}
-        </p>
-      ) : (
-        <p className="mt-10 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          A few sentences about you will appear here — hometown, craft, or the chapter of
-          the Gorsi story you carry.
-        </p>
-      )}
+      <section className="mt-8 rounded-lg border border-espresso/18 bg-transparent px-4 py-4 sm:px-5">
+        <p className="heritage-eyebrow">About</p>
+        {isLoadingProfile ? (
+          <div className="mt-3 space-y-2" aria-hidden>
+            <div className="h-4 w-full animate-pulse rounded-md bg-espresso/10" />
+            <div className="h-4 w-5/6 animate-pulse rounded-md bg-espresso/10" />
+          </div>
+        ) : profile.summary ? (
+          <p className="mt-3 min-w-0 text-base leading-relaxed wrap-break-word text-espresso/85 sm:text-lg">
+            {profile.summary}
+          </p>
+        ) : (
+          <p className="mt-3 text-sm leading-relaxed text-warm-gray sm:text-base">
+            {firstName}, a few sentences about you will appear here — hometown,
+            craft, or the chapter of the Gorsi story you carry.
+          </p>
+        )}
+      </section>
     </div>
   );
 }

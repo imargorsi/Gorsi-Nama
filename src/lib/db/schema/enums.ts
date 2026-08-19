@@ -19,7 +19,6 @@ export const storyCategoryEnum = pgEnum("story_category", [
 export const storyStatusEnum = pgEnum("story_status", ["draft", "publish"]);
 
 export const libraryCategoryEnum = pgEnum("library_category", [
-  "books",
   "documents",
   "images",
 ]);

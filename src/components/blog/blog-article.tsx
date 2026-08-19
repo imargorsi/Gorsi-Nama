@@ -1,10 +1,9 @@
 "use client";
 
-import { Clock, User } from "lucide-react";
+import Image from "next/image";
 import { BlogCard } from "@/components/blog/blog-card";
 import { getBlogCategory } from "@/components/blog/blog-categories";
-import { StoryActions } from "@/components/blog/story-actions";
-import { BlogShareLinks } from "@/components/blog/blog-share-links";
+import { StoryArticleSidebar } from "@/components/blog/story-article-sidebar";
 import {
   findStoryBySlug,
   isStoryDeleted,
@@ -15,9 +14,10 @@ import { SectionHeading } from "@/components/home/section-heading";
 import { NotFoundPanel } from "@/components/not-found-panel";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
-import { readingMinutes, type BlogPost } from "@/data/blog-posts";
-import { formatTag } from "@/lib/parse-tags";
+import { surfaceClass } from "@/components/surface";
+import type { BlogPost } from "@/data/blog-posts";
 import { useIsHydrated } from "@/lib/use-is-hydrated";
+import { cn } from "@/lib/utils";
 
 function StoryBreadcrumb({ title }: { title: string }) {
   return (
@@ -61,91 +61,77 @@ export function BlogArticle({
     }
 
     return (
-        <>
-          <StoryBreadcrumb title="Story" />
-          <NotFoundPanel
-            heading="Story not found"
-            text="This story may still be a draft, or it was only saved in this browser session."
-          />
-        </>
+      <>
+        <StoryBreadcrumb title="Story" />
+        <NotFoundPanel
+          heading="Story not found"
+          text="This story may still be a draft, or it was only saved in this browser session."
+        />
+      </>
     );
   }
 
   const related = publishedStories(memberStories)
     .filter((item) => item.slug !== post.slug)
-    .slice(0, 3);
-  const minutes = readingMinutes(post);
+    .slice(0, 4);
   const paragraphs = post.content.split(/\n\s*\n/).filter(Boolean);
   const category = getBlogCategory(post.categoryId);
 
   return (
     <>
       <StoryBreadcrumb title={post.title} />
-      <article className="site-shell px-4 py-12 sm:px-0 sm:py-16">
+      <article className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
         <Reveal mode="load">
-        <p className="heritage-eyebrow">{category.label}</p>
-        <h1 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:text-5xl lg:leading-tight">
-          {post.title}
-        </h1>
-        <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-gray">
-          <span className="inline-flex items-center gap-1.5">
-            <User className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
-            By {post.authorName}
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Clock className="size-3.5 text-gold" strokeWidth={1.75} aria-hidden />
-            {minutes} min read
-          </span>
-        </p>
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_19.5rem] lg:items-start">
+            <div className={cn(surfaceClass, "overflow-hidden")}>
+              <div className="px-5 py-6 sm:px-8 sm:py-8">
+                <p className="heritage-eyebrow">{category.label}</p>
+                <h1 className="mt-3 font-heading text-3xl font-semibold tracking-tight text-espresso sm:text-4xl lg:leading-tight">
+                  {post.title}
+                </h1>
+                {post.excerpt ? (
+                  <p className="mt-4 text-lg leading-relaxed text-espresso/80">
+                    {post.excerpt}
+                  </p>
+                ) : null}
 
-        <div className="mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-warm-gray">
-          {paragraphs.map((paragraph, index) => (
-            <p
-              key={index}
-              className={index === 0 ? "text-lg text-espresso/90" : undefined}
-            >
-              {paragraph}
-            </p>
-          ))}
-        </div>
+                {post.featuredImage ? (
+                  <div className="relative mt-6 h-36 overflow-hidden rounded-lg bg-espresso/8 sm:h-44">
+                    <Image
+                      src={post.featuredImage}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 60vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : null}
 
-        {post.tags.length > 0 ? (
-          <ul className="mt-8 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full bg-espresso/8 px-3 py-1 text-sm text-espresso"
-              >
-                {formatTag(tag)}
-              </li>
-            ))}
-          </ul>
-        ) : null}
+                <div className="mt-6 space-y-5 border-t border-espresso/10 pt-6 text-base leading-relaxed text-warm-gray">
+                  {paragraphs.map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
 
-        <StoryActions story={post} />
-
-        <div className="mt-10 border-t border-gold/20 pt-6">
-          <p className="heritage-eyebrow mb-4">Share</p>
-          <BlogShareLinks title={post.title} />
-        </div>
+            <StoryArticleSidebar post={post} />
+          </div>
         </Reveal>
       </article>
 
       {related.length > 0 ? (
-        <div className="site-shell px-4 pb-16 sm:px-0 sm:pb-20">
+        <div className="site-shell px-4 pb-16 sm:px-0 sm:pb-8">
           <Reveal>
-            <SectionHeading
-              eyebrow="More stories"
-              title="Continue Reading"
-            />
+            <SectionHeading eyebrow="More stories" title="Continue Reading" />
           </Reveal>
-          <Stagger className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {related.map((item, index) => (
               <StaggerItem
                 key={item.id}
                 index={index}
                 isHoverable
-                className="h-full"
+                className="h-full min-w-0"
               >
                 <BlogCard post={item} />
               </StaggerItem>

@@ -10,22 +10,36 @@ import { surfaceClass } from "@/components/surface";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function ProfileStories({ userId }: { userId: string }) {
+export function ProfileStories({
+  userId,
+  firstName,
+}: {
+  userId: string;
+  firstName?: string;
+}) {
   const stories = useMemberStories();
   const mine = stories.filter((story) => story.authorId === userId);
+  const publishedCount = mine.filter((story) => story.status === "publish").length;
+  const draftCount = mine.length - publishedCount;
 
   return (
     <section id="your-stories">
       <SectionHeading
         eyebrow="Your writing"
         title="Your Stories"
-        description="Drafts stay on this device until the archive backend is live."
+        className="[&_h2]:text-2xl sm:[&_h2]:text-3xl lg:[&_h2]:text-3xl"
+        description={
+          mine.length === 0
+            ? "Drafts and published stories you write will live here."
+            : `${publishedCount} published · ${draftCount} ${draftCount === 1 ? "draft" : "drafts"}`
+        }
       >
         <Link
           href="/blog/write"
           className={cn(
             buttonVariants({
-              className: "h-11 shrink-0 gap-2 bg-gold px-5 text-espresso hover:bg-gold/90",
+              className:
+                "h-11 shrink-0 gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90",
             })
           )}
         >
@@ -38,20 +52,20 @@ export function ProfileStories({ userId }: { userId: string }) {
         <div
           className={cn(
             surfaceClass,
-            "mt-8 flex flex-col items-center gap-3 px-5 py-12 text-center"
+            "mt-6 flex flex-col items-center gap-3 px-5 py-8 text-center"
           )}
         >
           <AccentIcon icon={PenLine} size="lg" />
           <p className="font-heading text-lg font-semibold text-espresso">
-            No stories yet
+            No Stories Yet
           </p>
           <p className="max-w-sm text-sm leading-relaxed text-warm-gray">
-            You have not written a story yet. Drafts stay on this device until
-            the archive backend is live.
+            {firstName ? `${firstName}, you` : "You"} have not written a story
+            yet. Title, excerpt, and a photograph — then publish to Stories.
           </p>
         </div>
       ) : (
-        <ul className="mt-8 flex flex-col gap-3">
+        <ul className="mt-6 flex flex-col gap-3">
           {mine.map((story) => (
             <li
               key={story.id}
@@ -74,14 +88,14 @@ export function ProfileStories({ userId }: { userId: string }) {
                 {story.status === "publish" ? (
                   <Link
                     href={`/blog/${story.slug}`}
-                    className="h-11 px-3 text-sm font-medium text-gold hover:underline"
+                    className="inline-flex h-11 items-center px-3 text-sm font-medium text-gold hover:underline"
                   >
                     View
                   </Link>
                 ) : null}
                 <Link
                   href={`/blog/${story.slug}/edit`}
-                  className="h-11 px-3 text-sm font-medium text-espresso hover:text-gold"
+                  className="inline-flex h-11 items-center px-3 text-sm font-medium text-espresso hover:text-gold"
                 >
                   Edit
                 </Link>

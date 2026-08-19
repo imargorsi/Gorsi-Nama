@@ -16,14 +16,14 @@ export function LibraryPreview() {
           <SectionHeading
             eyebrow="The Archive"
             title="The Gorsi Library"
-            description="Books, documents, and photographs kept in one place so the generations after us can still find, read, and remember what we were careful to keep."
+            description="PDF documents and photographs kept in one archive so the generations after us can still find, read, and remember what we were careful to keep."
           >
             <SectionLink href="/library">Explore the Library</SectionLink>
           </SectionHeading>
         </Reveal>
 
         <Stagger>
-          <HeritageCardGrid className="mt-10 sm:mt-12 md:grid-cols-3 xl:grid-cols-3">
+          <HeritageCardGrid className="mt-10 sm:mt-12 md:grid-cols-2 xl:grid-cols-2">
             {libraryCategories.map((category, index) => (
               <StaggerItem
                 key={category.id}

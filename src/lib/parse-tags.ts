@@ -2,7 +2,7 @@ export const maxTagsPerPost = 8;
 
 export function parseTags(value: string) {
   const tags = value
-    .split(/[\s,]+/)
+    .split(",")
     .map((tag) => tag.replace(/^#/, "").trim())
     .filter(Boolean);
 

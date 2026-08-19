@@ -26,6 +26,10 @@ export const blogCategoryIds = blogCategories.map((category) => category.id) as 
   ...BlogCategoryId[],
 ];
 
+export function isBlogCategoryId(id: string | undefined): id is BlogCategoryId {
+  return Boolean(id && blogCategoryIds.includes(id as BlogCategoryId));
+}
+
 export function getBlogCategory(id: BlogCategoryId) {
   return blogCategories.find((category) => category.id === id)!;
 }

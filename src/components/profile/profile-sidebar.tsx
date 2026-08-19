@@ -1,79 +1,57 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
-import { Briefcase, Globe, MapPin } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { Briefcase, Globe, LogOut, Mail, MapPin, Pencil, Settings } from "lucide-react";
 import {
   FacebookIcon,
   InstagramIcon,
   TwitterIcon,
 } from "@/components/icons/brand-icons";
-import { HeritageRule } from "@/components/heritage-ornaments";
 import { ProfileShareLink } from "@/components/profile/profile-share-link";
 import type { ProfileDetails } from "@/components/profile/profile.schemas";
+import { surfaceClass } from "@/components/surface";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-function Detail({
+function MetaRow({
   icon: Icon,
   label,
-  value,
-  isLoading,
+  children,
 }: {
-  icon: typeof MapPin;
+  icon: LucideIcon;
   label: string;
-  value: string | null;
-  isLoading: boolean;
+  children: ReactNode;
 }) {
   return (
     <div className="flex items-start gap-3">
-      <Icon className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden />
-      <div className="min-w-0">
-        <p className="heritage-eyebrow text-gold/80">{label}</p>
-        {isLoading ? (
-          <span className="mt-2 block h-4 w-28 animate-pulse rounded-md bg-ivory/10" />
-        ) : (
-          <p
-            className={cn(
-              "mt-1.5 text-sm",
-              value ? "text-ivory" : "text-ivory/50"
-            )}
-          >
-            {value || "Not added yet"}
-          </p>
-        )}
+      <Icon className="mt-0.5 size-4 shrink-0 text-gold" strokeWidth={1.75} aria-hidden />
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-medium text-espresso">{label}</p>
+        <div className="mt-1 text-sm leading-relaxed text-warm-gray">{children}</div>
       </div>
     </div>
   );
 }
 
-function SocialLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="flex size-11 items-center justify-center rounded-full bg-ivory ring-1 ring-gold/25 transition-opacity hover:opacity-90 hover:ring-gold/50"
-    >
-      {children}
-    </a>
-  );
-}
-
 export function ProfileSidebar({
   details,
+  email,
   sharePath,
   isLoading = false,
+  canEdit,
+  onEdit,
+  onManageAccount,
+  onSignOut,
+  signOutLabel,
 }: {
   details: ProfileDetails;
+  email: string;
   sharePath: string;
   isLoading?: boolean;
+  canEdit: boolean;
+  onEdit: () => void;
+  onManageAccount: () => void;
+  onSignOut: () => void;
+  signOutLabel: string;
 }) {
   const socials = [
     details.facebookUrl
@@ -89,66 +67,88 @@ export function ProfileSidebar({
       ? {
           href: details.websiteUrl,
           label: "Website",
-          icon: <Globe className="size-4 text-espresso" />,
+          icon: <Globe className="size-4" />,
         }
       : null,
   ].filter((item): item is NonNullable<typeof item> => item !== null);
 
-  const isSparse = !details.city && !details.profession && socials.length === 0;
-
   return (
-    <aside className="relative overflow-hidden rounded-2xl bg-espresso px-6 py-8 text-ivory shadow-md ring-1 ring-gold/20 sm:px-7">
-      <Image
-        src="/trademarkgorsi.png"
-        alt=""
-        width={220}
-        height={220}
-        className="pointer-events-none absolute -right-8 -bottom-10 w-44 opacity-[0.07]"
-      />
+    <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
+      <section className={cn(surfaceClass, "flex flex-col gap-5 p-5")}>
+        <p className="heritage-eyebrow">Details</p>
 
-      <div className="relative">
-        <h2 className="font-heading text-2xl font-semibold tracking-tight text-ivory">
-          About me
-        </h2>
-        <HeritageRule className="mt-4" />
+        <MetaRow icon={MapPin} label="City">
+          {isLoading ? (
+            <span className="block h-4 w-28 animate-pulse rounded-md bg-espresso/10" />
+          ) : (
+            details.city || "Not added yet"
+          )}
+        </MetaRow>
 
-        <div className="mt-8 flex flex-col gap-6">
-          <Detail icon={MapPin} label="City" value={details.city} isLoading={isLoading} />
-          <Detail
-            icon={Briefcase}
-            label="Profession"
-            value={details.profession}
-            isLoading={isLoading}
-          />
-        </div>
+        <MetaRow icon={Briefcase} label="Profession">
+          {isLoading ? (
+            <span className="block h-4 w-32 animate-pulse rounded-md bg-espresso/10" />
+          ) : (
+            details.profession || "Not added yet"
+          )}
+        </MetaRow>
+
+        {email ? (
+          <MetaRow icon={Mail} label="Email">
+            <span className="break-all">{email}</span>
+          </MetaRow>
+        ) : null}
 
         {socials.length > 0 ? (
-          <div className="mt-8">
-            <p className="heritage-eyebrow text-gold/80">Social & links</p>
-            <div className="mt-4 flex flex-wrap gap-3">
+          <MetaRow icon={Globe} label="Links">
+            <div className="flex flex-wrap gap-2">
               {socials.map((social) => (
-                <SocialLink key={social.label} href={social.href} label={social.label}>
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="flex size-11 items-center justify-center rounded-lg bg-espresso/8 text-espresso ring-1 ring-gold/25 transition-colors hover:bg-espresso/12 hover:ring-gold/50"
+                >
                   {social.icon}
-                </SocialLink>
+                </a>
               ))}
             </div>
-          </div>
+          </MetaRow>
         ) : null}
+      </section>
 
-        {!isLoading && isSparse ? (
-          <p className="mt-8 text-sm leading-relaxed text-ivory/60">
-            Add a city, profession, or a link so other members can find you.
-          </p>
-        ) : null}
-
-        <div className="mt-10 border-t border-gold/20 pt-6">
-          <p className="heritage-eyebrow text-gold/80">Share</p>
-          <p className="mt-2 text-sm text-ivory/70">Your public member link</p>
-          <div className="mt-3">
-            <ProfileShareLink path={sharePath} />
-          </div>
+      <section className={cn(surfaceClass, "p-5")}>
+        <p className="heritage-eyebrow">Share</p>
+        <p className="mt-3 text-sm leading-relaxed text-warm-gray">
+          Your public member link
+        </p>
+        <div className="mt-4">
+          <ProfileShareLink path={sharePath} />
         </div>
-      </div>
+      </section>
+
+      <section className={cn(surfaceClass, "flex flex-col gap-2 p-5")}>
+        <p className="heritage-eyebrow">Account</p>
+        <Button
+          className="mt-3 h-11 w-full gap-2 bg-espresso px-5 text-ivory hover:bg-espresso/90"
+          disabled={!canEdit}
+          title={canEdit ? undefined : "Loading your details…"}
+          onClick={onEdit}
+        >
+          <Pencil className="size-4" />
+          Edit profile
+        </Button>
+        <Button variant="outline" className="h-11 w-full gap-2" onClick={onManageAccount}>
+          <Settings className="size-4" />
+          Manage account
+        </Button>
+        <Button variant="ghost" className="h-11 w-full gap-2" onClick={onSignOut}>
+          <LogOut className="size-4" />
+          {signOutLabel}
+        </Button>
+      </section>
     </aside>
   );
 }

@@ -5,6 +5,7 @@ import { z } from "zod";
 export interface UserInfo {
   userId: string;
   fullName: string;
+  firstName?: string;
   email: string;
   profilePhoto?: string | null;
 }

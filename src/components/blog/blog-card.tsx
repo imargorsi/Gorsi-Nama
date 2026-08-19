@@ -10,49 +10,16 @@ import { initialsFromName } from "@/lib/initials";
 export function BlogCard({
   post,
   variant = "compact",
+  isFeatured = false,
 }: {
   post: BlogPost;
   variant?: "featured" | "compact";
+  isFeatured?: boolean;
 }) {
   const href = `/blog/${post.slug}`;
   const category = getBlogCategory(post.categoryId).label;
-
-  if (variant === "featured") {
-    return (
-      <Link
-        href={href}
-        className={cn(
-          surfaceClass,
-          "group flex h-full min-h-0 min-w-0 flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
-        )}
-      >
-        <div className="relative min-h-48 flex-1 overflow-hidden bg-espresso/8">
-          {post.featuredImage ? (
-            <Image
-              src={post.featuredImage}
-              alt={post.title}
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            />
-          ) : null}
-          <div className="absolute inset-0 bg-linear-to-t from-espresso/88 via-espresso/25 to-espresso/10" />
-          <span className="absolute top-3 start-3 rounded-md bg-gold px-2 py-0.5 font-sans text-[0.65rem] font-semibold tracking-[0.18em] text-espresso uppercase">
-            Featured
-          </span>
-          <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-            <h3 className="line-clamp-3 font-heading text-lg font-semibold tracking-tight text-ivory sm:text-xl sm:leading-snug">
-              {post.title}
-            </h3>
-          </div>
-        </div>
-        <div className="flex flex-col gap-3 px-4 py-3 sm:px-5">
-          <p className="line-clamp-2 text-sm leading-snug text-warm-gray">{post.excerpt}</p>
-          <PostMeta post={post} cta="Read Full Story" />
-        </div>
-      </Link>
-    );
-  }
+  const isHero = variant === "featured";
+  const showFeaturedBadge = isFeatured || isHero;
 
   return (
     <Link
@@ -62,25 +29,41 @@ export function BlogCard({
         "group flex h-full min-w-0 flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
       )}
     >
-      <div className="relative min-h-28 flex-1 overflow-hidden bg-espresso/8">
+      <div
+        className={cn(
+          "relative overflow-hidden bg-espresso",
+          isHero ? "min-h-48 flex-1" : "aspect-4/3"
+        )}
+      >
         {post.featuredImage ? (
           <Image
             src={post.featuredImage}
             alt={post.title}
             fill
-            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            sizes={
+              isHero
+                ? "(min-width: 1024px) 50vw, 100vw"
+                : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+            }
+            className="object-cover"
           />
         ) : null}
-        <span className="absolute top-2.5 start-2.5 rounded-md bg-espresso/85 px-2 py-0.5 font-sans text-[0.65rem] font-semibold tracking-[0.16em] text-ivory uppercase">
-          {category}
+        <span
+          className={cn(
+            "absolute top-2.5 inset-s-2.5 rounded-md px-2 py-0.5 font-sans text-[0.65rem] font-semibold tracking-[0.16em] uppercase",
+            showFeaturedBadge
+              ? "bg-gold text-espresso"
+              : "bg-espresso/85 text-ivory"
+          )}
+        >
+          {showFeaturedBadge ? "Featured" : category}
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-2.5 px-4 py-3">
+      <div className="flex flex-1 flex-col gap-2.5 px-4 py-3 sm:px-5">
         <h3 className="line-clamp-2 font-heading text-base font-semibold tracking-tight text-espresso sm:text-lg sm:leading-snug">
           {post.title}
         </h3>
-        <PostMeta post={post} cta="Read More" className="mt-auto" />
+        <PostMeta post={post} className="mt-auto" />
       </div>
     </Link>
   );
@@ -88,11 +71,9 @@ export function BlogCard({
 
 function PostMeta({
   post,
-  cta,
   className,
 }: {
   post: BlogPost;
-  cta: string;
   className?: string;
 }) {
   const minutes = readingMinutes(post);
@@ -110,7 +91,7 @@ function PostMeta({
         {minutes} min read
       </p>
       <span className="ms-auto inline-flex shrink-0 items-center gap-1.5 text-sm font-medium tracking-wide text-gold">
-        <span className="hidden sm:inline">{cta}</span>
+        <span className="hidden sm:inline">Read More</span>
         <ArrowRight
           className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
           strokeWidth={1.75}

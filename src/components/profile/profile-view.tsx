@@ -35,9 +35,9 @@ export function ProfileView({
   const homePath = locale === routing.defaultLocale ? "/" : `/${locale}`;
 
   return (
-    <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
+    <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
       {loadError ? (
-        <p className="mb-8 rounded-xl bg-card px-4 py-3 text-sm text-destructive ring-1 ring-destructive/20">
+        <p className="mb-6 rounded-xl bg-ivory px-4 py-3 text-sm text-destructive shadow-md">
           {loadError} You can still manage your account.
         </p>
       ) : null}
@@ -49,31 +49,32 @@ export function ProfileView({
           hidden: {},
           show: { transition: { staggerChildren: 0.1, delayChildren: 0.04 } },
         }}
-        className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start xl:grid-cols-[minmax(0,1fr)_22rem]"
+        className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_19.5rem] lg:items-start"
       >
-        <motion.div variants={fadeUp} className="min-w-0">
+        <motion.div variants={fadeUp} className="flex min-w-0 flex-col gap-10">
           <ProfilePortrait
             userDetails={userDetails}
             profile={profile}
-            canEdit={canEdit}
             isLoadingProfile={isLoadingProfile}
-            onEdit={() => setIsEditing(true)}
-            onManageAccount={() => openUserProfile()}
-            onSignOut={() => signOut({ redirectUrl: homePath })}
-            signOutLabel={t("logOut")}
+          />
+          <ProfileStories
+            userId={userDetails.userId}
+            firstName={userDetails.firstName}
           />
         </motion.div>
 
         <motion.div variants={fadeUp}>
           <ProfileSidebar
             details={profile}
+            email={userDetails.email}
             sharePath={sharePath}
             isLoading={isLoadingProfile}
+            canEdit={canEdit}
+            onEdit={() => setIsEditing(true)}
+            onManageAccount={() => openUserProfile()}
+            onSignOut={() => signOut({ redirectUrl: homePath })}
+            signOutLabel={t("logOut")}
           />
-        </motion.div>
-
-        <motion.div variants={fadeUp} className="lg:col-span-2">
-          <ProfileStories userId={userDetails.userId} />
         </motion.div>
 
         <motion.div variants={fadeUp} className="lg:col-span-2">
@@ -82,7 +83,11 @@ export function ProfileView({
       </motion.div>
 
       {canEdit ? (
-        <ProfileEditDialog details={profile} open={isEditing} onOpenChange={setIsEditing} />
+        <ProfileEditDialog
+          details={profile}
+          open={isEditing}
+          onOpenChange={setIsEditing}
+        />
       ) : null}
     </div>
   );

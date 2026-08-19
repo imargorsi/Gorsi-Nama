@@ -24,9 +24,9 @@ export default async function EditStoryPage({
           { label: "Stories", href: "/blog" },
           { label: "Edit story" },
         ]}
-        description="Update the title, excerpt, content, and featured image. Drafts stay on this device until the archive backend is live."
+        description="Update the title, story, and photo. Published changes go live on Stories right away."
       />
-      <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
+      <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
         <Reveal mode="load">
           <EditStoryClient slug={slug} />
         </Reveal>

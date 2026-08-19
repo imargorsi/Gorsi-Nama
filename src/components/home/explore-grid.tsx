@@ -42,7 +42,7 @@ const cards = [
     category: "Archive",
     title: "Our Archive",
     description:
-      "Browse books, documents and photographs that preserve our heritage.",
+      "Browse documents and photographs that preserve our heritage.",
     href: "/library",
     cta: "Explore Library",
     image: "/book.jpg",
