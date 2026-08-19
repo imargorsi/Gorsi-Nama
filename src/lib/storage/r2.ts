@@ -101,6 +101,13 @@ function publicObjectUrl(publicOrigin: string, key: string) {
   return `${publicOrigin}/${key.split("/").map(encodeURIComponent).join("/")}`;
 }
 
+/** Build a public URL from an object key using the current `R2_PUBLIC_BASE_URL`. */
+export function objectPublicUrl(key: string) {
+  const origin = r2PublicBaseUrl();
+  if (!origin) return undefined;
+  return publicObjectUrl(origin, key);
+}
+
 export async function createImageUploadUrl({
   key,
   contentType,

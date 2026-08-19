@@ -2,6 +2,7 @@ import { Briefcase, MapPin } from "lucide-react";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
 import { Heading, Text } from "@/components/typography";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProfilePortrait({
   userDetails,
@@ -28,7 +29,7 @@ export function ProfilePortrait({
             {userDetails.fullName}
           </Heading>
           {isLoadingProfile && !profile.city && !profile.profession ? (
-            <span className="mt-1 block h-4 w-40 animate-pulse rounded-md bg-espresso/10" />
+            <Skeleton className="mt-1 h-4 w-40" />
           ) : profile.city || profile.profession ? (
             <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
               {profile.city ? (
@@ -55,9 +56,9 @@ export function ProfilePortrait({
       <section className="mt-8 rounded-lg border border-espresso/18 bg-transparent px-4 py-4 sm:px-5">
         <p className="heritage-eyebrow">About</p>
         {isLoadingProfile ? (
-          <div className="mt-3 space-y-2" aria-hidden>
-            <div className="h-4 w-full animate-pulse rounded-md bg-espresso/10" />
-            <div className="h-4 w-5/6 animate-pulse rounded-md bg-espresso/10" />
+          <div className="mt-3 space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
           </div>
         ) : profile.summary ? (
           <Text variant="lead" className="mt-3 min-w-0 wrap-break-word">

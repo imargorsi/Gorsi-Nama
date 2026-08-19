@@ -7,6 +7,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+/** Locked story categories — must match Postgres `story_category` (`lib/db/schema/enums.ts`). */
 export const blogCategories = [
   { id: "heritage", label: "Heritage", icon: Landmark },
   { id: "community", label: "Community", icon: Users },

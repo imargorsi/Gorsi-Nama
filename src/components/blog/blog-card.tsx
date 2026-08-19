@@ -1,11 +1,12 @@
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { getBlogCategory } from "@/components/blog/blog-categories";
+import { StoryImage } from "@/components/blog/story-image";
 import { surfaceClass } from "@/components/surface";
 import { Heading, Text } from "@/components/typography";
-import { readingMinutes, type BlogPost } from "@/data/blog-posts";
+import type { BlogPost } from "@/components/blog/blog.schemas";
+import { readingMinutes } from "@/lib/stories/format";
 import { initialsFromName } from "@/lib/initials";
 
 export function BlogCard({
@@ -41,17 +42,7 @@ export function BlogCard({
         )}
       >
         {post.featuredImage ? (
-          <Image
-            src={post.featuredImage}
-            alt={post.title}
-            fill
-            sizes={
-              isHero
-                ? "(min-width: 1024px) 50vw, 100vw"
-                : "(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-            }
-            className="object-cover"
-          />
+          <StoryImage src={post.featuredImage} alt={post.title} variant="card" />
         ) : null}
         <span
           className={cn(

@@ -2,7 +2,9 @@
 
 import { ImagePlus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/typography";
+import { ImageUploadOverlay } from "@/components/uploads/image-upload-overlay";
 import { maxImageUploadMb } from "@/lib/storage/upload.schemas";
 import { cn } from "@/lib/utils";
 
@@ -19,33 +21,41 @@ export function StoryCoverField({
 }) {
   if (previewUrl) {
     return (
-      <div className="relative h-36 overflow-hidden rounded-lg bg-espresso/8 sm:h-44">
+      <div
+        className="relative overflow-hidden rounded-lg bg-espresso/8"
+        aria-busy={isUploading}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={previewUrl}
-          alt=""
-          className="absolute inset-0 size-full object-cover"
-        />
-        {isUploading ? (
-          <p className="absolute inset-0 flex items-center justify-center bg-espresso/45 text-sm text-ivory">
-            Uploading…
-          </p>
-        ) : null}
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-end gap-2 bg-linear-to-t from-espresso/70 to-transparent p-3">
-          <Button type="button" variant="light" onClick={onPick}>
-            Change
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-lg"
-            onClick={onRemove}
-            aria-label="Remove featured image"
-            className="bg-espresso/80 text-ivory hover:bg-espresso hover:text-ivory"
-          >
-            <X className="size-4" />
-          </Button>
-        </div>
+        <img src={previewUrl} alt="" className="block h-auto w-full" />
+        {isUploading ? <ImageUploadOverlay /> : (
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-end gap-2 bg-linear-to-t from-espresso/70 to-transparent p-3">
+            <Button type="button" variant="light" onClick={onPick}>
+              Change
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-lg"
+              onClick={onRemove}
+              aria-label="Remove featured image"
+              className="bg-espresso/80 text-ivory hover:bg-espresso hover:text-ivory"
+            >
+              <X className="size-4" />
+            </Button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (isUploading) {
+    return (
+      <div
+        className="relative h-36 overflow-hidden rounded-lg sm:h-44"
+        aria-busy="true"
+      >
+        <Skeleton className="size-full rounded-lg" />
+        <ImageUploadOverlay />
       </div>
     );
   }

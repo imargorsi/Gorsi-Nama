@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CommunityLinkPreview } from "@/components/community/community-link-preview";
 import { CommunityPhoto } from "@/components/community/community-photo";
+import { ImageUploadOverlay } from "@/components/uploads/image-upload-overlay";
 import type { CommunityPostValues } from "@/components/community/community.schemas";
 
 export function ComposerPhotoPreview({
@@ -17,20 +18,24 @@ export function ComposerPhotoPreview({
   onRemove: () => void;
 }) {
   return (
-    <CommunityPhoto src={previewUrl} variant="composer" className="mt-3">
+    <CommunityPhoto
+      src={previewUrl}
+      variant="composer"
+      className="mt-3"
+      isBusy={isUploading}
+    >
       {isUploading ? (
-        <p className="absolute inset-0 flex items-center justify-center bg-espresso/45 text-sm text-ivory">
-          Uploading…
-        </p>
-      ) : null}
-      <button
-        type="button"
-        onClick={onRemove}
-        aria-label="Remove photo"
-        className="absolute top-2 end-2 inline-flex size-11 items-center justify-center rounded-full bg-espresso/80 text-ivory transition-colors hover:bg-espresso"
-      >
-        <X className="size-4" />
-      </button>
+        <ImageUploadOverlay />
+      ) : (
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label="Remove photo"
+          className="absolute top-2 end-2 z-10 inline-flex size-11 items-center justify-center rounded-full bg-espresso/80 text-ivory transition-colors hover:bg-espresso"
+        >
+          <X className="size-4" />
+        </button>
+      )}
     </CommunityPhoto>
   );
 }

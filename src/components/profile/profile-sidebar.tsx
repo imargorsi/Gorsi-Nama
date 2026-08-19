@@ -11,6 +11,7 @@ import type { ProfileDetails } from "@/components/profile/profile.schemas";
 import { surfaceClass } from "@/components/surface";
 import { Text } from "@/components/typography";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 function MetaRow({
@@ -82,7 +83,7 @@ export function ProfileSidebar({
 
         <MetaRow icon={MapPin} label="City">
           {isLoading ? (
-            <span className="block h-4 w-28 animate-pulse rounded-md bg-espresso/10" />
+            <Skeleton className="h-4 w-28" />
           ) : (
             details.city || "Not added yet"
           )}
@@ -90,7 +91,7 @@ export function ProfileSidebar({
 
         <MetaRow icon={Briefcase} label="Profession">
           {isLoading ? (
-            <span className="block h-4 w-32 animate-pulse rounded-md bg-espresso/10" />
+            <Skeleton className="h-4 w-32" />
           ) : (
             details.profession || "Not added yet"
           )}

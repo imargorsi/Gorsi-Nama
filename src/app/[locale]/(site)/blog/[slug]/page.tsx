@@ -1,11 +1,29 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { BlogArticle } from "@/components/blog/blog-article";
+import { StoryArticleSkeleton } from "@/components/blog/story-skeletons";
 import { CallToAction } from "@/components/call-to-action";
-import { getBlogPostBySlug, blogPosts } from "@/data/blog-posts";
+import { NotFoundPanel } from "@/components/not-found-panel";
+import { PageBreadcrumb } from "@/components/page-breadcrumb";
+import type { BlogPost } from "@/components/blog/blog.schemas";
+import {
+  getPublishedStoryBySlug,
+  listRelatedStories,
+} from "@/lib/stories/queries";
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+export const dynamic = "force-dynamic";
+
+function StoryJoinCta() {
+  return (
+    <CallToAction
+      eyebrow="From Our People"
+      title="Share a Story From Your Family"
+      text="Title, excerpt, photographs, and the chapter of Gorsi life you carry — published to this archive."
+      buttonText="Write a story"
+      href="/blog/write"
+    />
+  );
 }
 
 export async function generateMetadata({
@@ -14,12 +32,47 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
-  if (!post) return { title: "Story | Gorsi Nama" };
-  return {
-    title: `${post.title} | Gorsi Nama`,
-    description: post.excerpt,
-  };
+  try {
+    const post = await getPublishedStoryBySlug(slug);
+    if (!post) return { title: "Story | Gorsi Nama" };
+    return {
+      title: `${post.title} | Gorsi Nama`,
+      description: post.excerpt,
+    };
+  } catch {
+    return { title: "Story | Gorsi Nama" };
+  }
+}
+
+async function BlogArticleBody({ slug }: { slug: string }) {
+  let post: BlogPost | undefined;
+  let related: BlogPost[] = [];
+  try {
+    post = await getPublishedStoryBySlug(slug);
+    related = post ? await listRelatedStories(post.slug) : [];
+  } catch {
+    post = undefined;
+  }
+
+  if (!post) {
+    return (
+      <>
+        <PageBreadcrumb
+          crumbs={[
+            { label: "Home", href: "/" },
+            { label: "Stories", href: "/blog" },
+            { label: "Story" },
+          ]}
+        />
+        <NotFoundPanel
+          heading="Story not found"
+          text="This story may still be a draft, or it is no longer published."
+        />
+      </>
+    );
+  }
+
+  return <BlogArticle post={post} related={related} />;
 }
 
 export default async function BlogPostPage({
@@ -28,18 +81,12 @@ export default async function BlogPostPage({
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const seed = getBlogPostBySlug(slug);
-
   return (
     <>
-      <BlogArticle slug={slug} seed={seed} />
-      <CallToAction
-        eyebrow="From Our People"
-        title="Share a Story From Your Family"
-        text="Title, excerpt, photographs, and the chapter of Gorsi life you carry — published to this archive."
-        buttonText="Write a story"
-        href="/blog/write"
-      />
+      <Suspense fallback={<StoryArticleSkeleton />}>
+        <BlogArticleBody slug={slug} />
+      </Suspense>
+      <StoryJoinCta />
     </>
   );
 }

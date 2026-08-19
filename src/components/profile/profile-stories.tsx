@@ -4,10 +4,12 @@ import { PenLine } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { EmptyWell } from "@/components/empty-well";
 import { getBlogCategory } from "@/components/blog/blog-categories";
-import { useMemberStories } from "@/components/blog/member-stories";
+import { useMyStories } from "@/components/blog/use-stories";
+import { ProfileStoriesSkeleton } from "@/components/blog/story-skeletons";
 import { SectionHeading } from "@/components/home/section-heading";
 import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 export function ProfileStories({
@@ -17,10 +19,10 @@ export function ProfileStories({
   userId: string;
   firstName?: string;
 }) {
-  const stories = useMemberStories();
-  const mine = stories.filter((story) => story.authorId === userId);
-  const publishedCount = mine.filter((story) => story.status === "publish").length;
-  const draftCount = mine.length - publishedCount;
+  const mine = useMyStories(Boolean(userId));
+  const stories = mine.data?.stories ?? [];
+  const publishedCount = stories.filter((story) => story.status === "publish").length;
+  const draftCount = stories.length - publishedCount;
 
   return (
     <section id="your-stories">
@@ -29,9 +31,13 @@ export function ProfileStories({
         title="Your Stories"
         titleVariant="h3"
         description={
-          mine.length === 0
-            ? "Drafts and published stories you write will live here."
-            : `${publishedCount} published · ${draftCount} ${draftCount === 1 ? "draft" : "drafts"}`
+          mine.isLoading ? (
+            <Skeleton className="mt-0.5 h-4 w-56" />
+          ) : stories.length === 0 ? (
+            "Drafts and published stories you write will live here."
+          ) : (
+            `${publishedCount} published · ${draftCount} ${draftCount === 1 ? "draft" : "drafts"}`
+          )
         }
       >
         <Link
@@ -45,7 +51,16 @@ export function ProfileStories({
         </Link>
       </SectionHeading>
 
-      {mine.length === 0 ? (
+      {mine.isError ? (
+        <EmptyWell
+          icon={PenLine}
+          className="mt-6 py-8"
+          title="Could Not Load Stories"
+          text="Refresh the page to try again."
+        />
+      ) : mine.isLoading ? (
+        <ProfileStoriesSkeleton />
+      ) : stories.length === 0 ? (
         <EmptyWell
           icon={PenLine}
           className="mt-6 py-8"
@@ -59,7 +74,7 @@ export function ProfileStories({
         />
       ) : (
         <ul className="mt-6 flex flex-col gap-3">
-          {mine.map((story) => (
+          {stories.map((story) => (
             <li
               key={story.id}
               className={cn(

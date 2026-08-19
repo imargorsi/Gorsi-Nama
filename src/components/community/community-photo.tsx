@@ -8,18 +8,21 @@ export function CommunityPhoto({
   variant = "post",
   className,
   children,
+  isBusy,
 }: {
   src: string;
   sizes?: string;
   variant?: "composer" | "post" | "compact" | "tile";
   className?: string;
   children?: ReactNode;
+  isBusy?: boolean;
 }) {
   const isLocalPreview = src.startsWith("data:") || src.startsWith("blob:");
 
   if (variant === "tile" || variant === "compact") {
     return (
       <div
+        aria-busy={isBusy}
         className={cn(
           "relative overflow-hidden rounded-lg bg-espresso/8",
           variant === "tile" ? "aspect-square" : "aspect-4/3",
@@ -48,9 +51,12 @@ export function CommunityPhoto({
   }
 
   return (
-    <div className={cn("relative", className)}>
+    <div
+      aria-busy={isBusy}
+      className={cn("relative overflow-hidden rounded-lg", className)}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt="" className="block h-auto w-full rounded-lg" />
+      <img src={src} alt="" className="block h-auto w-full" />
       {children}
     </div>
   );

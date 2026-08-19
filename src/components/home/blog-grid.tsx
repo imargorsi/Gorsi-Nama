@@ -1,13 +1,12 @@
 "use client";
 
-import { ArrowRight, PenLine } from "lucide-react";
+import { ArrowRight, BookOpen, PenLine } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { AccentIcon } from "@/components/accent-icon";
 import { BlogCard } from "@/components/blog/blog-card";
-import {
-  publishedStories,
-  useMemberStories,
-} from "@/components/blog/member-stories";
+import { useHomeStories } from "@/components/blog/use-stories";
+import { StoryHomeSkeleton } from "@/components/blog/story-skeletons";
+import { EmptyWell } from "@/components/empty-well";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { HeritagePatternBand } from "@/components/heritage-ornaments";
 import { Heading, Text } from "@/components/typography";
@@ -17,7 +16,9 @@ import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
 
 export function BlogGrid() {
-  const [featured, ...rest] = publishedStories(useMemberStories());
+  const home = useHomeStories();
+  const stories = home.data?.stories ?? [];
+  const [featured, ...rest] = stories;
   const stacked = rest.slice(0, 2);
 
   return (
@@ -42,8 +43,24 @@ export function BlogGrid() {
           </SectionHeading>
         </Reveal>
 
-        <Stagger className="mt-8 grid grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-stretch lg:gap-5">
-          {featured ? (
+        {home.isError ? (
+          <EmptyWell
+            className="mt-8"
+            icon={BookOpen}
+            title="Could Not Load Stories"
+            text="Refresh the page to try again."
+          />
+        ) : home.isLoading ? (
+          <StoryHomeSkeleton />
+        ) : !featured ? (
+          <EmptyWell
+            className="mt-8"
+            icon={BookOpen}
+            title="No Published Stories Yet"
+            text="The first published story from the community will appear here."
+          />
+        ) : (
+          <Stagger className="mt-8 grid grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-stretch lg:gap-5">
             <StaggerItem
               index={0}
               isHoverable
@@ -51,25 +68,25 @@ export function BlogGrid() {
             >
               <BlogCard post={featured} variant="featured" />
             </StaggerItem>
-          ) : null}
 
-          <div className="grid h-full min-h-0 min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-2">
-            {stacked.map((post, index) => (
-              <StaggerItem
-                key={post.slug}
-                index={index + 1}
-                isHoverable
-                className="flex h-full min-h-0 flex-col"
-              >
-                <BlogCard
-                  post={post}
-                  variant="compact"
-                  className="[&_[data-slot=media]]:aspect-auto [&_[data-slot=media]]:h-36 lg:[&_[data-slot=media]]:h-40"
-                />
-              </StaggerItem>
-            ))}
-          </div>
-        </Stagger>
+            <div className="grid h-full min-h-0 min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-2">
+              {stacked.map((post, index) => (
+                <StaggerItem
+                  key={post.id}
+                  index={index + 1}
+                  isHoverable
+                  className="flex h-full min-h-0 flex-col"
+                >
+                  <BlogCard
+                    post={post}
+                    variant="compact"
+                    className="[&_[data-slot=media]]:aspect-auto [&_[data-slot=media]]:h-36 lg:[&_[data-slot=media]]:h-40"
+                  />
+                </StaggerItem>
+              ))}
+            </div>
+          </Stagger>
+        )}
 
         <Reveal className="mt-10 sm:mt-12">
           <StoryShareBar />

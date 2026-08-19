@@ -98,8 +98,8 @@ export function StoryEditorSidebar({
       <section className={cn(surfaceClass, "p-5")}>
         <p className="heritage-eyebrow">Publish</p>
         <Text variant="small" className="mt-3">
-          Published stories appear on Stories right away. Drafts stay on this
-          device until you publish them.
+          Published stories appear on Stories right away. Drafts stay on your
+          profile until you publish them.
         </Text>
         <StoryEditorActions
           className="mt-4 hidden lg:flex"

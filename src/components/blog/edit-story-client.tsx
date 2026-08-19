@@ -1,27 +1,34 @@
 "use client";
 
+import { AlertCircle } from "lucide-react";
 import { StoryEditor } from "@/components/blog/story-editor";
-import {
-  findStoryBySlug,
-  isStoryDeleted,
-  useMemberStories,
-} from "@/components/blog/member-stories";
+import { StoryEditorSkeleton } from "@/components/blog/story-skeletons";
+import { useStory } from "@/components/blog/use-stories";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
+import { EmptyWell } from "@/components/empty-well";
 import { NotFoundPanel } from "@/components/not-found-panel";
-import { Text } from "@/components/typography";
-import { getBlogPostBySlug } from "@/data/blog-posts";
-import { useIsHydrated } from "@/lib/use-is-hydrated";
+
+function isMissingStoryError(error: unknown) {
+  return error instanceof Error && /not found/i.test(error.message);
+}
 
 export function EditStoryClient({ slug }: { slug: string }) {
-  const sessionStory = findStoryBySlug(useMemberStories(), slug);
-  const seed = getBlogPostBySlug(slug);
-  const story =
-    sessionStory ?? (seed && !isStoryDeleted(seed.id) ? seed : undefined);
+  const storyQuery = useStory(slug);
+  const story = storyQuery.data;
   const { isLoaded, canManage } = useCanManageContent(story?.authorId);
-  const isHydrated = useIsHydrated();
 
-  if (!isLoaded || !isHydrated) {
-    return <Text variant="small">Loading this story…</Text>;
+  if (storyQuery.isLoading || !isLoaded) {
+    return <StoryEditorSkeleton />;
+  }
+
+  if (storyQuery.isError && !isMissingStoryError(storyQuery.error)) {
+    return (
+      <EmptyWell
+        icon={AlertCircle}
+        title="Could Not Load This Story"
+        text="Refresh the page to try again."
+      />
+    );
   }
 
   if (!story || !canManage) {

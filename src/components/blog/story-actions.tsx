@@ -4,24 +4,31 @@ import { Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
-import { deleteMemberStory } from "@/components/blog/member-stories";
+import type { BlogPost } from "@/components/blog/blog.schemas";
+import { useDeleteStory } from "@/components/blog/use-stories";
 import { buttonVariants } from "@/components/ui/button";
+import { getErrorMessage } from "@/lib/get-error-message";
 import { cn } from "@/lib/utils";
-import type { BlogPost } from "@/data/blog-posts";
 
 export function StoryActions({ story }: { story: BlogPost }) {
   const { canManage } = useCanManageContent(story.authorId);
   const router = useRouter();
+  const deleteStory = useDeleteStory();
 
   if (!canManage) return null;
 
-  function onDelete() {
-    if (!window.confirm("Delete this story? This cannot be undone on this device.")) {
+  async function onDelete() {
+    if (!window.confirm("Delete this story? This cannot be undone.")) {
       return;
     }
-    deleteMemberStory(story.id);
-    toast.success("Story deleted.");
-    router.push("/blog");
+
+    try {
+      await deleteStory.mutateAsync(story.slug);
+      toast.success("Story deleted.");
+      router.push("/blog");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Could not delete this story."));
+    }
   }
 
   return (
@@ -40,7 +47,8 @@ export function StoryActions({ story }: { story: BlogPost }) {
       </Link>
       <button
         type="button"
-        onClick={onDelete}
+        onClick={() => void onDelete()}
+        disabled={deleteStory.isPending}
         className={cn(
           buttonVariants({
             variant: "ghost",

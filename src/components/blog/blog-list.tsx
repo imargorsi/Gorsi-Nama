@@ -9,17 +9,19 @@ import { BlogCard } from "@/components/blog/blog-card";
 import { BlogSidebar } from "@/components/blog/blog-sidebar";
 import {
   blogCategories,
-  getBlogCategory,
   type BlogCategoryId,
 } from "@/components/blog/blog-categories";
 import {
-  publishedStories,
-  useMemberStories,
-} from "@/components/blog/member-stories";
+  emptyStoryCounts,
+  type BlogPost,
+  type StoryCategoryCounts,
+} from "@/components/blog/blog.schemas";
+import { usePublishedStories } from "@/components/blog/use-stories";
+import { StoryListSkeleton } from "@/components/blog/story-skeletons";
 import { Stagger, StaggerItem } from "@/components/reveal";
 import { Text } from "@/components/typography";
-import { buttonVariants } from "@/components/ui/button";
-import type { BlogPost } from "@/data/blog-posts";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 export function BlogWriteButton() {
@@ -36,18 +38,15 @@ export function BlogWriteButton() {
   );
 }
 
-function matchesQuery(post: BlogPost, query: string) {
-  const needle = query.trim().toLowerCase();
-  if (!needle) return true;
+function useDebouncedValue<T>(value: T, delay = 300) {
+  const [debounced, setDebounced] = useState(value);
 
-  return [
-    post.title,
-    post.excerpt,
-    post.content,
-    post.authorName,
-    getBlogCategory(post.categoryId).label,
-    ...post.tags,
-  ].some((value) => value.toLowerCase().includes(needle));
+  useEffect(() => {
+    const id = window.setTimeout(() => setDebounced(value), delay);
+    return () => window.clearTimeout(id);
+  }, [delay, value]);
+
+  return debounced;
 }
 
 export function BlogList({
@@ -56,37 +55,48 @@ export function BlogList({
   initialCategory?: BlogCategoryId;
 }) {
   const router = useRouter();
-  const posts = publishedStories(useMemberStories());
   const [query, setQuery] = useState("");
   const [categoryId, setCategoryId] = useState(initialCategory);
+  const debouncedQuery = useDebouncedValue(query);
 
   useEffect(() => {
     setCategoryId(initialCategory);
   }, [initialCategory]);
 
-  const counts = useMemo(() => {
+  const list = usePublishedStories({
+    category: categoryId,
+    q: debouncedQuery.trim() || undefined,
+  });
+
+  const pages = list.data?.pages ?? [];
+  const posts = useMemo(
+    () => pages.flatMap((page) => page.stories),
+    [pages]
+  );
+  const total = pages[0]?.total ?? 0;
+  const counts: StoryCategoryCounts = pages[0]?.counts ?? emptyStoryCounts();
+  const sidebarCounts = useMemo(() => {
     const next = Object.fromEntries(
       blogCategories.map((category) => [category.id, 0])
     ) as Record<BlogCategoryId, number>;
-    for (const post of posts) next[post.categoryId] += 1;
+    for (const category of blogCategories) {
+      next[category.id] = counts[category.id];
+    }
     return next;
-  }, [posts]);
-
-  const filtered = useMemo(() => {
-    return posts.filter((post) => {
-      const inCategory = categoryId ? post.categoryId === categoryId : true;
-      return inCategory && matchesQuery(post, query);
-    });
-  }, [categoryId, posts, query]);
+  }, [counts]);
 
   const categoryLabel = categoryId
-    ? getBlogCategory(categoryId).label
+    ? blogCategories.find((category) => category.id === categoryId)?.label
     : "All stories";
 
   function selectCategory(id?: BlogCategoryId) {
     setCategoryId(id);
     router.replace(id ? `/blog?category=${id}` : "/blog", { scroll: false });
   }
+
+  const isFiltered = Boolean(query.trim() || categoryId);
+  const isEmptyCatalog = !list.isLoading && !list.isError && total === 0 && !isFiltered;
+  const isEmptyFilter = !list.isLoading && !list.isError && posts.length === 0 && isFiltered;
 
   return (
     <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-14">
@@ -95,8 +105,11 @@ export function BlogList({
           <BlogSidebar
             query={query}
             categoryId={categoryId}
-            totalCount={posts.length}
-            counts={counts}
+            totalCount={Object.values(sidebarCounts).reduce(
+              (sum, value) => sum + value,
+              0
+            )}
+            counts={sidebarCounts}
             onQueryChange={setQuery}
             onCategoryChange={selectCategory}
           />
@@ -107,52 +120,97 @@ export function BlogList({
         <Text variant="small" className="mb-6">
           {query.trim() ? (
             <>
-              {filtered.length} {filtered.length === 1 ? "story" : "stories"} matching
-              “{query.trim()}”
+              {list.isLoading ? (
+                <Skeleton className="inline-block h-4 w-28 align-middle" />
+              ) : (
+                `${total} ${total === 1 ? "story" : "stories"} matching`
+              )}
+              {" “"}
+              {query.trim()}
+              {"”"}
               {categoryId ? ` in ${categoryLabel}` : ""}
             </>
           ) : (
             <>
               {categoryLabel}
               <span className="text-gold/50"> · </span>
-              {filtered.length} {filtered.length === 1 ? "story" : "stories"}
+              {list.isLoading ? (
+                <Skeleton className="inline-block h-4 w-24 align-middle" />
+              ) : (
+                `${total} ${total === 1 ? "story" : "stories"}`
+              )}
             </>
           )}
         </Text>
 
-        {posts.length === 0 ? (
+        {list.isError ? (
+          <EmptyWell
+            icon={BookOpen}
+            title="Could Not Load Stories"
+            text="Refresh the page to try again."
+          />
+        ) : isEmptyCatalog ? (
           <EmptyWell
             icon={BookOpen}
             title="No Published Stories Yet"
             text="The first published story from the community will appear here."
           />
-        ) : filtered.length === 0 ? (
+        ) : isEmptyFilter ? (
           <EmptyWell
             icon={Search}
             title="No Matching Stories"
             text="Try a different search, or choose another category."
           />
+        ) : list.isLoading ? (
+          <StoryListSkeleton />
         ) : (
-          <Stagger
-            mode="load"
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2"
-          >
-            {filtered.map((post, index) => (
-              <StaggerItem
-                key={post.id}
-                index={index}
-                isHoverable
-                className="h-full min-w-0"
-              >
-                <BlogCard
-                  post={post}
-                  isFeatured={!query.trim() && !categoryId && index === 0}
-                />
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <>
+            <StoryGrid
+              posts={posts}
+              isFeatured={!query.trim() && !categoryId}
+            />
+            {list.isFetchingNextPage ? (
+              <div className="mt-4">
+                <StoryListSkeleton count={2} />
+              </div>
+            ) : null}
+            {list.hasNextPage && !list.isFetchingNextPage ? (
+              <div className="mt-8 flex justify-center">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => void list.fetchNextPage()}
+                >
+                  Show more
+                </Button>
+              </div>
+            ) : null}
+          </>
         )}
       </div>
     </div>
+  );
+}
+
+function StoryGrid({
+  posts,
+  isFeatured,
+}: {
+  posts: BlogPost[];
+  isFeatured: boolean;
+}) {
+  return (
+    <Stagger mode="load" className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {posts.map((post, index) => (
+        <StaggerItem
+          key={post.id}
+          index={index}
+          isHoverable
+          className="h-full min-w-0"
+        >
+          <BlogCard post={post} isFeatured={isFeatured && index === 0} />
+        </StaggerItem>
+      ))}
+    </Stagger>
   );
 }

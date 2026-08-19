@@ -1,4 +1,4 @@
-const reservedSlugs = new Set(["write", "edit", "new"]);
+const reservedSlugs = new Set(["write", "edit", "new", "mine"]);
 
 export function slugify(value: string) {
   const slug = value

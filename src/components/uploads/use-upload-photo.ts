@@ -13,6 +13,7 @@ export function useUploadPhoto(folder: UploadFolder = "community") {
   const uploadImage = useUploadImage();
   const [photoPreview, setPhotoPreview] = useState<string>();
   const [photoUrl, setPhotoUrl] = useState<string>();
+  const [photoKey, setPhotoKey] = useState<string>();
   const photoInputRef = useRef<HTMLInputElement>(null);
   const photoRequestId = useRef(0);
 
@@ -21,6 +22,7 @@ export function useUploadPhoto(folder: UploadFolder = "community") {
     if (photoPreview?.startsWith("blob:")) URL.revokeObjectURL(photoPreview);
     setPhotoPreview(undefined);
     setPhotoUrl(undefined);
+    setPhotoKey(undefined);
     if (photoInputRef.current) photoInputRef.current.value = "";
   }
 
@@ -31,6 +33,7 @@ export function useUploadPhoto(folder: UploadFolder = "community") {
     const requestId = ++photoRequestId.current;
     if (photoPreview?.startsWith("blob:")) URL.revokeObjectURL(photoPreview);
     setPhotoUrl(undefined);
+    setPhotoKey(undefined);
     const preview = URL.createObjectURL(file);
     setPhotoPreview(preview);
 
@@ -38,11 +41,13 @@ export function useUploadPhoto(folder: UploadFolder = "community") {
       const uploaded = await uploadImage.mutateAsync({ file, folder });
       if (requestId !== photoRequestId.current) return;
       setPhotoUrl(uploaded.publicUrl);
+      setPhotoKey(uploaded.key);
     } catch (error) {
       if (requestId !== photoRequestId.current) return;
       URL.revokeObjectURL(preview);
       setPhotoPreview(undefined);
       setPhotoUrl(undefined);
+      setPhotoKey(undefined);
       if (photoInputRef.current) photoInputRef.current.value = "";
       toast.error(getErrorMessage(error, "Could not upload the image."));
     }
@@ -51,6 +56,7 @@ export function useUploadPhoto(folder: UploadFolder = "community") {
   return {
     photoPreview,
     photoUrl,
+    photoKey,
     isUploading: uploadImage.isPending,
     clearPhoto,
     openPicker() {

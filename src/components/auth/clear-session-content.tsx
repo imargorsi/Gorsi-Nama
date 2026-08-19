@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { useAuth } from "@clerk/nextjs";
-import { clearMemberStories } from "@/components/blog/member-stories";
 import { clearMemberPosts } from "@/components/community/member-posts";
 
 export function ClearSessionContent() {
@@ -14,14 +13,12 @@ export function ClearSessionContent() {
 
     if (previousUserId.current && previousUserId.current !== (userId ?? null)) {
       clearMemberPosts();
-      clearMemberStories();
     }
 
     previousUserId.current = userId ?? null;
 
     if (!isSignedIn) {
       clearMemberPosts();
-      clearMemberStories();
     }
   }, [isLoaded, isSignedIn, userId]);
 

@@ -8,13 +8,16 @@ export const communityCategoryEnum = pgEnum("community_category", [
   "language-traditions",
 ]);
 
-export const storyCategoryEnum = pgEnum("story_category", [
+/** Locked story categories. Keep in sync with `blogCategoryIds` in `components/blog/blog-categories.ts`. */
+export const storyCategoryIds = [
   "heritage",
   "community",
   "family",
   "history",
   "traditions",
-]);
+] as const;
+
+export const storyCategoryEnum = pgEnum("story_category", storyCategoryIds);
 
 export const storyStatusEnum = pgEnum("story_status", ["draft", "publish"]);
 

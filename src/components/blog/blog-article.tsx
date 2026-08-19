@@ -1,23 +1,13 @@
-"use client";
-
-import Image from "next/image";
 import { BlogCard } from "@/components/blog/blog-card";
 import { getBlogCategory } from "@/components/blog/blog-categories";
+import type { BlogPost } from "@/components/blog/blog.schemas";
 import { StoryArticleSidebar } from "@/components/blog/story-article-sidebar";
-import {
-  findStoryBySlug,
-  isStoryDeleted,
-  publishedStories,
-  useMemberStories,
-} from "@/components/blog/member-stories";
+import { StoryImage } from "@/components/blog/story-image";
 import { SectionHeading } from "@/components/home/section-heading";
-import { NotFoundPanel } from "@/components/not-found-panel";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
 import { Heading, Text } from "@/components/typography";
-import type { BlogPost } from "@/data/blog-posts";
-import { useIsHydrated } from "@/lib/use-is-hydrated";
 import { cn } from "@/lib/utils";
 
 function StoryBreadcrumb({ title }: { title: string }) {
@@ -33,48 +23,12 @@ function StoryBreadcrumb({ title }: { title: string }) {
 }
 
 export function BlogArticle({
-  slug,
-  seed,
+  post,
+  related,
 }: {
-  slug: string;
-  seed?: BlogPost;
+  post: BlogPost;
+  related: BlogPost[];
 }) {
-  const memberStories = useMemberStories();
-  const isHydrated = useIsHydrated();
-  const memberStory = findStoryBySlug(memberStories, slug);
-  const seedStory = seed && !isStoryDeleted(seed.id) ? seed : undefined;
-  const post = memberStory
-    ? memberStory.status === "publish"
-      ? memberStory
-      : undefined
-    : seedStory;
-
-  if (!post) {
-    if (!isHydrated) {
-      return (
-        <>
-          <StoryBreadcrumb title="Story" />
-          <Text variant="small" className="site-shell px-4 py-16 sm:px-0">
-            Loading this story…
-          </Text>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <StoryBreadcrumb title="Story" />
-        <NotFoundPanel
-          heading="Story not found"
-          text="This story may still be a draft, or it was only saved in this browser session."
-        />
-      </>
-    );
-  }
-
-  const related = publishedStories(memberStories)
-    .filter((item) => item.slug !== post.slug)
-    .slice(0, 4);
   const paragraphs = post.content.split(/\n\s*\n/).filter(Boolean);
   const category = getBlogCategory(post.categoryId);
 
@@ -97,15 +51,11 @@ export function BlogArticle({
                 ) : null}
 
                 {post.featuredImage ? (
-                  <div className="relative mt-6 h-36 overflow-hidden rounded-lg bg-espresso/8 sm:h-44">
-                    <Image
-                      src={post.featuredImage}
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 60vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
+                  <StoryImage
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className="mt-6"
+                  />
                 ) : null}
 
                 <div className="mt-6 space-y-5 border-t border-espresso/10 pt-6">

@@ -8,33 +8,32 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "@/i18n/navigation";
 import {
   blogPostSchema,
+  type BlogPost,
   type BlogPostValues,
   type BlogStatus,
 } from "@/components/blog/blog.schemas";
-import {
-  takenStorySlugs,
-  upsertMemberStory,
-} from "@/components/blog/member-stories";
 import { StoryCoverField } from "@/components/blog/story-cover-field";
 import {
   StoryEditorActions,
   StoryEditorSidebar,
 } from "@/components/blog/story-editor-sidebar";
+import { useCreateStory, useUpdateStory } from "@/components/blog/use-stories";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useUploadPhoto } from "@/components/uploads/use-upload-photo";
 import { FieldError } from "@/components/form-field";
 import { surfaceClass } from "@/components/surface";
 import { headingVariants, Text } from "@/components/typography";
-import { excerptFromContent, type BlogPost } from "@/data/blog-posts";
-import { parseTags } from "@/lib/parse-tags";
-import { slugify, uniqueSlug } from "@/lib/slugify";
+import { getErrorMessage } from "@/lib/get-error-message";
+import { slugify } from "@/lib/slugify";
 import { cn } from "@/lib/utils";
 
 export function StoryEditor({ story }: { story?: BlogPost }) {
   const router = useRouter();
   const { user } = useUser();
   const photo = useUploadPhoto();
+  const createStory = useCreateStory();
+  const updateStory = useUpdateStory();
   const [slugTouched, setSlugTouched] = useState(Boolean(story));
   const isEdit = Boolean(story);
 
@@ -54,6 +53,7 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
       categoryId: story?.categoryId ?? "family",
       tags: story?.tags.join(", ") ?? "",
       featuredImage: story?.featuredImage ?? "",
+      featuredImageKey: story?.featuredImageKey ?? "",
       status: story?.status ?? "publish",
     },
   });
@@ -71,42 +71,50 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
   }, [isEdit, setValue, slugTouched, title]);
 
   useEffect(() => {
-    if (photo.photoUrl) setValue("featuredImage", photo.photoUrl);
-  }, [photo.photoUrl, setValue]);
+    if (!photo.photoUrl) return;
+    setValue("featuredImage", photo.photoUrl);
+    setValue("featuredImageKey", photo.photoKey ?? "");
+  }, [photo.photoKey, photo.photoUrl, setValue]);
 
   const featuredPreview =
     photo.photoPreview || photo.photoUrl || featuredImage;
-  const isBusy = isSubmitting || photo.isUploading;
+  const isBusy =
+    isSubmitting ||
+    photo.isUploading ||
+    createStory.isPending ||
+    updateStory.isPending;
   const primaryLabel =
     isEdit && story?.status === "publish" ? "Update story" : "Publish story";
 
-  function onSubmit(values: BlogPostValues) {
+  async function onSubmit(values: BlogPostValues) {
     if (!story && !user?.id) return;
 
-    const now = new Date().toISOString();
-    const saved = upsertMemberStory({
-      id: story?.id ?? `story-${Date.now()}`,
-      slug: uniqueSlug(values.slug, takenStorySlugs(story?.id)),
-      title: values.title,
-      excerpt: values.excerpt?.trim() || excerptFromContent(values.content),
-      content: values.content,
-      categoryId: values.categoryId,
-      tags: parseTags(values.tags ?? ""),
-      featuredImage: photo.photoUrl || values.featuredImage || undefined,
-      status: values.status,
-      authorName: story ? story.authorName : user?.fullName || "Member",
-      authorId: story ? story.authorId : user?.id,
-      publishedAt:
-        values.status === "publish" ? (story?.publishedAt ?? now) : story?.publishedAt,
-      updatedAt: now,
-    });
+    const featuredImageKey =
+      photo.photoKey || values.featuredImageKey || undefined;
+    const payload: BlogPostValues = {
+      ...values,
+      featuredImageKey,
+      featuredImage: featuredImageKey
+        ? photo.photoUrl || values.featuredImage || undefined
+        : undefined,
+    };
 
-    toast.message(
-      saved.status === "draft"
-        ? "Draft saved on this device for now. The archive backend is next."
-        : "Your story is on the site for now. Saving to the archive is next."
-    );
-    router.push(saved.status === "publish" ? `/blog/${saved.slug}` : "/profile");
+    try {
+      const saved = story
+        ? await updateStory.mutateAsync({ slug: story.slug, values: payload })
+        : await createStory.mutateAsync(payload);
+
+      toast.success(
+        saved.status === "draft"
+          ? "Draft saved to your profile."
+          : story
+            ? "Story updated."
+            : "Story published."
+      );
+      router.push(saved.status === "publish" ? `/blog/${saved.slug}` : "/profile");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Could not save this story."));
+    }
   }
 
   function submitWithStatus(status: BlogStatus) {
@@ -117,6 +125,8 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
   return (
     <form onSubmit={(event) => event.preventDefault()}>
       <input type="hidden" {...register("status")} />
+      <input type="hidden" {...register("featuredImage")} />
+      <input type="hidden" {...register("featuredImageKey")} />
       <input {...photo.fileInputProps} />
 
       <div className="grid gap-6 pb-24 lg:grid-cols-[minmax(0,1fr)_19.5rem] lg:items-start lg:pb-0">
@@ -147,6 +157,7 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
                 onRemove={() => {
                   photo.clearPhoto();
                   setValue("featuredImage", "");
+                  setValue("featuredImageKey", "");
                 }}
               />
             </div>
