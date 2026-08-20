@@ -3,7 +3,7 @@ import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { getPathname } from "@/i18n/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
-import { noIndexRobots, siteOrigin } from "@/lib/site";
+import { noIndexRobots, contactEmail, siteOrigin } from "@/lib/site";
 
 /** Default share image when a page has no photograph of its own. */
 export const defaultOgImage = "/gujjar-emblem.png";
@@ -129,6 +129,7 @@ export function organizationJsonLd(name: string) {
     "@type": "Organization",
     name,
     url: siteOrigin,
+    email: contactEmail,
     logo: absoluteUrl(defaultOgImage),
   };
 }

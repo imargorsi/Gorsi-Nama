@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Compass, UserRound, Users, type LucideIcon } from "lucide-react";
+import { Compass, Mail, UserRound, Users, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AccentIcon } from "@/components/accent-icon";
 import type { CommunityCategoryId } from "@/components/community/community-categories";
 import { HeritagePatternBand } from "@/components/heritage-ornaments";
 import { Reveal } from "@/components/reveal";
+import { contactEmail, contactMailto } from "@/lib/site";
 
 const exploreLinks = [
   { key: "history", href: "/history" },
@@ -61,6 +62,13 @@ export async function Footer() {
             <p className="max-w-md text-sm leading-relaxed text-ivory/50">
               {t("about")}
             </p>
+            <a
+              href={contactMailto}
+              className="inline-flex items-center gap-2 text-sm text-ivory/70 transition-colors hover:text-gold"
+            >
+              <Mail className="size-4 shrink-0" strokeWidth={1.75} />
+              {contactEmail}
+            </a>
           </div>
 
           <FooterColumn

@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { HeritageKnot, HeritagePatternBand, HeritageRule } from "@/components/heritage-ornaments";
 import { Reveal } from "@/components/reveal";
@@ -6,9 +6,13 @@ import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+function isMailtoHref(href: string) {
+  return href.startsWith("mailto:");
+}
+
 function isExternalHref(href: string) {
   return (
-    href.startsWith("mailto:") ||
+    isMailtoHref(href) ||
     href.startsWith("http://") ||
     href.startsWith("https:")
   );
@@ -30,10 +34,12 @@ export function CallToAction({
   const className = cn(
     buttonVariants({ size: "lg", className: "w-full shrink-0 sm:w-auto" })
   );
+  const isMailto = isMailtoHref(href);
   const label = (
     <>
+      {isMailto ? <Mail className="size-4" strokeWidth={1.75} /> : null}
       {buttonText}
-      <ArrowRight className="size-4 rtl:rotate-180" />
+      {isMailto ? null : <ArrowRight className="size-4 rtl:rotate-180" />}
     </>
   );
 
