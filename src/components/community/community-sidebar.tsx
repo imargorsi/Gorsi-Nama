@@ -47,7 +47,7 @@ export function CommunitySidebar({
 
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
-      <div className="flex gap-2 overflow-x-auto pb-1 lg:hidden">
+      <div className="scrollbar-hide flex gap-2 overflow-x-auto touch-pan-x lg:hidden">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = categoryId === item.id;
@@ -86,7 +86,7 @@ export function CommunitySidebar({
                 aria-pressed={isActive}
                 onClick={() => onTagChange(isActive ? undefined : item.tag)}
                 className={cn(
-                  "inline-flex h-9 items-center rounded-full px-3 text-xs font-medium shadow-md",
+                  "inline-flex h-11 items-center rounded-full px-3 text-xs font-medium shadow-md",
                   isActive ? "bg-gold text-espresso" : "bg-ivory text-warm-gray"
                 )}
               >

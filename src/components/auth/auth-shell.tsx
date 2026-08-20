@@ -30,7 +30,7 @@ export function AuthShell({
   const common = useTranslations("Common");
 
   return (
-    <div className="relative isolate min-h-svh w-full overflow-hidden p-4 sm:p-8 lg:p-12">
+    <div className="relative isolate min-h-dvh w-full overflow-x-hidden bg-espresso sm:overflow-hidden sm:p-8 lg:p-12">
       <Image
         src="/auth-bg.jpg"
         alt=""
@@ -45,7 +45,7 @@ export function AuthShell({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="relative z-10 mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-7xl flex-col overflow-hidden rounded-2xl ring-2 ring-gold/45 shadow-xl sm:min-h-[calc(100svh-4rem)] sm:flex-row lg:min-h-[calc(100svh-6rem)]"
+        className="relative z-10 mx-auto flex min-h-dvh w-full max-w-7xl flex-col overflow-hidden bg-card sm:min-h-[calc(100svh-4rem)] sm:flex-row sm:rounded-2xl sm:bg-transparent sm:ring-2 sm:ring-gold/45 sm:shadow-xl lg:min-h-[calc(100svh-6rem)]"
       >
         <motion.div
           variants={panelContainer}
@@ -104,12 +104,12 @@ export function AuthShell({
           </motion.div>
         </motion.div>
 
-        <div className="flex w-full flex-1 flex-col justify-center bg-card px-6 py-10 sm:w-1/2 sm:px-12 lg:px-16">
+        <div className="flex w-full flex-1 flex-col justify-start overflow-y-auto bg-card px-5 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] sm:w-1/2 sm:justify-center sm:px-12 sm:py-10 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
-            className="mx-auto flex w-full max-w-md flex-col gap-6"
+            className="mx-auto flex w-full max-w-md flex-col gap-6 pt-[env(safe-area-inset-top)] sm:pt-0"
           >
             <Link
               href="/"

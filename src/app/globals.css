@@ -158,6 +158,16 @@
   margin-inline: auto;
 }
 
+/* Horizontal chip rows: swipe freely, no visible scrollbar (mobile-app feel). */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   .site-shell {
     width: 100%;

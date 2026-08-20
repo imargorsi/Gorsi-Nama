@@ -30,11 +30,14 @@ export function CommunityJoinPrompt() {
           {t("joinText")}
         </Text>
       </div>
-      <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-        <Link href="/auth/login" className={cn(buttonVariants({ variant: "outline" }))}>
+      <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row">
+        <Link
+          href="/auth/login"
+          className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+        >
           {t("signIn")}
         </Link>
-        <Link href="/auth/signup" className={cn(buttonVariants())}>
+        <Link href="/auth/signup" className={cn(buttonVariants(), "w-full sm:w-auto")}>
           {t("joinCta")}
         </Link>
       </div>

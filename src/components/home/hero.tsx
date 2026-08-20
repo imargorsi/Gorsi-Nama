@@ -114,11 +114,11 @@ export function Hero() {
         </AnimatePresence>
       </div>
 
-      <div className="absolute inset-y-0 inset-s-0 -z-10 w-[80%] bg-linear-to-r from-espresso/96 via-espresso/82 to-transparent" />
-      <div className="absolute inset-y-0 inset-s-0 -z-10 w-[48%] bg-gold/8 blur-3xl" />
-      <div className="absolute inset-0 -z-10 bg-linear-to-t from-espresso/55 via-transparent to-espresso/12" />
+      <div className="absolute inset-y-0 inset-s-0 -z-10 w-full bg-linear-to-t from-espresso/90 via-espresso/55 to-espresso/35 sm:w-[80%] sm:bg-linear-to-r sm:from-espresso/96 sm:via-espresso/82 sm:to-transparent" />
+      <div className="absolute inset-y-0 inset-s-0 -z-10 hidden w-[48%] bg-gold/8 blur-3xl sm:block" />
+      <div className="absolute inset-0 -z-10 bg-linear-to-t from-espresso/55 via-transparent to-espresso/12 sm:block" />
 
-      <div className="site-shell relative flex min-h-svh flex-col justify-center gap-10 px-4 pt-28 pb-10 sm:gap-12 sm:px-0 sm:pt-40 sm:pb-16 lg:pt-48 lg:pb-28">
+      <div className="site-shell relative flex min-h-svh flex-col justify-center gap-10 px-4 pt-[calc(5.5rem+env(safe-area-inset-top))] pb-10 sm:gap-12 sm:px-0 sm:pt-40 sm:pb-16 lg:pt-48 lg:pb-28">
         <div className="grid w-full min-w-0 gap-12 lg:grid-cols-[minmax(0,1.08fr)_21rem] lg:items-end">
           <div className="min-w-0 max-w-4xl">
             <AnimatePresence mode="wait" initial={false}>

@@ -6,6 +6,7 @@ import { PersonalityCard } from "@/components/people/personality-card";
 import { Stagger, StaggerItem } from "@/components/reveal";
 import { notablePeople } from "@/data/notable-people";
 import { pageMetadata } from "@/lib/seo";
+import { contactMailto } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -63,7 +64,7 @@ export default async function PeoplePage({
         title={t("ctaTitle")}
         text={t("ctaText")}
         buttonText={t("ctaButton")}
-        href="mailto:hey@argorsi.com"
+        href={contactMailto}
       />
     </>
   );

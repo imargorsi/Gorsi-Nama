@@ -5,6 +5,7 @@ import { CallToAction } from "@/components/call-to-action";
 import { LibraryBrowser } from "@/components/library/library-browser";
 import { isLibraryCategoryId } from "@/components/library/library-categories";
 import { pageMetadata } from "@/lib/seo";
+import { contactMailto } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -50,7 +51,7 @@ export default async function LibraryPage({
         title={t("ctaTitle")}
         text={t("ctaText")}
         buttonText={t("ctaButton")}
-        href="mailto:hey@argorsi.com"
+        href={contactMailto}
       />
     </>
   );

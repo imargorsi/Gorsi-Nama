@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Compass, UserRound, Users, type LucideIcon } from "lucide-react";
+import { Compass, Mail, UserRound, Users, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { AccentIcon } from "@/components/accent-icon";
 import type { CommunityCategoryId } from "@/components/community/community-categories";
 import { HeritagePatternBand } from "@/components/heritage-ornaments";
 import { Reveal } from "@/components/reveal";
+import { contactEmail, contactMailto } from "@/lib/site";
 
 const exploreLinks = [
   { key: "history", href: "/history" },
@@ -47,7 +48,7 @@ export async function Footer() {
       <Reveal amount={0.2} className="site-shell relative z-10 px-4 pt-16 pb-20 sm:px-0 sm:pb-24">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-start md:gap-x-8 md:gap-y-12">
           <div className="flex flex-col gap-3 md:col-span-6 lg:pe-8">
-            <Link href="/" className="relative h-16 w-72 sm:h-[4.5rem] sm:w-80">
+            <Link href="/" className="relative h-14 w-full max-w-72 sm:h-16 sm:w-80">
               <Image
                 src="/veriosn-v2.png"
                 alt="Gujjar Nama"
@@ -61,6 +62,13 @@ export async function Footer() {
             <p className="max-w-md text-sm leading-relaxed text-ivory/50">
               {t("about")}
             </p>
+            <a
+              href={contactMailto}
+              className="inline-flex items-center gap-2 text-sm text-ivory/70 transition-colors hover:text-gold"
+            >
+              <Mail className="size-4 shrink-0" strokeWidth={1.75} />
+              {contactEmail}
+            </a>
           </div>
 
           <FooterColumn

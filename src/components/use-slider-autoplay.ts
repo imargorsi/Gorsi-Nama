@@ -22,6 +22,14 @@ export function useSliderAutoplay(
   );
 
   useEffect(() => {
+    if (pageCount < 1) {
+      setPage(0);
+      return;
+    }
+    setPage((current) => current % pageCount);
+  }, [pageCount]);
+
+  useEffect(() => {
     if (pageCount < 2 || isPaused || prefersReducedMotion) return;
 
     const timer = window.setTimeout(() => {

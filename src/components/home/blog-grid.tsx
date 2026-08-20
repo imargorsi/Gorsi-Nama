@@ -102,7 +102,7 @@ function StoryShareBar() {
   const t = useTranslations("Home.stories");
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-espresso px-5 py-8 sm:px-8 sm:py-10">
+    <div className="relative -mx-4 overflow-hidden bg-espresso px-5 py-8 sm:mx-0 sm:rounded-xl sm:px-8 sm:py-10">
       <HeritagePatternBand />
       <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
         <AccentIcon icon={PenLine} size="lg" tone="on-dark" />

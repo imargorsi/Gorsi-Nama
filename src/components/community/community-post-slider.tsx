@@ -5,11 +5,10 @@ import { CommunityPostCard } from "@/components/community/community-post-card";
 import {
   PagedSlider,
   chunkPages,
-  pagedSliderPageSize,
+  usePagedSliderPageSize,
 } from "@/components/paged-slider";
 import type { CommunityPost } from "@/data/community-posts";
 
-export const communitySliderPageSize = pagedSliderPageSize;
 export const communitySliderPostCount = 12;
 
 export function CommunityPostSlider({
@@ -30,7 +29,8 @@ export function CommunityPostSlider({
   onTagClick: (tag: string) => void;
 }) {
   const t = useTranslations("Home.pulse");
-  const pages = chunkPages(posts, communitySliderPageSize);
+  const pageSize = usePagedSliderPageSize();
+  const pages = chunkPages(posts, pageSize);
 
   return (
     <PagedSlider
@@ -38,8 +38,8 @@ export function CommunityPostSlider({
       pageClassName="grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
       getPageLabel={(index) =>
         t("pageLabel", {
-          from: index * communitySliderPageSize + 1,
-          to: Math.min((index + 1) * communitySliderPageSize, posts.length),
+          from: index * pageSize + 1,
+          to: Math.min((index + 1) * pageSize, posts.length),
         })
       }
       pages={pages.map((pagePosts, pageIndex) => ({

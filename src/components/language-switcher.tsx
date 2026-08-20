@@ -40,7 +40,7 @@ export function LanguageSwitcher({
           aria-current={loc === locale}
           aria-label={t(loc)}
           className={cn(
-            "rounded-full px-2.5 py-1 font-sans text-xs font-semibold tracking-wide whitespace-nowrap transition-colors",
+            "min-h-11 rounded-full px-3 py-2 font-sans text-xs font-semibold tracking-wide whitespace-nowrap transition-colors",
             loc === "ur" && "[font-family:var(--font-urdu)] text-[0.8rem] leading-none",
             loc === locale
               ? "bg-gold text-espresso"
