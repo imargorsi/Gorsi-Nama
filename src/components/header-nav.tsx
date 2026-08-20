@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import {
   BookOpen,
+  ChevronRight,
   Landmark,
   Library,
   MessagesSquare,
@@ -49,15 +50,20 @@ function HeaderLink({
   const isActive = isActivePath(pathname, href);
 
   const classes = cn(
-    "inline-flex items-center gap-1.5 font-heading text-sm font-medium tracking-wide whitespace-nowrap transition-colors",
+    "inline-flex items-center font-heading font-medium tracking-wide transition-colors",
     variant === "bar" &&
       cn(
-        "relative h-full py-1 after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-gold after:transition-transform hover:after:scale-x-100",
+        "relative h-full gap-1.5 py-1 text-sm whitespace-nowrap after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-center after:scale-x-0 after:bg-gold after:transition-transform hover:after:scale-x-100",
         isActive && "text-gold after:scale-x-100",
         !isActive && "text-ivory/70 hover:text-gold"
       ),
     variant === "sheet" &&
-      cn("min-h-11", isActive ? "text-gold" : "text-ivory/70 hover:text-gold")
+      cn(
+        "min-h-12 w-full gap-3 rounded-xl px-3 py-3 text-base",
+        isActive
+          ? "bg-ivory/8 text-gold"
+          : "text-ivory/80 hover:bg-ivory/8 hover:text-gold"
+      )
   );
 
   return (
@@ -68,10 +74,22 @@ function HeaderLink({
       aria-current={isActive ? "page" : undefined}
     >
       <Icon
-        className={cn("size-3.5 shrink-0", isActive ? "text-gold" : "text-gold/80")}
+        className={cn(
+          "shrink-0",
+          variant === "sheet" ? "size-4" : "size-3.5",
+          isActive ? "text-gold" : "text-gold/80"
+        )}
         strokeWidth={1.75}
       />
-      {children}
+      <span className={cn(variant === "sheet" && "min-w-0 flex-1 text-start")}>
+        {children}
+      </span>
+      {variant === "sheet" ? (
+        <ChevronRight
+          className="size-4 shrink-0 text-ivory/30 rtl:rotate-180"
+          strokeWidth={1.75}
+        />
+      ) : null}
     </Link>
   );
 }
@@ -88,8 +106,8 @@ function NavGroup({
   const t = useTranslations("Nav");
 
   return (
-    <div className="flex flex-col gap-3">
-      <p className="heritage-eyebrow text-[0.65rem] tracking-[0.22em]">
+    <div className="flex flex-col gap-1">
+      <p className="heritage-eyebrow mb-2 px-3 text-[0.65rem] tracking-[0.22em]">
         {t(titleKey)}
       </p>
       {links.map((link) => (
@@ -118,26 +136,18 @@ export function NavLinks({
 
   if (stacked) {
     return (
-      <>
+      <div className="flex flex-col gap-8">
         <NavGroup
           titleKey="explore"
           links={exploreLinks}
           onNavigate={onNavigate}
         />
-        <div className="flex flex-col gap-3">
-          {communityLinks.map((link) => (
-            <HeaderLink
-              key={link.key}
-              href={link.href}
-              onNavigate={onNavigate}
-              variant="sheet"
-              icon={link.icon}
-            >
-              {t(link.key)}
-            </HeaderLink>
-          ))}
-        </div>
-      </>
+        <NavGroup
+          titleKey="community"
+          links={communityLinks}
+          onNavigate={onNavigate}
+        />
+      </div>
     );
   }
 

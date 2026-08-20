@@ -36,12 +36,19 @@ export function StoryEditorActions({
   const isRow = layout === "row";
 
   return (
-    <div className={cn(isRow ? "flex gap-2" : "flex flex-col gap-2", className)}>
+    <div
+      className={cn(
+        isRow
+          ? "grid grid-cols-2 gap-2 sm:flex sm:flex-row"
+          : "flex flex-col gap-2",
+        className
+      )}
+    >
       <Button
         type="button"
         disabled={isBusy}
         onClick={onPublish}
-        className={cn(isRow ? "order-3 min-w-0 flex-1" : "w-full")}
+        className={cn(isRow ? "col-span-2 order-1 min-w-0 sm:order-3 sm:flex-1" : "w-full")}
       >
         {primaryLabel}
       </Button>
@@ -50,7 +57,7 @@ export function StoryEditorActions({
         variant="outline"
         disabled={isBusy}
         onClick={onDraft}
-        className={cn(isRow ? "order-2 min-w-0 flex-1" : "w-full")}
+        className={cn(isRow ? "order-2 min-w-0 sm:flex-1" : "w-full")}
       >
         {t("saveDraft")}
       </Button>
@@ -59,7 +66,7 @@ export function StoryEditorActions({
         variant="ghost"
         disabled={isBusy}
         onClick={onCancel}
-        className={cn(isRow ? "order-1 px-3" : "w-full")}
+        className={cn(isRow ? "order-3 min-w-0 sm:order-1 sm:px-3" : "w-full")}
       >
         {common("cancel")}
       </Button>

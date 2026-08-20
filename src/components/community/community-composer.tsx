@@ -88,7 +88,7 @@ export function CommunityComposer({
         <DialogContent
           showCloseButton
           overlayClassName="bg-espresso/55 backdrop-blur-none supports-backdrop-filter:backdrop-blur-none"
-          className="flex max-h-[90svh] flex-col gap-0 overflow-hidden bg-ivory p-0 shadow-[0_2px_6px_color-mix(in_srgb,var(--gorsi-espresso)_16%,transparent),0_24px_56px_color-mix(in_srgb,var(--gorsi-espresso)_28%,transparent)] ring-1 ring-espresso/12 sm:max-w-3xl lg:max-w-4xl"
+          className="flex max-h-dvh flex-col gap-0 overflow-hidden bg-ivory p-0 shadow-[0_2px_6px_color-mix(in_srgb,var(--gorsi-espresso)_16%,transparent),0_24px_56px_color-mix(in_srgb,var(--gorsi-espresso)_28%,transparent)] ring-1 ring-espresso/12 sm:max-h-[90svh] sm:max-w-3xl lg:max-w-4xl"
         >
           <DialogHeader className="shrink-0 border-b border-espresso/10 px-6 pt-5 pe-14 pb-3 sm:px-8 sm:pt-6">
             <p className="heritage-eyebrow">{t("composerEyebrow")}</p>
@@ -182,12 +182,13 @@ export function CommunityComposer({
               ) : null}
             </div>
 
-            <DialogFooter className="mx-0 mb-0 rounded-b-xl border-espresso/10 bg-ivory px-6 py-3 sm:px-8">
+            <DialogFooter className="mx-0 mb-0 shrink-0 rounded-none border-espresso/10 bg-ivory px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:rounded-b-xl sm:px-8">
               <Button
                 type="button"
                 variant="outline"
                 disabled={composer.isBusy}
                 onClick={composer.requestClose}
+                className="w-full sm:w-auto"
               >
                 {common("cancel")}
               </Button>
@@ -195,6 +196,7 @@ export function CommunityComposer({
                 type="submit"
                 disabled={composer.isBusy}
                 variant="gold"
+                className="w-full sm:w-auto"
               >
                 {composer.isBusy
                   ? composer.isEdit

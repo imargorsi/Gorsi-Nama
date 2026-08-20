@@ -4,6 +4,7 @@ import { LogOut, User } from "lucide-react";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { buttonVariants } from "@/components/ui/button";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,25 @@ export function AuthArea({
   if (!isLoaded) return null;
 
   if (!user) {
+    if (stacked) {
+      return (
+        <Link
+          href="/auth/login"
+          onClick={onNavigate}
+          className={cn(
+            buttonVariants({
+              variant: "light",
+              size: "lg",
+              className: "w-full",
+            })
+          )}
+        >
+          <User className="size-4" />
+          {t("signIn")}
+        </Link>
+      );
+    }
+
     return (
       <Link
         href="/auth/login"

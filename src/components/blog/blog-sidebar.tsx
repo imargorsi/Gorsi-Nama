@@ -59,7 +59,7 @@ export function BlogSidebar({
           <button
             type="button"
             onClick={() => onQueryChange("")}
-            className="absolute inset-e-2 top-1/2 inline-flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-warm-gray transition-colors hover:text-espresso"
+            className="absolute inset-e-1 top-1/2 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full text-warm-gray transition-colors hover:text-espresso"
             aria-label={common("clearSearch")}
           >
             <X className="size-4" strokeWidth={1.75} />
@@ -67,7 +67,7 @@ export function BlogSidebar({
         ) : null}
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-1 lg:hidden">
+      <div className="scrollbar-hide flex gap-2 overflow-x-auto touch-pan-x lg:hidden">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = categoryId === item.id;

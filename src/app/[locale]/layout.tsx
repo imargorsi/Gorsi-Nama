@@ -1,5 +1,5 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Newsreader, Noto_Nastaliq_Urdu } from "next/font/google";
 import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
@@ -33,6 +33,13 @@ const fontUrdu = Noto_Nastaliq_Urdu({
   subsets: ["arabic"],
   weight: "400",
 });
+
+/** Enables env(safe-area-inset-*) on notched phones (mobile app chrome). */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export async function generateMetadata({
   params,

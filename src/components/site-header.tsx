@@ -47,22 +47,24 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 sm:pt-6">
+      <header className="fixed inset-x-0 top-0 z-50 bg-espresso pt-[env(safe-area-inset-top)] lg:bg-transparent lg:px-6 lg:pt-6">
         <div
           className={cn(
-            "site-shell flex items-center justify-between rounded-2xl border border-gold/20 bg-espresso backdrop-blur-md transition-all duration-300 ease-out",
+            "flex items-center justify-between border-gold/20 bg-espresso backdrop-blur-md transition-all duration-300 ease-out",
+            "h-16 rounded-none border-b px-4 ring-0",
+            "lg:site-shell lg:rounded-2xl lg:border lg:border-gold/20",
             scrolled
-              ? "h-16 px-4 shadow-md ring-1 ring-gold/12 sm:px-6"
-              : "h-20 px-5 shadow-lg ring-1 ring-gold/20 sm:px-8"
+              ? "lg:h-16 lg:px-6 lg:shadow-md lg:ring-1 lg:ring-gold/12"
+              : "lg:h-20 lg:px-8 lg:shadow-lg lg:ring-1 lg:ring-gold/20"
           )}
         >
-          <Link href="/" className="flex h-full shrink-0 items-center">
+          <Link href="/" className="flex h-full min-w-0 items-center">
             <span
               className={cn(
-                "relative transition-[height,width] duration-300",
+                "relative max-w-full transition-[height,width] duration-300",
                 scrolled
-                  ? "h-12 w-52 sm:w-60"
-                  : "h-14 w-60 sm:h-16 sm:w-72"
+                  ? "h-10 w-44 lg:h-12 lg:w-60"
+                  : "h-10 w-44 lg:h-16 lg:w-72"
               )}
             >
               <Image
@@ -77,14 +79,14 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          <div className="flex h-full items-center gap-3 self-stretch sm:gap-5">
-            <nav className="hidden h-full md:block">
+          <div className="flex h-full shrink-0 items-center gap-2 self-stretch sm:gap-4 lg:gap-5">
+            <nav className="hidden h-full lg:block">
               <NavLinks />
             </nav>
 
-            <span aria-hidden className="hidden h-5 w-px bg-ivory/15 md:block" />
+            <span aria-hidden className="hidden h-5 w-px bg-ivory/15 lg:block" />
 
-            <div className="hidden h-full items-center gap-3 md:flex">
+            <div className="hidden h-full items-center gap-3 lg:flex">
               <LanguageSwitcher />
               <AuthArea />
             </div>
@@ -94,9 +96,9 @@ export function SiteHeader() {
                 render={
                   <Button
                     variant="ghost"
-                    size="icon"
+                    size="icon-lg"
                     aria-label={t("openMenu")}
-                    className="text-ivory/70 hover:bg-ivory/10 hover:text-gold md:hidden"
+                    className="text-ivory/70 hover:bg-ivory/10 hover:text-gold lg:hidden"
                   />
                 }
               >
@@ -105,25 +107,26 @@ export function SiteHeader() {
               <SheetContent
                 side={locale === "ur" ? "left" : "right"}
                 showCloseButton={false}
-                className="border-ivory/10 bg-espresso text-ivory"
+                fullScreen
+                className="bg-espresso text-ivory"
               >
-                <SheetHeader className="flex-row items-center justify-between gap-3">
+                <SheetHeader className="h-[calc(4rem+env(safe-area-inset-top))] flex-row items-center justify-between gap-3 border-b border-gold/20 px-4 py-0 pt-[env(safe-area-inset-top)]">
                   <SheetTitle className="sr-only">{t("openMenu")}</SheetTitle>
-                  <span className="relative h-11 w-48">
+                  <Link href="/" onClick={closeMenu} className="relative h-10 w-44">
                     <Image
                       src="/veriosn-v2.png"
                       alt="Gujjar Nama"
                       fill
-                      sizes="192px"
+                      sizes="176px"
                       className="object-contain object-left mix-blend-lighten rtl:object-right"
                       unoptimized
                     />
-                  </span>
+                  </Link>
                   <SheetClose
                     render={
                       <Button
                         variant="ghost"
-                        size="icon-sm"
+                        size="icon-lg"
                         aria-label={t("closeMenu")}
                         className="text-ivory/70 hover:bg-ivory/10 hover:text-gold"
                       />
@@ -132,11 +135,11 @@ export function SiteHeader() {
                     <X />
                   </SheetClose>
                 </SheetHeader>
-                <nav className="flex flex-col gap-8 px-4">
+                <nav className="flex-1 overflow-y-auto px-4 py-6">
                   <NavLinks stacked onNavigate={closeMenu} />
                 </nav>
-                <SheetFooter className="gap-5 border-t border-ivory/10">
-                  <LanguageSwitcher />
+                <SheetFooter className="gap-4 border-t border-gold/20 px-4 py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+                  <LanguageSwitcher className="self-start" />
                   <AuthArea stacked onNavigate={closeMenu} />
                 </SheetFooter>
               </SheetContent>
@@ -145,7 +148,10 @@ export function SiteHeader() {
         </div>
       </header>
       {!isHome ? (
-        <div className="h-28 shrink-0 sm:h-32" aria-hidden />
+        <div
+          className="h-[calc(4rem+env(safe-area-inset-top))] shrink-0 lg:h-32"
+          aria-hidden
+        />
       ) : null}
     </>
   );

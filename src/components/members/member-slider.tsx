@@ -5,16 +5,16 @@ import { MembershipCard } from "@/components/members/membership-card";
 import {
   PagedSlider,
   chunkPages,
-  pagedSliderPageSize,
+  usePagedSliderPageSize,
 } from "@/components/paged-slider";
 import { placeholderMembers } from "@/data/members";
 
 const dummyMembers = placeholderMembers.slice(0, 12);
-const memberSliderPageSize = pagedSliderPageSize;
 
 export function MemberSlider() {
   const t = useTranslations("Home.members");
-  const pages = chunkPages(dummyMembers, memberSliderPageSize);
+  const pageSize = usePagedSliderPageSize();
+  const pages = chunkPages(dummyMembers, pageSize);
 
   return (
     <PagedSlider
@@ -22,8 +22,8 @@ export function MemberSlider() {
       pageClassName="grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6"
       getPageLabel={(index) =>
         t("pageLabel", {
-          from: index * memberSliderPageSize + 1,
-          to: Math.min((index + 1) * memberSliderPageSize, dummyMembers.length),
+          from: index * pageSize + 1,
+          to: Math.min((index + 1) * pageSize, dummyMembers.length),
         })
       }
       pages={pages.map((pageMembers, pageIndex) => ({

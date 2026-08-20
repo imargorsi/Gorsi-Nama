@@ -48,7 +48,7 @@ export async function Footer() {
       <Reveal amount={0.2} className="site-shell relative z-10 px-4 pt-16 pb-20 sm:px-0 sm:pb-24">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-start md:gap-x-8 md:gap-y-12">
           <div className="flex flex-col gap-3 md:col-span-6 lg:pe-8">
-            <Link href="/" className="relative h-16 w-72 sm:h-[4.5rem] sm:w-80">
+            <Link href="/" className="relative h-14 w-full max-w-72 sm:h-16 sm:w-80">
               <Image
                 src="/veriosn-v2.png"
                 alt="Gujjar Nama"

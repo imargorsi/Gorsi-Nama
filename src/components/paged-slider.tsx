@@ -1,12 +1,42 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useSyncExternalStore } from "react";
 import { useLocale } from "next-intl";
 import { motion } from "motion/react";
 import { useSliderAutoplay } from "@/components/use-slider-autoplay";
 import { cn } from "@/lib/utils";
 
+/** Desktop page size (`lg+`). Phone shows 1; `sm` shows 2. */
 export const pagedSliderPageSize = 4;
+
+const smQuery = "(min-width: 640px)";
+const lgQuery = "(min-width: 1024px)";
+
+function pagedSliderPageSizeFromViewport() {
+  if (window.matchMedia(lgQuery).matches) return 4;
+  if (window.matchMedia(smQuery).matches) return 2;
+  return 1;
+}
+
+function subscribePagedSliderPageSize(onStoreChange: () => void) {
+  const sm = window.matchMedia(smQuery);
+  const lg = window.matchMedia(lgQuery);
+  sm.addEventListener("change", onStoreChange);
+  lg.addEventListener("change", onStoreChange);
+  return () => {
+    sm.removeEventListener("change", onStoreChange);
+    lg.removeEventListener("change", onStoreChange);
+  };
+}
+
+export function usePagedSliderPageSize() {
+  return useSyncExternalStore(
+    subscribePagedSliderPageSize,
+    pagedSliderPageSizeFromViewport,
+    () => 1
+  );
+}
 
 export function chunkPages<T>(items: T[], size: number) {
   const pages: T[][] = [];
@@ -55,7 +85,7 @@ export function PagedSlider({
 
       {pageCount > 1 ? (
         <div
-          className="mt-5 flex items-center justify-center"
+          className="mt-5 flex items-center justify-center gap-1 sm:gap-0"
           role="tablist"
           aria-label={tablistLabel}
         >
@@ -67,14 +97,14 @@ export function PagedSlider({
               aria-label={getPageLabel(index)}
               aria-selected={page === index}
               onClick={() => goTo(index)}
-              className="group flex size-11 items-center justify-center"
+              className="group flex h-11 w-3.5 items-center justify-center sm:size-11 sm:w-11"
             >
               <span
                 className={cn(
-                  "h-2.5 rounded-full transition-all",
+                  "rounded-full transition-all",
                   page === index
-                    ? "w-9 bg-gold"
-                    : "w-3 bg-espresso/20 group-hover:bg-espresso/35"
+                    ? "h-2 w-2 bg-gold sm:h-2.5 sm:w-8"
+                    : "h-1.5 w-1.5 bg-espresso/25 sm:h-2.5 sm:w-2.5 group-hover:bg-espresso/40"
                 )}
               />
             </button>
