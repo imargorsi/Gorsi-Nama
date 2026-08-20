@@ -1,9 +1,9 @@
 "use client";
 
 import { PenLine } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { EmptyWell } from "@/components/empty-well";
-import { getBlogCategory } from "@/components/blog/blog-categories";
 import { StoryRowActions } from "@/components/blog/story-actions";
 import { useMyStories } from "@/components/blog/use-stories";
 import { ProfileStoriesSkeleton } from "@/components/blog/story-skeletons";
@@ -20,6 +20,8 @@ export function ProfileStories({
   userId: string;
   firstName?: string;
 }) {
+  const t = useTranslations("Profile");
+  const storiesT = useTranslations("Stories");
   const mine = useMyStories(Boolean(userId));
   const stories = mine.data?.stories ?? [];
   const publishedCount = stories.filter((story) => story.status === "publish").length;
@@ -28,16 +30,19 @@ export function ProfileStories({
   return (
     <section id="your-stories">
       <SectionHeading
-        eyebrow="Your writing"
-        title="Your Stories"
+        eyebrow={t("storiesEyebrow")}
+        title={t("storiesTitle")}
         titleVariant="h3"
         description={
           mine.isLoading ? (
             <Skeleton className="mt-0.5 h-4 w-56" />
           ) : stories.length === 0 ? (
-            "Drafts and published stories you write will live here."
+            t("storiesEmptyDescription")
           ) : (
-            `${publishedCount} published · ${draftCount} ${draftCount === 1 ? "draft" : "drafts"}`
+            t("storiesCounts", {
+              published: publishedCount,
+              draftCount,
+            })
           )
         }
       >
@@ -48,7 +53,7 @@ export function ProfileStories({
           )}
         >
           <PenLine className="size-4" />
-          Write a story
+          {t("writeStory")}
         </Link>
       </SectionHeading>
 
@@ -56,8 +61,8 @@ export function ProfileStories({
         <EmptyWell
           icon={PenLine}
           className="mt-6 py-8"
-          title="Could Not Load Stories"
-          text="Refresh the page to try again."
+          title={t("loadStoriesErrorTitle")}
+          text={t("loadStoriesErrorText")}
         />
       ) : mine.isLoading ? (
         <ProfileStoriesSkeleton />
@@ -65,12 +70,11 @@ export function ProfileStories({
         <EmptyWell
           icon={PenLine}
           className="mt-6 py-8"
-          title="No Stories Yet"
+          title={t("noStoriesTitle")}
           text={
-            <>
-              {firstName ? `${firstName}, you` : "You"} have not written a story
-              yet. Title, excerpt, and a photograph — then publish to Stories.
-            </>
+            firstName
+              ? t("noStoriesNamed", { name: firstName })
+              : t("noStoriesUnnamed")
           }
         />
       ) : (
@@ -87,9 +91,9 @@ export function ProfileStories({
                   {story.title}
                 </Heading>
                 <Text variant="meta" className="mt-1 text-sm">
-                  {getBlogCategory(story.categoryId).label}
+                  {storiesT(`categories.${story.categoryId}`)}
                   <span className="text-gold/50"> · </span>
-                  {story.status === "publish" ? "Published" : "Draft"}
+                  {story.status === "publish" ? t("published") : t("draft")}
                 </Text>
               </div>
               <StoryRowActions story={story} />

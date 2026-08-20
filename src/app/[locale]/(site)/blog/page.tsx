@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CallToAction } from "@/components/call-to-action";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { BlogList, BlogWriteButton } from "@/components/blog/blog-list";
 import { isBlogCategoryId } from "@/components/blog/blog-categories";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Stories | Gujjar Nama",
-  description: "Stories, updates, and heritage articles from the Gujjar community.",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/blog">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Stories" });
+  return pageMetadata({
+    locale,
+    href: "/blog",
+    title: t("metaTitle"),
+    description: t("description"),
+  });
+}
 
 export default async function BlogPage({
   params,
@@ -16,6 +25,7 @@ export default async function BlogPage({
 }: PageProps<"/[locale]/blog">) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Stories");
 
   const query = await searchParams;
   const requested = typeof query.category === "string" ? query.category : undefined;
@@ -23,9 +33,9 @@ export default async function BlogPage({
   return (
     <>
       <PageBreadcrumb
-        eyebrow="From Our People"
-        title="Stories From Our People"
-        description="Stories, updates, and heritage articles from the Gujjar community."
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
       >
         <BlogWriteButton />
       </PageBreadcrumb>
@@ -35,10 +45,10 @@ export default async function BlogPage({
         />
       </div>
       <CallToAction
-        eyebrow="From Our People"
-        title="Share a Story From Your Family"
-        text="Share the stories, memories, photographs, and family history that have shaped your heritage for generations to come."
-        buttonText="Write a story"
+        eyebrow={t("ctaEyebrow")}
+        title={t("ctaTitle")}
+        text={t("ctaText")}
+        buttonText={t("ctaButton")}
         href="/blog/write"
       />
     </>

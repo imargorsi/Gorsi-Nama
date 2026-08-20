@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
@@ -25,6 +26,9 @@ export function AuthShell({
   mode: "login" | "signup";
   children: ReactNode;
 }) {
+  const t = useTranslations("Auth");
+  const common = useTranslations("Common");
+
   return (
     <div className="relative isolate min-h-svh w-full overflow-hidden p-4 sm:p-8 lg:p-12">
       <Image
@@ -61,7 +65,7 @@ export function AuthShell({
             <Link href="/" className="relative h-28 w-96 transition-opacity hover:opacity-80 sm:h-32 sm:w-[28rem]">
               <Image
                 src="/veriosn-v2.png"
-                alt="Gujjar Nama"
+                alt={common("brandName")}
                 fill
                 sizes="448px"
                 className="object-contain mix-blend-lighten"
@@ -76,7 +80,7 @@ export function AuthShell({
           >
             <Image
               src="/gujjar-emblem.png"
-              alt="Gujjar Nama emblem"
+              alt={common("brandEmblemAlt")}
               fill
               sizes="384px"
               className="object-contain mix-blend-lighten"
@@ -90,11 +94,11 @@ export function AuthShell({
             className="relative z-10 flex flex-col items-center gap-5"
           >
             <p className="font-heading text-2xl leading-snug sm:text-[1.75rem]">
-              <span className="text-gold">Preserving our past,</span>
+              <span className="text-gold">{t("taglinePast")}</span>
               <br />
-              <span className="text-ivory/90">connecting our people,</span>
+              <span className="text-ivory/90">{t("taglinePeople")}</span>
               <br />
-              <span className="text-ivory/90">inspiring our future.</span>
+              <span className="text-ivory/90">{t("taglineFuture")}</span>
             </p>
             <HeritageRule />
           </motion.div>
@@ -113,7 +117,7 @@ export function AuthShell({
             >
               <Image
                 src="/gujjar-emblem.png"
-                alt="Gujjar Nama emblem"
+                alt={common("brandEmblemAlt")}
                 fill
                 sizes="112px"
                 className="object-contain mix-blend-lighten"
@@ -131,7 +135,7 @@ export function AuthShell({
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                Login
+                {t("loginTab")}
                 {mode === "login" && (
                   <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-gold" />
                 )}
@@ -146,7 +150,7 @@ export function AuthShell({
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                Register
+                {t("registerTab")}
                 {mode === "signup" && (
                   <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-gold" />
                 )}
@@ -163,11 +167,13 @@ export function AuthShell({
 }
 
 export function AuthContinueDivider() {
+  const t = useTranslations("Auth");
+
   return (
     <div className="flex items-center gap-3">
       <span className="h-px flex-1 bg-border" />
       <Text as="span" variant="meta">
-        or continue with
+        {t("orContinue")}
       </Text>
       <span className="h-px flex-1 bg-border" />
     </div>

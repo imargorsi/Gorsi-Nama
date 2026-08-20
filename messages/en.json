@@ -39,5 +39,719 @@
     "myPosts": "My Posts",
     "myStories": "My Stories",
     "copyright": "© Gujjar Nama"
+  },
+  "Home": {
+    "hero": {
+      "ariaLabel": "Gujjar Nama hero",
+      "progressAria": "Hero slide progress",
+      "showSlide": "Show {eyebrow}",
+      "slideN": "Slide {n}: {eyebrow}",
+      "primaryCta": "Explore Our Community",
+      "secondaryCta": "Browse Library",
+      "stats": {
+        "community": {
+          "label": "Global Community",
+          "value": "Connecting Gujjar people worldwide"
+        },
+        "archives": {
+          "label": "Stories & Archives",
+          "value": "Heritage, stories, and memory"
+        },
+        "generations": {
+          "label": "Generations",
+          "value": "A living intergenerational record"
+        }
+      },
+      "slides": {
+        "heritage": {
+          "eyebrow": "Our Heritage",
+          "preview": "Discover our heritage",
+          "title": "Discover the Legacy of the Gujjar People & <gold>Our Heritage</gold>",
+          "description": "Gujjar Nama is a digital home for the Gujjar people — a place to discover who we are, where we come from, and the heritage we still carry."
+        },
+        "community": {
+          "eyebrow": "Our Community",
+          "preview": "Connect worldwide",
+          "title": "Connecting the Gujjar Community <gold>Worldwide</gold>",
+          "description": "Find Gujjar people across cities and countries. Share photographs and conversation on the community feed, stay connected with our people."
+        },
+        "history": {
+          "eyebrow": "Our History",
+          "preview": "Read the chronicle",
+          "title": "The History Written by <gold>Our Forefathers</gold>",
+          "description": "The Gorsi clan is a Gujjar people whose story runs through migration, settlement, and cultural memory across the Indian subcontinent. This is the chronicle they began — and that we still keep."
+        }
+      }
+    },
+    "explore": {
+      "title": "Explore Gujjar Nama",
+      "description": "Stories, people, history and memories that connect us across generations.",
+      "cards": {
+        "history": {
+          "category": "History",
+          "title": "Our History",
+          "description": "Trace our journey across generations and discover the roots of who we are.",
+          "cta": "Explore History"
+        },
+        "stories": {
+          "category": "Stories",
+          "title": "Our Stories",
+          "description": "Read stories and memories that preserve a piece of who we are.",
+          "cta": "Explore Stories"
+        },
+        "people": {
+          "category": "People",
+          "title": "Our People",
+          "description": "Discover the people who shape our community and keep our heritage alive.",
+          "cta": "Meet the Community"
+        },
+        "archive": {
+          "category": "Archive",
+          "title": "Our Archive",
+          "description": "Browse documents and photographs that preserve our heritage.",
+          "cta": "Explore Library"
+        }
+      }
+    },
+    "pulse": {
+      "eyebrow": "Community Pulse",
+      "title": "What's Happening in Our Community",
+      "description": "A shared space for Gujjar families to exchange memories, ask questions, share photographs, and stay connected through the stories that bring us together.",
+      "cta": "Explore Community",
+      "pagesAria": "Post pages",
+      "pageLabel": "Posts {from} to {to}"
+    },
+    "history": {
+      "eyebrow": "Our History",
+      "title": "Where Tradition Meets Technology: Uniting the Gujjar People Across Generations",
+      "dek": "A journey of ancestry, migration, settlement, and cultural memory across the Indian subcontinent — tracing the histories of Gujjar communities, the places they shaped, and the traditions and stories carried through generations.",
+      "briefTitle": "A Brief History of the Gujjar People",
+      "brief1": "The Gujjar people have a long and diverse history shaped by migration, settlement, pastoral traditions, regional kingdoms, and changing societies across South Asia. Their story is preserved not only in historical records, but also in family memories, oral traditions, places, and generations of lived experience.",
+      "brief2": "From ancient and medieval history to the lives and achievements of Gujjars today, Gujjar Nama brings these stories together in one growing archive — helping preserve our shared heritage and pass it forward to generations yet to come.",
+      "cta": "Read the Gorsi chronicle",
+      "photoAlt": "Gujjar elders and younger members gathered on a traditional rug, sharing a laptop and tablets"
+    },
+    "stories": {
+      "eyebrow": "From Our Community",
+      "title": "Stories From Our People",
+      "description1": "Every family carries memories worth preserving.",
+      "description2": "Discover the stories that connect generations.",
+      "viewAll": "View All",
+      "loadErrorTitle": "Could Not Load Stories",
+      "loadErrorText": "Refresh the page to try again.",
+      "emptyTitle": "No Published Stories Yet",
+      "emptyText": "The first published story from the community will appear here.",
+      "shareTitle": "Have a Story to Share?",
+      "shareText": "Your memories are a part of our shared heritage.",
+      "shareCta": "Share Your Story"
+    },
+    "members": {
+      "eyebrow": "Our People",
+      "title": "Meet the Gujjar Community",
+      "description": "Gujjar people connected across generations, cities, and countries.",
+      "cta": "Explore Members",
+      "pagesAria": "Member pages",
+      "pageLabel": "Members {from} to {to}",
+      "membershipId": "Membership ID# {id}"
+    },
+    "library": {
+      "eyebrow": "The Archive",
+      "title": "The Gujjar Library",
+      "description": "PDF documents and photographs of the Gujjar people, kept in one archive so the generations after us can still find, read, and remember what we were careful to keep.",
+      "cta": "Explore the Library"
+    },
+    "banner": {
+      "eyebrow": "Be Part of Our Journey",
+      "title": "Help Write the Next Chapter of Our Heritage",
+      "text": "Gujjar Nama is more than a collection of stories — it's a living legacy. Share your memories and knowledge so the next generation inherits more than a name.",
+      "shareCta": "Share Your Story",
+      "joinCta": "Join Community"
+    }
+  },
+  "Library": {
+    "categories": {
+      "documents": {
+        "title": "Documents",
+        "eyebrow": "PDFs",
+        "description": "Letters, records, scanned books, and papers kept as PDF files.",
+        "cta": "Browse documents",
+        "imageAlt": "Heritage still-life of maps, sealed letters, and archive papers",
+        "emptyTitle": "No Documents Yet",
+        "emptyMessage": "PDFs added from the archive — letters, records, and scanned papers — will appear here."
+      },
+      "images": {
+        "title": "Photographs",
+        "eyebrow": "Images",
+        "description": "Photographs and visual records of people, places, and occasions.",
+        "cta": "Browse photographs",
+        "imageAlt": "Heritage still-life of a camera, photo albums, and prints",
+        "emptyTitle": "No Photographs Yet",
+        "emptyMessage": "JPEG, PNG, and WebP photographs added to the archive will appear here."
+      }
+    },
+    "metaTitle": "Library | Gujjar Nama",
+    "metaDescription": "The Gujjar archive of PDF documents and photographs, kept so later generations can still find what we were careful to keep.",
+    "eyebrow": "The Archive",
+    "title": "The Gujjar Library",
+    "description": "A growing record of family documents, photographs, land records, letters, and other materials that preserve the history and memory of the Gujjar people.",
+    "allHoldings": "All Holdings",
+    "searchPlaceholder": "Search the archive",
+    "searchAria": "Search the archive",
+    "formatsAria": "Archive formats",
+    "formats": "Formats",
+    "holdingCount": "{count, plural, one {# holding} other {# holdings}}",
+    "holdingCountMatching": "{count, plural, one {# holding matching} other {# holdings matching}}",
+    "inCategory": "in {category}",
+    "noMatchTitle": "No Matching Holdings",
+    "noMatchText": "The archive has no files yet. Try another search after holdings are added.",
+    "emptyTitle": "The Archive Is Being Prepared",
+    "emptyText": "Holdings are added by archive keepers. Two formats will live here — PDFs for records, and photographs for visual memory.",
+    "ctaEyebrow": "The Archive",
+    "ctaTitle": "Help Grow the Archive",
+    "ctaText": "Have family records, photographs, or historical documents that preserve our story? Share them with Gujjar Nama and help safeguard our heritage for future generations.",
+    "ctaButton": "Email us"
+  },
+  "Community": {
+    "categories": {
+      "our-stories": "Our Stories",
+      "discussions": "Discussions",
+      "places-communities": "Places & Communities",
+      "history-heritage": "History & Heritage",
+      "language-traditions": "Language & Traditions"
+    },
+    "post": {
+      "like": "Like",
+      "unlike": "Unlike",
+      "save": "Save",
+      "unsave": "Unsave",
+      "share": "Share",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "metaTitle": "Community | Gujjar Nama",
+    "eyebrow": "Community",
+    "title": "Among Our People",
+    "crumb": "Community",
+    "description": "A shared space for Gujjar families to exchange memories, ask questions, share photographs, and stay connected through the stories that bring us together.",
+    "allPosts": "All Posts",
+    "categoriesAria": "Community categories",
+    "tagsAria": "Community tags",
+    "pagesAria": "Community pages",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "zeroPosts": "0 posts",
+    "showingRange": "Showing {from}–{to} of {total}",
+    "joinTitle": "Sit With the Conversation",
+    "joinText": "Sign in to share a memory, a question, or a photograph with the Gujjar community.",
+    "signIn": "Sign in",
+    "joinCta": "Join Gujjar Nama",
+    "emptyFilteredTitle": "No Posts in This Filter Yet",
+    "emptyFilteredText": "Try another category or tag, or be the first to share a photograph or a question here.",
+    "emptyTitle": "The Room Is Quiet",
+    "emptyText": "Be the first to share a memory, a question, or a photograph with the Gujjar community.",
+    "writeAria": "Write a post",
+    "writePrompt": "Share a memory, a question, or a photograph with the Gujjar community.",
+    "writeButton": "Write a post",
+    "composerEyebrow": "Community",
+    "editTitle": "Edit post",
+    "writeTitle": "Write a post",
+    "composerDescription": "A short note for the family to find. Add a photograph or a link if you like.",
+    "bodyLabel": "Your post",
+    "bodyPlaceholder": "Write your story, memory, thought, or question.",
+    "photoLabel": "Photograph",
+    "photoHint": "Optional · max {mb} MB",
+    "addPhoto": "Add a photograph",
+    "removePhoto": "Remove photo",
+    "uploading": "Uploading image",
+    "linkLabel": "Link",
+    "categoryLabel": "Category",
+    "saving": "Saving…",
+    "publishing": "Publishing…",
+    "publish": "Publish",
+    "justNow": "Just now",
+    "minutesAgo": "{n}m ago",
+    "hoursAgo": "{n}h ago",
+    "daysAgo": "{n}d ago"
+  },
+  "Common": {
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "backHome": "Back to Homepage",
+    "brandName": "Gujjar Nama",
+    "brandEmblemAlt": "Gujjar Nama emblem",
+    "showMore": "Show more",
+    "cancel": "Cancel",
+    "save": "Save",
+    "optional": "Optional",
+    "categories": "Categories",
+    "tags": "Tags",
+    "share": "Share",
+    "details": "Details",
+    "clearSearch": "Clear search"
+  },
+  "NotFound": {
+    "crumb": "404",
+    "heading": "404 - Page Not Found",
+    "text": "The page you are looking for does not exist."
+  },
+  "History": {
+    "metaTitle": "History | Gujjar Nama",
+    "eyebrow": "Our Chronicle",
+    "title": "History of the Gorsi Clan",
+    "description": "A journey of ancestry, migration, settlement, and cultural memory across the Indian subcontinent — tracing the roots of the Gorsi clan, the communities they built, and the traditions and stories passed down through generations.",
+    "crumb": "History",
+    "tocAria": "On this page",
+    "tocTitle": "On This Page ({count} chapters)",
+    "ctaEyebrow": "Our Chronicle",
+    "ctaTitle": "Help Grow This Chronicle",
+    "ctaText": "Family records, elders’ accounts, photographs, and land documents can uncover chapters that might otherwise fade with time.",
+    "ctaButton": "Share a story",
+    "intro": {
+      "lead": "The history of the Gorsi clan is part of the wider story of the Gujjar people of South Asia. Across generations, Gorsi families have lived, migrated, settled, farmed, raised livestock, served their communities, and preserved traditions across the Punjab, Kashmir and surrounding regions.",
+      "context": "Much of this history survives through a combination of historical records, colonial-era ethnographic accounts, local traditions, family histories and oral memory. Gujjar Nama brings these sources together as an evolving chronicle — one that can grow as our community discovers and contributes more of its past."
+    },
+    "chapters": {
+      "wider-gujjar-story": {
+        "kicker": "The Wider Gujjar Story",
+        "title": "Origins of the Gujjar People",
+        "paragraphs": [
+          "The origins of the Gujjar people remain a subject of historical debate.",
+          "Historical scholarship has proposed several explanations for the emergence of the Gurjara/Gujjar identity. Some older writers associated the Gujjars with Central Asian migrations and groups such as the Kushans or other peoples who entered northwestern South Asia. Other historians have argued for a more complex development within the Indian subcontinent, involving local populations, migration, political change and the formation of new regional identities.",
+          "What can be established with greater confidence is that Gurjara/Gujjar identities were present in northern India by the early medieval period, and that Gujjar communities subsequently became widely distributed across northern and northwestern South Asia.",
+          "The precise relationship between the ancient Gurjaras mentioned in early historical sources and every modern Gujjar clan should therefore be treated carefully rather than assumed."
+        ]
+      },
+      "gujjars-of-punjab": {
+        "kicker": "The Gujjars of Punjab",
+        "title": "A People Spread Across the Region",
+        "paragraphs": [
+          "Over centuries, Gujjar communities became established throughout the Punjab and neighbouring regions.",
+          "By the colonial period, Gujjars were found across a large part of Punjab, including areas corresponding today to Punjab in Pakistan and India, Kashmir, Rawalpindi, Jhelum, Gujrat, Lahore, Sialkot, Gurdaspur and other districts.",
+          "Their traditional livelihoods varied by region. Many communities combined pastoralism, agriculture and livestock keeping, while others became increasingly settled cultivators and landholders.",
+          "Historical accounts also describe Gujjar society as being organized into numerous clans or gotras, through which families maintained their ancestral identity and social relationships."
+        ],
+        "markers": [
+          {
+            "label": "Recorded across",
+            "items": [
+              "Punjab (Pakistan and India)",
+              "Kashmir",
+              "Rawalpindi",
+              "Jhelum",
+              "Gujrat",
+              "Lahore",
+              "Sialkot",
+              "Gurdaspur"
+            ]
+          }
+        ]
+      },
+      "the-gorsi-clan": {
+        "kicker": "The Gorsi Clan",
+        "title": "Gorsi Among the Gujjar Clans",
+        "paragraphs": [
+          "Gorsi appears in historical records as one of the recognized clans of the Gujjar community.",
+          "Nineteenth- and early twentieth-century sources documenting the peoples of Punjab list Gorsi alongside other established Gujjar clans, including Khatana, Chechi, Kasana, Kalas, Bhamla and others.",
+          "An important point for our own chronicle is that these records demonstrate that Gorsi was an established Gujjar clan by the nineteenth century, but they do not by themselves provide a complete account of when or where the clan first emerged.",
+          "That earlier history remains an area for continued research."
+        ],
+        "markers": [
+          {
+            "label": "Recorded alongside",
+            "items": [
+              "Khatana",
+              "Chechi",
+              "Kasana",
+              "Kalas",
+              "Bhamla"
+            ]
+          }
+        ]
+      },
+      "punjab-and-kashmir": {
+        "kicker": "Gorsi Across Punjab & Kashmir",
+        "title": "Villages, Valleys and New Settlements",
+        "paragraphs": [
+          "Historical and ethnographic material places Gorsi families in different parts of the Punjab and adjoining regions.",
+          "Records from the colonial period identify Gorsi communities in several districts, including Gujrat, Rawalpindi, Jhelum, Gurdaspur, Ludhiana, Jalandhar, Lahore and other parts of the wider Punjab region.",
+          "Gorsi-related place names also survive in the region. For example, Gorsi is recorded as a locality in Gujrat District, while Gorsian is recorded as a village in Rawalpindi District.",
+          "In Jammu and Kashmir, modern ethnographic material also records Gorsi as one of the Gujjar gotras.",
+          "Together, these records point toward a geographically dispersed clan whose history developed through generations of movement and settlement."
+        ],
+        "markers": [
+          {
+            "label": "Districts in the colonial record",
+            "items": [
+              "Gujrat",
+              "Rawalpindi",
+              "Jhelum",
+              "Gurdaspur",
+              "Ludhiana",
+              "Jalandhar",
+              "Lahore"
+            ]
+          },
+          {
+            "label": "Place names that survive",
+            "items": [
+              "Gorsi, Gujrat District",
+              "Gorsian, Rawalpindi District",
+              "Jammu and Kashmir"
+            ]
+          }
+        ]
+      },
+      "kotha-gujjran": {
+        "kicker": "Kotha Gujjran",
+        "title": "A Place Remembered in Gorsi Tradition",
+        "paragraphs": [
+          "Among the places remembered in our community's history is Kotha Gujjran, in present-day Gujrat District, Punjab, Pakistan.",
+          "The village is located near Kharian and remains a predominantly Gujjar settlement. Historical and local accounts describe generations of families connected with agriculture, land and military service, followed in more recent decades by migration to cities and overseas communities.",
+          "Community oral tradition holds that Gorsi families have been connected with Kotha Gujjran for generations, and that earlier generations lived a more mobile or forest-based life before establishing permanent settlements."
+        ],
+        "callout": "This part of the story should currently be treated as oral history rather than a firmly dated historical fact.",
+        "afterList": [
+          "Gujjar Nama will continue collecting family records, elders' accounts, land documents, photographs and other evidence to better establish this chapter."
+        ]
+      },
+      "pastoral-to-settlement": {
+        "kicker": "From Pastoral Life to Settlement",
+        "title": "Changing Ways of Life",
+        "paragraphs": [
+          "Like many Gujjar communities across northern South Asia, Gorsi families experienced gradual changes in their way of life.",
+          "Pastoralism and livestock remained important in many communities, while agriculture and permanent settlement became increasingly significant.",
+          "Over generations, families established villages, cultivated land, entered military and government service, pursued education and moved into towns and cities.",
+          "The transition was not a single event. It was a gradual transformation shaped by geography, political change, economic opportunity and the choices of individual families."
+        ]
+      },
+      "colonial-record": {
+        "kicker": "The Colonial Record",
+        "title": "Gorsi in the Historical Sources",
+        "paragraphs": [
+          "The nineteenth and early twentieth centuries provide some of the earliest relatively detailed written records about the Gorsi clan.",
+          "British Indian census and ethnographic works recorded Gorsi among the Gujjar clans of Punjab. H. A. Rose's *A Glossary of the Tribes and Castes of the Punjab and North-West Frontier Province*, based on earlier census work by Denzil Ibbetson and E. D. MacLagan, is one important source.",
+          "These records are valuable, but they must also be read critically. They were produced by colonial administrators who categorized communities according to the administrative and ethnographic ideas of their time."
+        ],
+        "callout": "For Gujjar Nama, these documents are sources to examine — not the final definition of our identity."
+      },
+      "partition-1947": {
+        "kicker": "1947 and a Changing Punjab",
+        "title": "Partition and the New Map",
+        "paragraphs": [
+          "The Partition of British India in 1947 transformed the geography of Punjab.",
+          "Communities that had lived across the same historical region suddenly found themselves separated by an international border.",
+          "For Gujjar families, as for many other communities, this period brought migration, displacement, separation and new settlements.",
+          "Families moved between villages, towns and regions, while others remained in their ancestral homes.",
+          "The Gorsi story after 1947 therefore became increasingly connected with both continuity and migration."
+        ]
+      },
+      "community-today": {
+        "kicker": "The Gorsi Community Today",
+        "title": "From Villages to the World",
+        "paragraphs": [
+          "Today, Gorsi families can be found across Pakistan, India, Kashmir and communities around the world.",
+          "The traditional village remains an important part of Gorsi identity, but the community has expanded far beyond its ancestral settlements.",
+          "Education, business, agriculture, public service, professional careers and migration have created new paths for successive generations.",
+          "Many families now have relatives living in Europe, the Middle East, North America and elsewhere, creating a Gorsi community that is increasingly global."
+        ],
+        "markers": [
+          {
+            "label": "A community across",
+            "items": [
+              "Pakistan",
+              "India",
+              "Kashmir",
+              "Europe",
+              "the Middle East",
+              "North America"
+            ]
+          }
+        ],
+        "emphasized": [
+          "The geography has changed.",
+          "The connection remains."
+        ]
+      },
+      "living-heritage": {
+        "kicker": "Our Living Heritage",
+        "title": "The Story Is Still Being Written",
+        "paragraphs": [
+          "The history of Gorsi is not contained in a single book.",
+          "It lives in:"
+        ],
+        "list": [
+          "the stories told by our elders",
+          "old family photographs",
+          "handwritten records",
+          "land documents",
+          "village histories",
+          "graves and monuments",
+          "family trees",
+          "migration stories",
+          "traditional songs and sayings",
+          "memories passed from one generation to another"
+        ],
+        "afterList": [
+          "Some chapters are documented.",
+          "Some survive only through oral tradition.",
+          "And some are still waiting to be discovered.",
+          "Gujjar Nama exists to bring these fragments together."
+        ]
+      }
+    }
+  },
+  "Stories": {
+    "metaTitle": "Stories | Gujjar Nama",
+    "metaFallback": "Story | Gujjar Nama",
+    "eyebrow": "From Our People",
+    "title": "Stories From Our People",
+    "description": "Stories, updates, and heritage articles from the Gujjar community.",
+    "crumb": "Stories",
+    "storyCrumb": "Story",
+    "writeCta": "Write a story",
+    "ctaEyebrow": "From Our People",
+    "ctaTitle": "Share a Story From Your Family",
+    "ctaText": "Share the stories, memories, photographs, and family history that have shaped your heritage for generations to come.",
+    "ctaButton": "Write a story",
+    "allStories": "All Stories",
+    "searchPlaceholder": "Search stories",
+    "searchAria": "Search stories",
+    "categoriesAria": "Story categories",
+    "featured": "Featured",
+    "byAuthor": "By {name}",
+    "minRead": "{minutes} min read",
+    "readMore": "Read More",
+    "showMore": "Show more",
+    "storyCount": "{count, plural, one {# story} other {# stories}}",
+    "storyCountMatching": "{count, plural, one {# story matching} other {# stories matching}}",
+    "inCategory": "in {category}",
+    "loadErrorTitle": "Could Not Load Stories",
+    "loadErrorText": "Refresh the page to try again.",
+    "emptyTitle": "No Published Stories Yet",
+    "emptyText": "The first published story from the community will appear here.",
+    "noMatchTitle": "No Matching Stories",
+    "noMatchText": "Try a different search, or choose another category.",
+    "relatedEyebrow": "More stories",
+    "relatedTitle": "Continue Reading",
+    "notFoundHeading": "Story not found",
+    "notFoundText": "This story may still be a draft, or it is no longer published.",
+    "writeMetaTitle": "Write a Story | Gujjar Nama",
+    "writeEyebrow": "Stories",
+    "writeTitle": "Share a Story",
+    "writeCrumb": "Write a story",
+    "writeDescription": "Write about family, heritage, or a memory worth keeping. Publish it to Stories, or save a draft to your profile.",
+    "editMetaTitle": "Edit Story | Gujjar Nama",
+    "editTitle": "Edit Your Story",
+    "editCrumb": "Edit story",
+    "editDescription": "Update the title, story, and photo. Published changes go live on Stories right away.",
+    "editForbiddenHeading": "You cannot edit this story",
+    "editForbiddenText": "Only the author or a super admin can edit a story.",
+    "editLoadErrorTitle": "Could Not Load This Story",
+    "editLoadErrorText": "Refresh the page to try again.",
+    "sidebarAuthor": "Author",
+    "sidebarCategory": "Category",
+    "sidebarPublished": "Published",
+    "sidebarLength": "Length",
+    "shareFacebook": "Share on Facebook",
+    "shareTwitter": "Share on Twitter",
+    "shareWhatsApp": "Share on WhatsApp",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this story? This cannot be undone.",
+    "deleted": "Story deleted.",
+    "deleteError": "Could not delete this story.",
+    "categories": {
+      "heritage": "Heritage",
+      "community": "Community",
+      "family": "Family",
+      "history": "History",
+      "traditions": "Traditions"
+    },
+    "editor": {
+      "titleSr": "Title",
+      "titlePlaceholder": "Story title",
+      "contentSr": "Content",
+      "contentPlaceholder": "Start writing the story. A memory, a person, a place…",
+      "contentHint": "Plain text for now. Add an excerpt in Details if you want a different summary on cards.",
+      "publishEyebrow": "Publish",
+      "publishHint": "Published stories appear on Stories right away. Drafts stay on your profile until you publish them.",
+      "detailsEyebrow": "Details",
+      "category": "Category",
+      "permalink": "Permalink",
+      "permalinkHint": "Auto from the title",
+      "slugFallback": "your-title",
+      "excerpt": "Excerpt",
+      "excerptPlaceholder": "A short summary for cards. Leave blank to use the opening lines.",
+      "tags": "Tags",
+      "tagPlaceholder": "Type a tag and press Enter",
+      "removeTag": "Remove {tag}",
+      "saveDraft": "Save draft",
+      "publishStory": "Publish story",
+      "updateStory": "Update story",
+      "draftSaved": "Draft saved to your profile.",
+      "storyUpdated": "Story updated.",
+      "storyPublished": "Story published.",
+      "saveError": "Could not save this story.",
+      "addCover": "Add a featured image",
+      "coverHint": "Optional. JPEG, PNG, WebP, or GIF · max {mb} MB.",
+      "changeCover": "Change",
+      "removeCover": "Remove featured image",
+      "uploading": "Uploading image"
+    }
+  },
+  "People": {
+    "metaTitle": "Famous Gorsi Personalities | Gujjar Nama",
+    "eyebrow": "Notable Gorsi",
+    "title": "People Who Shaped Our Story",
+    "crumb": "Famous Gorsi Personalities",
+    "description": "Discover the individuals whose lives, work, and contributions have shaped the Gorsi story and left a lasting mark on our shared heritage.",
+    "ctaEyebrow": "The Archive",
+    "ctaTitle": "Help Complete This Directory",
+    "ctaText": "Know a notable Gorsi personality who should be remembered? Share their story and help us build a more complete record of our people and heritage.",
+    "ctaButton": "Email us"
+  },
+  "Members": {
+    "metaTitle": "Members | Gujjar Nama",
+    "profileMetaTitle": "Member Profile | Gujjar Nama",
+    "eyebrow": "Our People",
+    "title": "Proud Members of the Gujjar Community",
+    "crumb": "Members",
+    "description": "This directory is for every Gujjar who carries our name with pride. Join us, claim your place, and let the generations after us find their people here.",
+    "ctaEyebrow": "Our People",
+    "ctaTitle": "Become a Proud Member",
+    "ctaText": "Create your Gujjar Nama account to appear in this directory and stand with your people.",
+    "ctaButton": "Join Gujjar Nama",
+    "showMore": "Show more",
+    "memberEyebrow": "Member",
+    "fallbackName": "Gorsi member",
+    "publicProfile": "Public member profile",
+    "placeholderBio": "Public profiles will show city, profession, and a short summary once members complete them. This page is the layout for that view — the Neon profile fields are not connected here yet.",
+    "profileCtaEyebrow": "The Directory",
+    "profileCtaTitle": "This Could Be Your Profile",
+    "profileCtaText": "Create your Gujjar Nama account to claim a profile and appear in the member directory.",
+    "profileCtaButton": "Join Gujjar Nama"
+  },
+  "Profile": {
+    "metaTitle": "My Profile | Gujjar Nama",
+    "crumb": "My Profile",
+    "loadingAria": "Loading profile",
+    "loadError": "Could not load your profile details.",
+    "loadErrorHint": "{error} You can still manage your account.",
+    "welcome": "Welcome Back",
+    "yourPlace": "{name}, this is your place in Gujjar Nama.",
+    "about": "About",
+    "aboutEmpty": "{name}, a few sentences about you will appear here — hometown, craft, or the chapter of the Gorsi story you carry.",
+    "city": "City",
+    "profession": "Profession",
+    "email": "Email",
+    "links": "Links",
+    "notAdded": "Not added yet",
+    "shareEyebrow": "Share",
+    "shareHint": "Your public member link",
+    "shareAria": "Shareable profile link",
+    "copied": "Copied",
+    "copyLink": "Copy profile link",
+    "linkCopied": "Profile link copied.",
+    "copyError": "Could not copy the link.",
+    "account": "Account",
+    "editProfile": "Edit profile",
+    "manageAccount": "Manage account",
+    "loadingDetails": "Loading your details…",
+    "editEyebrow": "Your details",
+    "editTitle": "Edit profile",
+    "editDescription": "These details appear on your Gujjar Nama profile. Name, email, and photo are managed in your account.",
+    "cityPlaceholder": "Lahore",
+    "professionPlaceholder": "Historian",
+    "summary": "Summary",
+    "summaryPlaceholder": "A short introduction for other members of the clan.",
+    "linksHint": "Optional. Leave blank to hide.",
+    "website": "Website",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "twitter": "X / Twitter",
+    "saving": "Saving…",
+    "saveProfile": "Save profile",
+    "updated": "Profile updated.",
+    "saveError": "Could not save your profile.",
+    "savedEyebrow": "Saved",
+    "savedTitle": "Saved Posts",
+    "savedDescription": "Community posts you save will gather here.",
+    "savedEmptyTitle": "Nothing Saved Yet",
+    "savedEmptyText": "When you save a post on the community feed, it will appear here so you can find it again.",
+    "storiesEyebrow": "Your writing",
+    "storiesTitle": "Your Stories",
+    "storiesEmptyDescription": "Drafts and published stories you write will live here.",
+    "storiesCounts": "{published} published · {draftCount, plural, one {# draft} other {# drafts}}",
+    "writeStory": "Write a story",
+    "loadStoriesErrorTitle": "Could Not Load Stories",
+    "loadStoriesErrorText": "Refresh the page to try again.",
+    "noStoriesTitle": "No Stories Yet",
+    "noStoriesNamed": "{name}, you have not written a story yet. Title, excerpt, and a photograph — then publish to Stories.",
+    "noStoriesUnnamed": "You have not written a story yet. Title, excerpt, and a photograph — then publish to Stories.",
+    "published": "Published",
+    "draft": "Draft"
+  },
+  "Auth": {
+    "loginMetaTitle": "Login | Gujjar Nama",
+    "registerMetaTitle": "Register | Gujjar Nama",
+    "ssoMetaTitle": "Signing In | Gujjar Nama",
+    "ssoCallback": "Completing sign-in…",
+    "loginTab": "Login",
+    "registerTab": "Register",
+    "taglinePast": "Preserving our past,",
+    "taglinePeople": "connecting our people,",
+    "taglineFuture": "inspiring our future.",
+    "orContinue": "or continue with",
+    "google": "Continue with Google",
+    "googlePending": "Redirecting…",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "newPasswordPlaceholder": "Enter a new password",
+    "confirmPasswordPlaceholder": "Enter your password again",
+    "loginTitle": "Welcome Back",
+    "loginDescription": "Login to continue your journey with Gujjar Nama",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember me",
+    "loggingIn": "Logging In...",
+    "login": "Login",
+    "privacy1": "Your data is safe with us.",
+    "privacy2": "We respect your privacy and never share your information.",
+    "loginSuccess": "Login successful.",
+    "genericError": "Something went wrong, try again.",
+    "forgotTitle": "Forgot Password?",
+    "forgotDescription": "Enter your email and we'll send you a reset code.",
+    "sendingCode": "Sending Code...",
+    "sendResetCode": "Send Reset Code",
+    "backToLogin": "Back to Login",
+    "codeSent": "Check your email for a reset code.",
+    "resetTitle": "Reset Password",
+    "resetDescription": "Enter the code we emailed you and choose a new password.",
+    "codeLabel": "Verification Code",
+    "codePlaceholder": "Enter the code we emailed you",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "resetting": "Resetting...",
+    "resetPassword": "Reset Password",
+    "resetSuccess": "Password reset. You're logged in.",
+    "invalidCode": "Invalid code, try again.",
+    "signupTitle": "Create Account",
+    "signupDescription": "Join Gujjar Nama and start your journey with us",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "signupPasswordPlaceholder": "Enter a password",
+    "confirmPassword": "Confirm Your Password",
+    "registering": "Registering...",
+    "register": "Register",
+    "verifyTitle": "Verify Your Email",
+    "verifyDescription": "Enter the 6-digit code we sent to your email address",
+    "verifying": "Verifying...",
+    "verifyEmail": "Verify Email",
+    "accountCreated": "Account created.",
+    "verificationSent": "Check your email for a verification code."
   }
 }

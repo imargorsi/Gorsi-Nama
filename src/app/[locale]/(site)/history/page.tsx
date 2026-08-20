@@ -1,38 +1,48 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CallToAction } from "@/components/call-to-action";
 import { Chronicle } from "@/components/history/chronicle";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
-import { chronicleDescription } from "@/data/history-chronicle";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "History | Gujjar Nama",
-  description: chronicleDescription,
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/history">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "History" });
+  return pageMetadata({
+    locale,
+    href: "/history",
+    title: t("metaTitle"),
+    description: t("description"),
+  });
+}
 
 export default async function HistoryPage({
   params,
 }: PageProps<"/[locale]/history">) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("History");
+  const common = await getTranslations("Common");
 
   return (
     <>
       <PageBreadcrumb
-        eyebrow="Our Chronicle"
-        title="History of the Gorsi Clan"
+        eyebrow={t("eyebrow")}
+        title={t("title")}
         crumbs={[
-          { label: "Home", href: "/" },
-          { label: "History" },
+          { label: common("home"), href: "/" },
+          { label: t("crumb") },
         ]}
-        description={chronicleDescription}
+        description={t("description")}
       />
       <Chronicle />
       <CallToAction
-        eyebrow="Our Chronicle"
-        title="Help Grow This Chronicle"
-        text="Family records, elders’ accounts, photographs, and land documents can uncover chapters that might otherwise fade with time."
-        buttonText="Share a story"
+        eyebrow={t("ctaEyebrow")}
+        title={t("ctaTitle")}
+        text={t("ctaText")}
+        buttonText={t("ctaButton")}
         href="/blog/write"
       />
     </>

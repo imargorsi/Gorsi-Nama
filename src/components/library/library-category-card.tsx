@@ -1,16 +1,19 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { surfaceClass } from "@/components/surface";
 import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 import type { LibraryCategory } from "@/components/library/library-categories";
 
-export function LibraryCategoryCard({
+export async function LibraryCategoryCard({
   category,
 }: {
   category: LibraryCategory;
 }) {
+  const t = await getTranslations(`Library.categories.${category.id}`);
+
   return (
     <Link
       href={`/library?category=${category.id}`}
@@ -22,7 +25,7 @@ export function LibraryCategoryCard({
       <div className="relative aspect-3/2 overflow-hidden bg-espresso">
         <Image
           src={category.image}
-          alt={category.imageAlt}
+          alt={t("imageAlt")}
           fill
           sizes="(min-width: 1024px) 28vw, (min-width: 768px) 45vw, 90vw"
           className="object-contain p-2 mix-blend-screen transition-transform duration-500 ease-out group-hover:scale-[1.04] sm:p-3"
@@ -31,15 +34,15 @@ export function LibraryCategoryCard({
       </div>
 
       <div className="flex flex-1 flex-col px-4 pt-3 pb-4 sm:px-5">
-        <p className="heritage-eyebrow">{category.eyebrow}</p>
+        <p className="heritage-eyebrow">{t("eyebrow")}</p>
         <Heading as="h3" variant="h4" className="mt-1.5">
-          {category.title}
+          {t("title")}
         </Heading>
         <Text variant="small" className="mt-1.5 mb-4 leading-snug">
-          {category.description}
+          {t("description")}
         </Text>
         <span className="mt-auto inline-flex items-center gap-2 border-t border-gold/20 pt-3 text-sm font-medium tracking-wide text-gold">
-          {category.cta}
+          {t("cta")}
           <ArrowRight
             className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
             strokeWidth={1.75}

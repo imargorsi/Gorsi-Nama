@@ -1,6 +1,9 @@
+"use client";
+
 import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { Briefcase, Globe, LogOut, Mail, MapPin, Pencil, Settings } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   FacebookIcon,
   InstagramIcon,
@@ -57,12 +60,14 @@ export function ProfileSidebar({
   onSignOut: () => void;
   signOutLabel: string;
 }) {
+  const t = useTranslations("Profile");
+  const common = useTranslations("Common");
   const socials = [
     details.facebookUrl
-      ? { href: details.facebookUrl, label: "Facebook", icon: <FacebookIcon className="size-5" /> }
+      ? { href: details.facebookUrl, label: t("facebook"), icon: <FacebookIcon className="size-5" /> }
       : null,
     details.instagramUrl
-      ? { href: details.instagramUrl, label: "Instagram", icon: <InstagramIcon className="size-5" /> }
+      ? { href: details.instagramUrl, label: t("instagram"), icon: <InstagramIcon className="size-5" /> }
       : null,
     details.twitterUrl
       ? { href: details.twitterUrl, label: "X", icon: <TwitterIcon className="size-5" /> }
@@ -70,7 +75,7 @@ export function ProfileSidebar({
     details.websiteUrl
       ? {
           href: details.websiteUrl,
-          label: "Website",
+          label: t("website"),
           icon: <Globe className="size-4" />,
         }
       : null,
@@ -79,32 +84,32 @@ export function ProfileSidebar({
   return (
     <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
       <section className={cn(surfaceClass, "flex flex-col gap-5 p-5")}>
-        <p className="heritage-eyebrow">Details</p>
+        <p className="heritage-eyebrow">{common("details")}</p>
 
-        <MetaRow icon={MapPin} label="City">
+        <MetaRow icon={MapPin} label={t("city")}>
           {isLoading ? (
             <Skeleton className="h-4 w-28" />
           ) : (
-            details.city || "Not added yet"
+            details.city || t("notAdded")
           )}
         </MetaRow>
 
-        <MetaRow icon={Briefcase} label="Profession">
+        <MetaRow icon={Briefcase} label={t("profession")}>
           {isLoading ? (
             <Skeleton className="h-4 w-32" />
           ) : (
-            details.profession || "Not added yet"
+            details.profession || t("notAdded")
           )}
         </MetaRow>
 
         {email ? (
-          <MetaRow icon={Mail} label="Email">
+          <MetaRow icon={Mail} label={t("email")}>
             <span className="break-all">{email}</span>
           </MetaRow>
         ) : null}
 
         {socials.length > 0 ? (
-          <MetaRow icon={Globe} label="Links">
+          <MetaRow icon={Globe} label={t("links")}>
             <div className="flex flex-wrap gap-2">
               {socials.map((social) => (
                 <a
@@ -124,9 +129,9 @@ export function ProfileSidebar({
       </section>
 
       <section className={cn(surfaceClass, "p-5")}>
-        <p className="heritage-eyebrow">Share</p>
+        <p className="heritage-eyebrow">{t("shareEyebrow")}</p>
         <Text variant="small" className="mt-3">
-          Your public member link
+          {t("shareHint")}
         </Text>
         <div className="mt-4">
           <ProfileShareLink path={sharePath} />
@@ -134,19 +139,19 @@ export function ProfileSidebar({
       </section>
 
       <section className={cn(surfaceClass, "flex flex-col gap-2 p-5")}>
-        <p className="heritage-eyebrow">Account</p>
+        <p className="heritage-eyebrow">{t("account")}</p>
         <Button
           className="mt-3 w-full"
           disabled={!canEdit}
-          title={canEdit ? undefined : "Loading your details…"}
+          title={canEdit ? undefined : t("loadingDetails")}
           onClick={onEdit}
         >
           <Pencil className="size-4" />
-          Edit profile
+          {t("editProfile")}
         </Button>
         <Button variant="outline" className="w-full" onClick={onManageAccount}>
           <Settings className="size-4" />
-          Manage account
+          {t("manageAccount")}
         </Button>
         <Button variant="ghost" className="w-full" onClick={onSignOut}>
           <LogOut className="size-4" />

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { ArrowRight, KeyRound, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -29,6 +30,7 @@ import {
 } from "./auth.schemas";
 
 function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
+  const t = useTranslations("Auth");
   const router = useRouter();
   const login = useLogin();
   const googleSignIn = useGoogleSignIn();
@@ -42,11 +44,11 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
   const onSubmit = (values: LoginValues) => {
     login.mutate(values, {
       onSuccess: () => {
-        toast.success("Login successful.");
+        toast.success(t("loginSuccess"));
         router.push("/profile");
       },
       onError: (error) => {
-        toast.error(getErrorMessage(error, "Something went wrong, try again."));
+        toast.error(getErrorMessage(error, t("genericError")));
       },
     });
   };
@@ -54,19 +56,19 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
   return (
     <div className="flex flex-col gap-6">
       <AuthHeading
-        title="Welcome Back"
-        description="Login to continue your journey with Gujjar Nama"
+        title={t("loginTitle")}
+        description={t("loginDescription")}
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("email")}</Label>
           <IconInput
             id="email"
             type="email"
             icon={Mail}
             autoComplete="email"
-            placeholder="Enter your email"
+            placeholder={t("emailPlaceholder")}
             aria-invalid={!!errors.email}
             {...register("email")}
           />
@@ -74,12 +76,12 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("password")}</Label>
           <PasswordInput
             id="password"
             icon={Lock}
             autoComplete="current-password"
-            placeholder="Enter your password"
+            placeholder={t("passwordPlaceholder")}
             aria-invalid={!!errors.password}
             {...register("password")}
           />
@@ -91,7 +93,7 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
             onClick={onForgotPassword}
             className="self-end text-sm font-medium text-gold hover:underline"
           >
-            Forgot Password?
+            {t("forgotPassword")}
           </button>
         </div>
 
@@ -99,7 +101,7 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
         <label className="flex items-center gap-2">
           <Checkbox />
           <Text as="span" variant="small">
-            Remember me
+            {t("rememberMe")}
           </Text>
         </label>
 
@@ -109,7 +111,7 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
           disabled={login.isPending}
           className="mt-2"
         >
-          {login.isPending ? "Logging In..." : "Login"}
+          {login.isPending ? t("loggingIn") : t("login")}
           <ArrowRight className="size-4" />
         </Button>
       </form>
@@ -124,9 +126,9 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
       <div className="flex items-start gap-2">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-gold" />
         <Text variant="meta">
-          Your data is safe with us.
+          {t("privacy1")}
           <br />
-          We respect your privacy and never share your information.
+          {t("privacy2")}
         </Text>
       </div>
     </div>
@@ -140,6 +142,7 @@ function ForgotPasswordStep({
   onCodeSent: () => void;
   onBack: () => void;
 }) {
+  const t = useTranslations("Auth");
   const forgotPassword = useForgotPassword();
 
   const {
@@ -151,11 +154,11 @@ function ForgotPasswordStep({
   const onSubmit = (values: ForgotPasswordValues) => {
     forgotPassword.mutate(values, {
       onSuccess: () => {
-        toast.success("Check your email for a reset code.");
+        toast.success(t("codeSent"));
         onCodeSent();
       },
       onError: (error) => {
-        toast.error(getErrorMessage(error, "Something went wrong, try again."));
+        toast.error(getErrorMessage(error, t("genericError")));
       },
     });
   };
@@ -163,19 +166,19 @@ function ForgotPasswordStep({
   return (
     <div className="flex flex-col gap-6">
       <AuthHeading
-        title="Forgot Password?"
-        description="Enter your email and we'll send you a reset code."
+        title={t("forgotTitle")}
+        description={t("forgotDescription")}
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="forgot-email">Email</Label>
+          <Label htmlFor="forgot-email">{t("email")}</Label>
           <IconInput
             id="forgot-email"
             type="email"
             icon={Mail}
             autoComplete="email"
-            placeholder="Enter your email"
+            placeholder={t("emailPlaceholder")}
             aria-invalid={!!errors.email}
             {...register("email")}
           />
@@ -188,7 +191,7 @@ function ForgotPasswordStep({
           disabled={forgotPassword.isPending}
           className="mt-2"
         >
-          {forgotPassword.isPending ? "Sending Code..." : "Send Reset Code"}
+          {forgotPassword.isPending ? t("sendingCode") : t("sendResetCode")}
         </Button>
       </form>
 
@@ -197,7 +200,7 @@ function ForgotPasswordStep({
         onClick={onBack}
         className="self-start text-sm font-medium text-gold hover:underline"
       >
-        Back to Login
+        {t("backToLogin")}
       </button>
     </div>
   );
@@ -210,6 +213,7 @@ function ResetPasswordStep({
   onComplete: () => void;
   onBack: () => void;
 }) {
+  const t = useTranslations("Auth");
   const router = useRouter();
   const resetPassword = useResetPassword();
 
@@ -222,12 +226,12 @@ function ResetPasswordStep({
   const onSubmit = (values: ResetPasswordValues) => {
     resetPassword.mutate(values, {
       onSuccess: () => {
-        toast.success("Password reset. You're logged in.");
+        toast.success(t("resetSuccess"));
         onComplete();
         router.push("/profile");
       },
       onError: (error) => {
-        toast.error(getErrorMessage(error, "Invalid code, try again."));
+        toast.error(getErrorMessage(error, t("invalidCode")));
       },
     });
   };
@@ -235,20 +239,20 @@ function ResetPasswordStep({
   return (
     <div className="flex flex-col gap-6">
       <AuthHeading
-        title="Reset Password"
-        description="Enter the code we emailed you and choose a new password."
+        title={t("resetTitle")}
+        description={t("resetDescription")}
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="code">Verification Code</Label>
+          <Label htmlFor="code">{t("codeLabel")}</Label>
           <IconInput
             id="code"
             type="text"
             inputMode="numeric"
             icon={KeyRound}
             autoComplete="one-time-code"
-            placeholder="Enter the code we emailed you"
+            placeholder={t("codePlaceholder")}
             aria-invalid={!!errors.code}
             {...register("code")}
           />
@@ -256,12 +260,12 @@ function ResetPasswordStep({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="new-password">New Password</Label>
+          <Label htmlFor="new-password">{t("newPassword")}</Label>
           <PasswordInput
             id="new-password"
             icon={Lock}
             autoComplete="new-password"
-            placeholder="Enter a new password"
+            placeholder={t("newPasswordPlaceholder")}
             aria-invalid={!!errors.password}
             {...register("password")}
           />
@@ -271,12 +275,12 @@ function ResetPasswordStep({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="confirm-new-password">Confirm New Password</Label>
+          <Label htmlFor="confirm-new-password">{t("confirmNewPassword")}</Label>
           <PasswordInput
             id="confirm-new-password"
             icon={Lock}
             autoComplete="new-password"
-            placeholder="Enter your password again"
+            placeholder={t("confirmPasswordPlaceholder")}
             aria-invalid={!!errors.confirmPassword}
             {...register("confirmPassword")}
           />
@@ -291,7 +295,7 @@ function ResetPasswordStep({
           disabled={resetPassword.isPending}
           className="mt-2"
         >
-          {resetPassword.isPending ? "Resetting..." : "Reset Password"}
+          {resetPassword.isPending ? t("resetting") : t("resetPassword")}
         </Button>
       </form>
 
@@ -300,7 +304,7 @@ function ResetPasswordStep({
         onClick={onBack}
         className="self-start text-sm font-medium text-gold hover:underline"
       >
-        Back to Login
+        {t("backToLogin")}
       </button>
     </div>
   );

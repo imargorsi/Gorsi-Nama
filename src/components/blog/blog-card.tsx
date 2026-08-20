@@ -1,7 +1,9 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { getBlogCategory } from "@/components/blog/blog-categories";
 import { StoryImage } from "@/components/blog/story-image";
 import { surfaceClass } from "@/components/surface";
 import { Heading, Text } from "@/components/typography";
@@ -20,8 +22,9 @@ export function BlogCard({
   isFeatured?: boolean;
   className?: string;
 }) {
+  const t = useTranslations("Stories");
   const href = `/blog/${post.slug}`;
-  const category = getBlogCategory(post.categoryId).label;
+  const category = t(`categories.${post.categoryId}`);
   const isHero = variant === "featured";
   const showFeaturedBadge = isFeatured || isHero;
 
@@ -52,7 +55,7 @@ export function BlogCard({
               : "bg-espresso/85 text-ivory"
           )}
         >
-          {showFeaturedBadge ? "Featured" : category}
+          {showFeaturedBadge ? t("featured") : category}
         </span>
       </div>
       <div
@@ -77,6 +80,7 @@ function PostMeta({
   post: BlogPost;
   className?: string;
 }) {
+  const t = useTranslations("Stories");
   const minutes = readingMinutes(post);
 
   return (
@@ -87,12 +91,12 @@ function PostMeta({
         </span>
       </span>
       <Text as="p" variant="meta" className="min-w-0 truncate">
-        By {post.authorName}
+        {t("byAuthor", { name: post.authorName })}
         <span className="text-gold/50"> · </span>
-        {minutes} min read
+        {t("minRead", { minutes })}
       </Text>
       <span className="ms-auto inline-flex shrink-0 items-center gap-1.5 text-sm font-medium tracking-wide text-gold">
-        <span className="hidden sm:inline">Read More</span>
+        <span className="hidden sm:inline">{t("readMore")}</span>
         <ArrowRight
           className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
           strokeWidth={1.75}

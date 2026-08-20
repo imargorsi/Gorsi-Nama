@@ -3,11 +3,15 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Newsreader, Noto_Nastaliq_Urdu } from "next/font/google";
 import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import "../globals.css";
+import { GoogleAnalytics } from "@/components/google-analytics";
+import { JsonLd } from "@/components/json-ld";
 import { Providers } from "@/components/providers";
 import { routing } from "@/i18n/routing";
+import { defaultOgImage, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { siteOrigin } from "@/lib/site";
 
 const fontSans = Geist({
   variable: "--font-sans",
@@ -30,25 +34,34 @@ const fontUrdu = Noto_Nastaliq_Urdu({
   weight: "400",
 });
 
-export const metadata: Metadata = {
-  title: "Gujjar Nama",
-  description:
-    "A digital archive and community platform documenting the history, people, stories, heritage, and collective memory of the Gujjar people.",
-  icons: {
-    icon: [{ url: "/favicon.png", type: "image/png", sizes: "any" }],
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
-  },
-  robots: {
-    index: false,
-    follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-      noimageindex: true,
+export async function generateMetadata({
+  params,
+}: LayoutProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+  const common = await getTranslations({ locale, namespace: "Common" });
+  const footer = await getTranslations({ locale, namespace: "Footer" });
+
+  return {
+    metadataBase: new URL(siteOrigin),
+    title: common("brandName"),
+    description: footer("about"),
+    icons: {
+      icon: [{ url: "/favicon.png", type: "image/png", sizes: "any" }],
+      shortcut: "/favicon.png",
+      apple: "/favicon.png",
     },
-  },
-};
+    openGraph: {
+      type: "website",
+      siteName: common("brandName"),
+      locale: locale === "ur" ? "ur_PK" : "en_US",
+      images: [{ url: defaultOgImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: [defaultOgImage],
+    },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -64,6 +77,8 @@ export default async function RootLayout({
   setRequestLocale(locale);
 
   const dir = locale === "ur" ? "rtl" : "ltr";
+  const common = await getTranslations("Common");
+  const brandName = common("brandName");
 
   return (
     <html
@@ -72,6 +87,9 @@ export default async function RootLayout({
       className={`${fontSans.variable} ${fontMono.variable} ${fontHeading.variable} ${fontUrdu.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <GoogleAnalytics />
+        <JsonLd data={organizationJsonLd(brandName)} />
+        <JsonLd data={websiteJsonLd(brandName, locale)} />
         <NextIntlClientProvider>
           <ClerkProvider>
             <Providers>{children}</Providers>

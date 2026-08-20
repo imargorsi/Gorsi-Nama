@@ -2,6 +2,7 @@
 
 import { AlertCircle } from "lucide-react";
 import { StoryEditor } from "@/components/blog/story-editor";
+import { useTranslations } from "next-intl";
 import { StoryEditorSkeleton } from "@/components/blog/story-skeletons";
 import { useStory } from "@/components/blog/use-stories";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
@@ -13,6 +14,7 @@ function isMissingStoryError(error: unknown) {
 }
 
 export function EditStoryClient({ slug }: { slug: string }) {
+  const t = useTranslations("Stories");
   const storyQuery = useStory(slug);
   const story = storyQuery.data;
   const { isLoaded, canManage } = useCanManageContent(story?.authorId);
@@ -25,8 +27,8 @@ export function EditStoryClient({ slug }: { slug: string }) {
     return (
       <EmptyWell
         icon={AlertCircle}
-        title="Could Not Load This Story"
-        text="Refresh the page to try again."
+        title={t("editLoadErrorTitle")}
+        text={t("editLoadErrorText")}
       />
     );
   }
@@ -34,8 +36,8 @@ export function EditStoryClient({ slug }: { slug: string }) {
   if (!story || !canManage) {
     return (
       <NotFoundPanel
-        heading="You cannot edit this story"
-        text="Only the author or a super admin can edit a story."
+        heading={t("editForbiddenHeading")}
+        text={t("editForbiddenText")}
       />
     );
   }

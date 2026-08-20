@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { Bookmark, Heart, Pencil, Share2, Trash2 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
 import { CommunityAvatar } from "@/components/community/community-avatar";
@@ -12,7 +13,6 @@ import { getCommunityCategory } from "@/components/community/community-categorie
 import { formatTag } from "@/lib/parse-tags";
 import {
   extractPostLink,
-  formatRelativeTime,
   type CommunityPost,
 } from "@/data/community-posts";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,25 @@ import { surfaceClass } from "@/components/surface";
 import { Heading, Text } from "@/components/typography";
 
 const COMPACT_TAG_LIMIT = 3;
+
+function formatPostTime(
+  iso: string,
+  t: (key: "justNow" | "minutesAgo" | "hoursAgo" | "daysAgo", values?: { n: number }) => string,
+  locale: string
+) {
+  const date = new Date(iso);
+  const minutes = Math.max(0, Math.floor((Date.now() - date.getTime()) / 60000));
+  if (minutes < 1) return t("justNow");
+  if (minutes < 60) return t("minutesAgo", { n: minutes });
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return t("hoursAgo", { n: hours });
+  const days = Math.floor(hours / 24);
+  if (days < 7) return t("daysAgo", { n: days });
+  return new Intl.DateTimeFormat(locale === "ur" ? "ur-PK" : "en", {
+    month: "short",
+    day: "numeric",
+  }).format(date);
+}
 
 export function CommunityPostCard({
   post,
@@ -45,8 +64,11 @@ export function CommunityPostCard({
   onEdit?: () => void;
   onDelete?: () => void;
 }) {
+  const t = useTranslations("Community");
+  const locale = useLocale();
   const { canManage } = useCanManageContent(post.authorId);
   const category = getCommunityCategory(post.categoryId);
+  const categoryLabel = t(`categories.${post.categoryId}`);
   const CategoryIcon = category.icon;
   const linkUrl = extractPostLink(post.body, post.linkUrl);
   const likeCount = post.likeCount + (isLiked ? 1 : 0);
@@ -77,13 +99,13 @@ export function CommunityPostCard({
             {post.authorName}
           </Heading>
           <Text variant="meta" className="mt-0.5 truncate">
-            {formatRelativeTime(post.createdAt)}
+            {formatPostTime(post.createdAt, t, locale)}
             {compact ? (
               <>
                 <span className="mx-1.5">·</span>
                 <span className="inline-flex items-center gap-1">
                   <CategoryIcon className="size-3 text-gold" strokeWidth={1.75} />
-                  {category.label}
+                  {categoryLabel}
                 </span>
               </>
             ) : null}
@@ -92,7 +114,7 @@ export function CommunityPostCard({
         {compact ? null : (
           <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-espresso/15 px-2.5 py-1 text-xs font-medium text-espresso">
             <CategoryIcon className="size-3 text-gold" strokeWidth={1.75} />
-            {category.label}
+            {categoryLabel}
           </span>
         )}
       </header>
@@ -148,7 +170,7 @@ export function CommunityPostCard({
         >
           <div className={cn("flex flex-wrap items-center gap-1", !compact && "-ms-2")}>
             <PostAction
-              label={isLiked ? "Unlike" : "Like"}
+              label={isLiked ? t("post.unlike") : t("post.like")}
               count={likeCount}
               isActive={isLiked}
               onClick={onLike}
@@ -160,7 +182,7 @@ export function CommunityPostCard({
               />
             </PostAction>
             <PostAction
-              label={isSaved ? "Unsave" : "Save"}
+              label={isSaved ? t("post.unsave") : t("post.save")}
               count={saveCount}
               isActive={isSaved}
               onClick={onSave}
@@ -171,20 +193,20 @@ export function CommunityPostCard({
                 fill={isSaved ? "currentColor" : "none"}
               />
             </PostAction>
-            <PostAction label="Share" onClick={onShare}>
+            <PostAction label={t("post.share")} onClick={onShare}>
               <Share2 className="size-4" strokeWidth={1.75} />
-              Share
+              {t("post.share")}
             </PostAction>
           </div>
           {canManage && !compact && onEdit && onDelete ? (
             <div className="flex items-center gap-1">
-              <PostAction label="Edit" onClick={onEdit}>
+              <PostAction label={t("post.edit")} onClick={onEdit}>
                 <Pencil className="size-4" strokeWidth={1.75} />
-                Edit
+                {t("post.edit")}
               </PostAction>
-              <PostAction label="Delete" onClick={onDelete}>
+              <PostAction label={t("post.delete")} onClick={onDelete}>
                 <Trash2 className="size-4" strokeWidth={1.75} />
-                Delete
+                {t("post.delete")}
               </PostAction>
             </div>
           ) : null}

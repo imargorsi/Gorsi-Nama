@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, BookOpen, Calendar, Diamond, Users } from "lucide-react";
@@ -20,87 +21,39 @@ import {
 import { cn } from "@/lib/utils";
 
 const stats = [
-  {
-    icon: Users,
-    label: "Global Community",
-    value: "Connecting Gujjar people worldwide",
-  },
-  {
-    icon: BookOpen,
-    label: "Stories & Archives",
-    value: "Heritage, stories, and memory",
-  },
-  {
-    icon: Calendar,
-    label: "Generations",
-    value: "A living intergenerational record",
-  },
-];
+  { id: "community", icon: Users },
+  { id: "archives", icon: BookOpen },
+  { id: "generations", icon: Calendar },
+] as const;
 
-const slides = [
-  {
-    id: "heritage",
-    image: "/slider/1.jpg",
-    eyebrow: "Our Heritage",
-    preview: "Discover our heritage",
-    title: (
-      <>
-        <span className="block whitespace-nowrap">Discover the Legacy of</span>
-        <span className="block whitespace-nowrap">
-          the Gujjar People & <span className="text-gold">Our Heritage</span>
-        </span>
-      </>
-    ),
-    description:
-      "Gujjar Nama is a digital home for the Gujjar people — a place to discover who we are, where we come from, and the heritage we still carry.",
-    primaryCta: { label: "Explore Our Community", href: "/community" },
-    secondaryCta: { label: "Browse Library", href: "/library" },
-  },
-  {
-    id: "community",
-    image: "/slider/2.png",
-    eyebrow: "Our Community",
-    preview: "Connect worldwide",
-    title: (
-      <>
-        <span className="block whitespace-nowrap">Connecting the Gujjar</span>
-        <span className="block whitespace-nowrap">
-          Community <span className="text-gold">Worldwide</span>
-        </span>
-      </>
-    ),
-    description:
-      "Find Gujjar people across cities and countries. Share photographs and conversation on the community feed, stay connected with our people.",
-    primaryCta: { label: "Explore Our Community", href: "/community" },
-    secondaryCta: { label: "Browse Library", href: "/library" },
-  },
-  {
-    id: "history",
-    image: "/slider/3.jpg",
-    eyebrow: "Our History",
-    preview: "Read the chronicle",
-    title: (
-      <>
-        <span className="block whitespace-nowrap">The History Written</span>
-        <span className="block whitespace-nowrap">
-          by <span className="text-gold">Our Forefathers</span>
-        </span>
-      </>
-    ),
-    description:
-      "The Gorsi clan is a Gujjar people whose story runs through migration, settlement, and cultural memory across the Indian subcontinent. This is the chronicle they began — and that we still keep.",
-    primaryCta: { label: "Explore Our Community", href: "/community" },
-    secondaryCta: { label: "Browse Library", href: "/library" },
-  },
+const slideAssets = [
+  { id: "heritage", image: "/slider/1.jpg" },
+  { id: "community", image: "/slider/2.png" },
+  { id: "history", image: "/slider/3.jpg" },
 ] as const;
 
 const AUTO_ADVANCE_MS = 7000;
 
 export function Hero() {
+  const t = useTranslations("Home.hero");
   const { activeIndex, setIsPaused, progress, select } = useHeroAutoplay(
-    slides.length,
+    slideAssets.length,
     AUTO_ADVANCE_MS
   );
+
+  const slides = slideAssets.map((asset) => ({
+    id: asset.id,
+    image: asset.image,
+    eyebrow: t(`slides.${asset.id}.eyebrow`),
+    preview: t(`slides.${asset.id}.preview`),
+    description: t(`slides.${asset.id}.description`),
+    title: t.rich(`slides.${asset.id}.title`, {
+      gold: (chunks) => <span className="text-gold">{chunks}</span>,
+    }),
+    primaryCta: { label: t("primaryCta"), href: "/community" as const },
+    secondaryCta: { label: t("secondaryCta"), href: "/library" as const },
+  }));
+
   const activeSlide = slides[activeIndex];
 
   useEffect(() => {
@@ -121,7 +74,7 @@ export function Hero() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex, select]);
+  }, [activeIndex, select, slides.length]);
 
   return (
     <section
@@ -130,7 +83,7 @@ export function Hero() {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      aria-label="Gujjar Nama hero"
+      aria-label={t("ariaLabel")}
     >
       <div className="absolute inset-0 -z-20 overflow-hidden">
         <AnimatePresence initial={false} mode="sync">
@@ -193,7 +146,7 @@ export function Hero() {
 
                 <motion.h1
                   variants={slideContentItem}
-                  className="mt-6 min-w-0 font-heading text-[clamp(1.2rem,4.4vw,3rem)] font-semibold leading-[1.15] tracking-tight text-ivory"
+                  className="mt-6 min-w-0 font-heading text-[clamp(1.2rem,4.4vw,3rem)] font-semibold leading-[1.2] tracking-tight text-ivory"
                 >
                   {activeSlide.title}
                 </motion.h1>
@@ -259,19 +212,19 @@ export function Hero() {
               animate="show"
               className="mt-10 flex flex-col gap-5 sm:mt-12 md:flex-row md:flex-wrap md:gap-x-8 md:gap-y-4 lg:gap-10"
             >
-              {stats.map(({ icon: Icon, label, value }) => (
+              {stats.map(({ id, icon: Icon }) => (
                 <motion.div
-                  key={label}
+                  key={id}
                   variants={heroStatItem}
                   className="flex min-w-0 items-start gap-3 md:max-w-xs lg:max-w-none"
                 >
                   <Icon className="mt-0.5 size-4 shrink-0 text-gold" />
                   <div className="min-w-0">
                     <p className="font-sans text-sm font-semibold text-gold">
-                      {label}
+                      {t(`stats.${id}.label`)}
                     </p>
                     <p className="mt-1 font-sans text-sm text-ivory/75">
-                      {value}
+                      {t(`stats.${id}.value`)}
                     </p>
                   </div>
                 </motion.div>

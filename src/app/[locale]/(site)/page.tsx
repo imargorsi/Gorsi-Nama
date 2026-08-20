@@ -1,4 +1,5 @@
-import { setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/home/hero";
 import { ExploreGrid } from "@/components/home/explore-grid";
 import { CommunityPulse } from "@/components/home/community-pulse";
@@ -7,6 +8,22 @@ import { BlogGrid } from "@/components/home/blog-grid";
 import { CommunityPreview } from "@/components/home/community-preview";
 import { LibraryPreview } from "@/components/home/library-preview";
 import { Banner } from "@/components/home/banner";
+import { pageMetadata } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+  const common = await getTranslations({ locale, namespace: "Common" });
+  const footer = await getTranslations({ locale, namespace: "Footer" });
+
+  return pageMetadata({
+    locale,
+    href: "/",
+    title: common("brandName"),
+    description: footer("about"),
+  });
+}
 
 // Section order is locked — see doc/homepage-structure.md before reordering,
 // removing, or adding a top-level section.

@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { SignupForm } from "@/components/auth/signup-form";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Register | Gujjar Nama",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/auth/signup">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Auth" });
+  return pageMetadata({
+    locale,
+    href: "/auth/signup",
+    title: t("registerMetaTitle"),
+    index: false,
+  });
+}
 
 export default async function SignupPage({
   params,

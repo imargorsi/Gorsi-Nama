@@ -146,6 +146,39 @@ export function StaggerItem({
   );
 }
 
+/** First-load entrance for Stories / Library / Community two-column boards. */
+export function SplitReveal({
+  sidebar,
+  children,
+  className,
+  mainClassName,
+}: {
+  sidebar: ReactNode;
+  children: ReactNode;
+  className?: string;
+  mainClassName?: string;
+}) {
+  return (
+    <Stagger
+      mode="load"
+      className={cn(
+        "lg:grid lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-14",
+        className
+      )}
+    >
+      <StaggerItem index={0} className="lg:col-span-3">
+        {sidebar}
+      </StaggerItem>
+      <StaggerItem
+        index={1}
+        className={cn("mt-8 min-w-0 lg:col-span-9 lg:mt-0", mainClassName)}
+      >
+        {children}
+      </StaggerItem>
+    </Stagger>
+  );
+}
+
 export function FeedItem({
   children,
   className,

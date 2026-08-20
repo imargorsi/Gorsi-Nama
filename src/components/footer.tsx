@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { AccentIcon } from "@/components/accent-icon";
 import type { CommunityCategoryId } from "@/components/community/community-categories";
 import { HeritagePatternBand } from "@/components/heritage-ornaments";
+import { Reveal } from "@/components/reveal";
 
 const exploreLinks = [
   { key: "history", href: "/history" },
@@ -43,7 +44,7 @@ export async function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-espresso text-ivory/70">
-      <div className="site-shell relative z-10 px-4 pt-16 pb-20 sm:px-0 sm:pb-24">
+      <Reveal amount={0.2} className="site-shell relative z-10 px-4 pt-16 pb-20 sm:px-0 sm:pb-24">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:items-start md:gap-x-8 md:gap-y-12">
           <div className="flex flex-col gap-3 md:col-span-6 lg:pe-8">
             <Link href="/" className="relative h-16 w-72 sm:h-[4.5rem] sm:w-80">
@@ -117,7 +118,7 @@ export async function Footer() {
         <div className="mt-12 border-t border-gold/20 pt-6 text-sm text-ivory/50">
           <span>{t("copyright")}</span>
         </div>
-      </div>
+      </Reveal>
       <HeritagePatternBand />
     </footer>
   );

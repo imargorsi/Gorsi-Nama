@@ -9,6 +9,7 @@ import {
   type ChronicleChapter,
 } from "@/data/history-chronicle";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type TocChapter = Pick<ChronicleChapter, "id" | "number" | "kicker">;
 
@@ -21,6 +22,7 @@ export function ChronicleToc({
 }: {
   chapters?: TocChapter[];
 }) {
+  const t = useTranslations("History");
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const items =
     (Array.isArray(chapters) && chapters.length > 0 ? chapters : chronicleToc) ??
@@ -96,7 +98,7 @@ export function ChronicleToc({
   );
 
   return (
-    <nav aria-label="On this page">
+    <nav aria-label={t("tocAria")}>
       <details
         ref={detailsRef}
         className="group rounded-xl bg-ivory/95 shadow-sm ring-1 ring-espresso/10 backdrop-blur-md lg:hidden"
@@ -105,7 +107,7 @@ export function ChronicleToc({
           <HeritageCircleMark className="size-6" />
           <span className="min-w-0 flex-1">
             <span className="heritage-eyebrow block">
-              On This Page ({items.length} chapters)
+              {t("tocTitle", { count: items.length })}
             </span>
             <span className="mt-0.5 block truncate text-sm text-espresso">
               {formatChapterIndex(activeChapter.number)} — {activeChapter.kicker}
@@ -126,7 +128,7 @@ export function ChronicleToc({
         <p className="mb-4 flex items-center gap-2.5">
           <HeritageCircleMark className="size-6" />
           <span className="heritage-eyebrow">
-            On This Page ({items.length} chapters)
+            {t("tocTitle", { count: items.length })}
           </span>
         </p>
         {links}

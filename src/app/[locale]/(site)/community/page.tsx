@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CommunityFeed } from "@/components/community/community-feed";
-import {
-  communityDescription,
-  isCommunityCategoryId,
-} from "@/components/community/community-categories";
+import { isCommunityCategoryId } from "@/components/community/community-categories";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Community | Gujjar Nama",
-  description: communityDescription,
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/community">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Community" });
+  return pageMetadata({
+    locale,
+    href: "/community",
+    title: t("metaTitle"),
+    description: t("description"),
+  });
+}
 
 export default async function CommunityPage({
   params,
@@ -19,6 +25,8 @@ export default async function CommunityPage({
   const { locale } = await params;
   const query = await searchParams;
   setRequestLocale(locale);
+  const t = await getTranslations("Community");
+  const common = await getTranslations("Common");
 
   const requestedCategory = Array.isArray(query.category)
     ? query.category[0]
@@ -30,13 +38,13 @@ export default async function CommunityPage({
   return (
     <>
       <PageBreadcrumb
-        eyebrow="Community"
-        title="Among Our People"
+        eyebrow={t("eyebrow")}
+        title={t("title")}
         crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Community" },
+          { label: common("home"), href: "/" },
+          { label: t("crumb") },
         ]}
-        description={communityDescription}
+        description={t("description")}
       />
       <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
         <CommunityFeed

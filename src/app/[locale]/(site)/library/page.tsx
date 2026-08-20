@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { LibraryBrowser } from "@/components/library/library-browser";
 import { isLibraryCategoryId } from "@/components/library/library-categories";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Library | Gujjar Nama",
-  description:
-    "The Gujjar archive of PDF documents and photographs, kept so later generations can still find what we were careful to keep.",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/library">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Library" });
+  return pageMetadata({
+    locale,
+    href: "/library",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+  });
+}
 
 export default async function LibraryPage({
   params,
@@ -17,6 +25,7 @@ export default async function LibraryPage({
 }: PageProps<"/[locale]/library">) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Library");
 
   const query = await searchParams;
   const requested =
@@ -27,9 +36,9 @@ export default async function LibraryPage({
   return (
     <>
       <PageBreadcrumb
-        eyebrow="The Archive"
-        title="The Gujjar Library"
-        description="A growing record of family documents, photographs, land records, letters, and other materials that preserve the history and memory of the Gujjar people."
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
       />
 
       <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
@@ -37,10 +46,10 @@ export default async function LibraryPage({
       </div>
 
       <CallToAction
-        eyebrow="The Archive"
-        title="Help Grow the Archive"
-        text="Have family records, photographs, or historical documents that preserve our story? Share them with Gujjar Nama and help safeguard our heritage for future generations."
-        buttonText="Email us"
+        eyebrow={t("ctaEyebrow")}
+        title={t("ctaTitle")}
+        text={t("ctaText")}
+        buttonText={t("ctaButton")}
         href="mailto:hey@argorsi.com"
       />
     </>

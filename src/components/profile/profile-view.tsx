@@ -31,7 +31,8 @@ export function ProfileView({
 }) {
   const { openUserProfile, signOut } = useClerk();
   const locale = useLocale();
-  const t = useTranslations("Nav");
+  const tNav = useTranslations("Nav");
+  const t = useTranslations("Profile");
   const [isEditing, setIsEditing] = useState(false);
   const homePath = locale === routing.defaultLocale ? "/" : `/${locale}`;
 
@@ -40,7 +41,7 @@ export function ProfileView({
       {loadError ? (
         <div className="mb-6 rounded-xl bg-ivory px-4 py-3 shadow-md">
           <FieldError>
-            {loadError} You can still manage your account.
+            {t("loadErrorHint", { error: loadError })}
           </FieldError>
         </div>
       ) : null}
@@ -76,7 +77,7 @@ export function ProfileView({
             onEdit={() => setIsEditing(true)}
             onManageAccount={() => openUserProfile()}
             onSignOut={() => signOut({ redirectUrl: homePath })}
-            signOutLabel={t("logOut")}
+            signOutLabel={tNav("logOut")}
           />
         </motion.div>
 

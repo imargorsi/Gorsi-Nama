@@ -1,7 +1,11 @@
 import type { ReactNode } from "react";
 import { ChevronRight, House } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { JsonLd } from "@/components/json-ld";
 import { SectionHeading } from "@/components/home/section-heading";
+import { Reveal } from "@/components/reveal";
+import { breadcrumbListJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export type PageCrumb = {
@@ -9,7 +13,7 @@ export type PageCrumb = {
   href?: string;
 };
 
-export function PageBreadcrumb({
+export async function PageBreadcrumb({
   title,
   eyebrow,
   description,
@@ -22,14 +26,25 @@ export function PageBreadcrumb({
   crumbs?: PageCrumb[];
   children?: ReactNode;
 }) {
+  const t = await getTranslations("Common");
+  const locale = await getLocale();
   const trail = crumbs ?? [
-    { label: "Home", href: "/" },
+    { label: t("home"), href: "/" },
     ...(title ? [{ label: title }] : []),
   ];
 
   return (
-    <div className="site-shell px-4 pt-6 sm:px-0 sm:pt-8">
-      <nav aria-label="Breadcrumb">
+    <>
+      {trail.length > 1 ? (
+        <JsonLd
+          data={breadcrumbListJsonLd(
+            trail.map((crumb) => ({ name: crumb.label, href: crumb.href })),
+            locale
+          )}
+        />
+      ) : null}
+      <Reveal mode="load" className="site-shell px-4 pt-6 sm:px-0 sm:pt-8">
+        <nav aria-label={t("breadcrumb")}>
         <ol className="flex flex-wrap items-center gap-y-1 text-sm">
           {trail.map((crumb, index) => {
             const isLast = index === trail.length - 1;
@@ -87,6 +102,7 @@ export function PageBreadcrumb({
           {children}
         </SectionHeading>
       ) : null}
-    </div>
+    </Reveal>
+    </>
   );
 }

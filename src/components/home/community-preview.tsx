@@ -1,9 +1,12 @@
+import { getTranslations } from "next-intl/server";
 import { Reveal } from "@/components/reveal";
 import { MemberSlider } from "@/components/members/member-slider";
 import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
 
-export function CommunityPreview() {
+export async function CommunityPreview() {
+  const t = await getTranslations("Home.members");
+
   return (
     <section
       id="meet-the-gorsi-community"
@@ -12,17 +15,17 @@ export function CommunityPreview() {
       <div className="site-shell px-4 sm:px-0">
         <Reveal as="header">
           <SectionHeading
-            eyebrow="Our People"
-            title="Meet the Gujjar Community"
-            description="Gujjar people connected across generations, cities, and countries."
+            eyebrow={t("eyebrow")}
+            title={t("title")}
+            description={t("description")}
           >
-            <SectionLink href="/member">Explore Members</SectionLink>
+            <SectionLink href="/member">{t("cta")}</SectionLink>
           </SectionHeading>
         </Reveal>
 
-        <div className="mt-10">
+        <Reveal className="mt-10" amount={0.12}>
           <MemberSlider />
-        </div>
+        </Reveal>
       </div>
     </section>
   );

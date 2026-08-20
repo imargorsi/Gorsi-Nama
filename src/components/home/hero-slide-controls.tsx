@@ -11,6 +11,7 @@ import {
 } from "@/components/home/hero-motion";
 import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type HeroSlide = {
   id: string;
@@ -33,6 +34,8 @@ function SlideProgress({
   onSelect: (index: number) => void;
   className?: string;
 }) {
+  const t = useTranslations("Home.hero");
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 6 }}
@@ -40,7 +43,7 @@ function SlideProgress({
       transition={{ duration: 0.4, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
       className={cn("flex items-center gap-1.5", className)}
       role="tablist"
-      aria-label="Hero slide progress"
+      aria-label={t("progressAria")}
     >
       {slides.map((slide, index) => (
         <button
@@ -48,7 +51,7 @@ function SlideProgress({
           type="button"
           role="tab"
           aria-selected={activeIndex === index}
-          aria-label={`Slide ${index + 1}: ${slide.eyebrow}`}
+          aria-label={t("slideN", { n: index + 1, eyebrow: slide.eyebrow })}
           onClick={() => onSelect(index)}
           className="flex min-h-11 min-w-0 flex-1 items-center"
         >
@@ -79,11 +82,13 @@ function DesktopSlideCard({
   isActive: boolean;
   onSelect: (index: number) => void;
 }) {
+  const t = useTranslations("Home.hero");
+
   return (
     <motion.button
       type="button"
       onClick={() => onSelect(index)}
-      aria-label={`Show ${slide.eyebrow}`}
+      aria-label={t("showSlide", { eyebrow: slide.eyebrow })}
       aria-current={isActive}
       whileHover={{ x: isActive ? 0 : 4 }}
       whileTap={{ scale: 0.98 }}
@@ -154,6 +159,7 @@ export function HeroSlideControls({
   setIsPaused: (isPaused: boolean) => void;
   variant: "desktop" | "mobile";
 }) {
+  const t = useTranslations("Home.hero");
   const keepPlaying = {
     onMouseEnter: () => setIsPaused(false),
     onMouseLeave: () => setIsPaused(true),
@@ -206,7 +212,7 @@ export function HeroSlideControls({
             type="button"
             variants={mobileThumbItem}
             onClick={() => onSelect(index)}
-            aria-label={`Show ${slide.eyebrow}`}
+            aria-label={t("showSlide", { eyebrow: slide.eyebrow })}
             aria-current={activeIndex === index}
             whileTap={{ scale: 0.94 }}
             animate={{

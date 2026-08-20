@@ -20,11 +20,12 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
 
-  // API routes (e.g. the Clerk webhook) and robots.txt are not locale-prefixed
-  // — skip i18n routing so they stay at a stable, unredirected URL.
+  // API routes, robots.txt, and sitemap.xml are not locale-prefixed —
+  // skip i18n routing so they stay at a stable, unredirected URL.
   if (
     req.nextUrl.pathname.startsWith("/api") ||
-    req.nextUrl.pathname === "/robots.txt"
+    req.nextUrl.pathname === "/robots.txt" ||
+    req.nextUrl.pathname === "/sitemap.xml"
   ) {
     return;
   }

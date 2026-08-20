@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -13,13 +14,14 @@ export function CommunityPagination({
   pageCount: number;
   onPageChange: (page: number) => void;
 }) {
+  const t = useTranslations("Community");
   if (pageCount <= 1) return null;
 
   const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
 
   return (
     <nav
-      aria-label="Community pages"
+      aria-label={t("pagesAria")}
       className="mt-10 flex flex-wrap items-center justify-center gap-1 border-t border-espresso/10 pt-6"
     >
       <Button
@@ -28,7 +30,7 @@ export function CommunityPagination({
         size="icon-lg"
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
-        aria-label="Previous page"
+        aria-label={t("previousPage")}
       >
         <ChevronLeft className="size-4 rtl:rotate-180" strokeWidth={1.75} />
       </Button>
@@ -57,7 +59,7 @@ export function CommunityPagination({
         size="icon-lg"
         disabled={page >= pageCount}
         onClick={() => onPageChange(page + 1)}
-        aria-label="Next page"
+        aria-label={t("nextPage")}
       >
         <ChevronRight className="size-4 rtl:rotate-180" strokeWidth={1.75} />
       </Button>

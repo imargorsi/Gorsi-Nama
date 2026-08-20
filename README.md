@@ -25,7 +25,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Copy `.env.example` to `.env.local` and fill in any required values before running.
 
-The production site is deployed on Vercel at [https://community.argorsi.com/](https://community.argorsi.com/). See [`doc/deployment.md`](doc/deployment.md).
+The production site is deployed on Vercel at [https://gorsinama.online/](https://gorsinama.online/). See [`doc/deployment.md`](doc/deployment.md).
 
 ## Scripts
 

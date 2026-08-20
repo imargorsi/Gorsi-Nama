@@ -3,6 +3,7 @@
 import { useState, type KeyboardEvent } from "react";
 import { X } from "lucide-react";
 import { FormField } from "@/components/form-field";
+import { useTranslations } from "next-intl";
 import { formatTag, maxTagsPerPost, parseTags } from "@/lib/parse-tags";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ export function StoryTagsField({
   onChange: (value: string) => void;
   error?: string;
 }) {
+  const t = useTranslations("Stories.editor");
   const [draft, setDraft] = useState("");
   const tags = parseTags(value);
   const isFull = tags.length >= maxTagsPerPost;
@@ -46,7 +48,7 @@ export function StoryTagsField({
   return (
     <FormField
       id="story-tag-input"
-      label="Tags"
+      label={t("tags")}
       hint={`${tags.length}/${maxTagsPerPost}`}
       error={error}
     >
@@ -65,7 +67,7 @@ export function StoryTagsField({
             <button
               type="button"
               onClick={() => removeTag(tag)}
-              aria-label={`Remove ${tag}`}
+              aria-label={t("removeTag", { tag })}
               className="inline-flex size-6 shrink-0 items-center justify-center rounded-full text-warm-gray hover:bg-espresso/10 hover:text-espresso"
             >
               <X className="size-3" />
@@ -83,7 +85,7 @@ export function StoryTagsField({
           autoCapitalize="off"
           spellCheck={false}
           disabled={isFull}
-          placeholder={tags.length === 0 ? "Type a tag and press Enter" : ""}
+          placeholder={tags.length === 0 ? t("tagPlaceholder") : ""}
           className="h-8 min-w-28 flex-1 bg-transparent px-1 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed"
         />
       </div>

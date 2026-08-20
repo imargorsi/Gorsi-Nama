@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -19,6 +20,7 @@ function getServerOrigin() {
 }
 
 export function ProfileShareLink({ path }: { path: string }) {
+  const t = useTranslations("Profile");
   const [copied, setCopied] = useState(false);
   const copiedTimer = useRef<number | null>(null);
   const origin = useSyncExternalStore(subscribe, getOrigin, getServerOrigin);
@@ -34,11 +36,11 @@ export function ProfileShareLink({ path }: { path: string }) {
     try {
       await navigator.clipboard.writeText(`${window.location.origin}${path}`);
       setCopied(true);
-      toast.success("Profile link copied.");
+      toast.success(t("linkCopied"));
       if (copiedTimer.current !== null) window.clearTimeout(copiedTimer.current);
       copiedTimer.current = window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error("Could not copy the link.");
+      toast.error(t("copyError"));
     }
   };
 
@@ -47,7 +49,7 @@ export function ProfileShareLink({ path }: { path: string }) {
       <Input
         readOnly
         value={url}
-        aria-label="Shareable profile link"
+        aria-label={t("shareAria")}
         className="min-w-0 text-sm md:text-xs"
       />
       <Button
@@ -55,7 +57,7 @@ export function ProfileShareLink({ path }: { path: string }) {
         variant="outline"
         size="icon-lg"
         onClick={copy}
-        aria-label={copied ? "Copied" : "Copy profile link"}
+        aria-label={copied ? t("copied") : t("copyLink")}
         className="shrink-0"
       >
         {copied ? <Check /> : <Copy />}

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { AccentIcon } from "@/components/accent-icon";
+import { FadeIn } from "@/components/reveal";
 import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +17,7 @@ export function EmptyWell({
   className?: string;
 }) {
   return (
-    <div
+    <FadeIn
       className={cn(
         "surface flex flex-col items-center gap-3 px-5 py-14 text-center",
         className
@@ -29,6 +30,6 @@ export function EmptyWell({
       <Text variant="small" className="max-w-sm">
         {text}
       </Text>
-    </div>
+    </FadeIn>
   );
 }

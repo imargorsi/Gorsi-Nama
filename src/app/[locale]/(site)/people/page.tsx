@@ -1,31 +1,43 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { PersonalityCard } from "@/components/people/personality-card";
 import { Stagger, StaggerItem } from "@/components/reveal";
 import { notablePeople } from "@/data/notable-people";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Famous Gorsi Personalities | Gujjar Nama",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/people">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "People" });
+  return pageMetadata({
+    locale,
+    href: "/people",
+    title: t("metaTitle"),
+    description: t("description"),
+  });
+}
 
 export default async function PeoplePage({
   params,
 }: PageProps<"/[locale]/people">) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("People");
+  const common = await getTranslations("Common");
 
   return (
     <>
       <PageBreadcrumb
-        eyebrow="Notable Gorsi"
-        title="People Who Shaped Our Story"
+        eyebrow={t("eyebrow")}
+        title={t("title")}
         crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Famous Gorsi Personalities" },
+          { label: common("home"), href: "/" },
+          { label: t("crumb") },
         ]}
-        description="Discover the individuals whose lives, work, and contributions have shaped the Gorsi story and left a lasting mark on our shared heritage."
+        description={t("description")}
       />
 
       <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
@@ -47,10 +59,10 @@ export default async function PeoplePage({
       </div>
 
       <CallToAction
-        eyebrow="The Archive"
-        title="Help Complete This Directory"
-        text="Know a notable Gorsi personality who should be remembered? Share their story and help us build a more complete record of our people and heritage."
-        buttonText="Email us"
+        eyebrow={t("ctaEyebrow")}
+        title={t("ctaTitle")}
+        text={t("ctaText")}
+        buttonText={t("ctaButton")}
         href="mailto:hey@argorsi.com"
       />
     </>

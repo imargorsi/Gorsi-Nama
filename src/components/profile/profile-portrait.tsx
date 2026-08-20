@@ -1,4 +1,7 @@
+"use client";
+
 import { Briefcase, MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import type { ProfileDetails, UserInfo } from "@/components/profile/profile.schemas";
 import { Heading, Text } from "@/components/typography";
@@ -13,11 +16,12 @@ export function ProfilePortrait({
   profile: ProfileDetails;
   isLoadingProfile: boolean;
 }) {
+  const t = useTranslations("Profile");
   const firstName = userDetails.firstName || userDetails.fullName.split(/\s+/)[0];
 
   return (
     <div>
-      <p className="heritage-eyebrow">Welcome Back</p>
+      <p className="heritage-eyebrow">{t("welcome")}</p>
       <div className="mt-5 flex items-center gap-4 sm:gap-5">
         <CommunityAvatar
           name={userDetails.fullName}
@@ -47,14 +51,14 @@ export function ProfilePortrait({
             </p>
           ) : (
             <Text variant="small" className="mt-1">
-              {firstName}, this is your place in Gujjar Nama.
+              {t("yourPlace", { name: firstName })}
             </Text>
           )}
         </div>
       </div>
 
       <section className="mt-8 rounded-lg border border-espresso/18 bg-transparent px-4 py-4 sm:px-5">
-        <p className="heritage-eyebrow">About</p>
+        <p className="heritage-eyebrow">{t("about")}</p>
         {isLoadingProfile ? (
           <div className="mt-3 space-y-2">
             <Skeleton className="h-4 w-full" />
@@ -66,8 +70,7 @@ export function ProfilePortrait({
           </Text>
         ) : (
           <Text variant="muted" className="mt-3">
-            {firstName}, a few sentences about you will appear here — hometown,
-            craft, or the chapter of the Gorsi story you carry.
+            {t("aboutEmpty", { name: firstName })}
           </Text>
         )}
       </section>

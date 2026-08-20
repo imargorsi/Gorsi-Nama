@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { CommunityAvatar } from "@/components/community/community-avatar";
@@ -7,35 +7,51 @@ import { Reveal } from "@/components/reveal";
 import { surfaceClass } from "@/components/surface";
 import { Text } from "@/components/typography";
 import { getPlaceholderMember } from "@/data/members";
+import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Member Profile | Gujjar Nama",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/member/[id]">): Promise<Metadata> {
+  const { locale, id } = await params;
+  const t = await getTranslations({ locale, namespace: "Members" });
+  const common = await getTranslations({ locale, namespace: "Common" });
+  const member = getPlaceholderMember(id);
+    return pageMetadata({
+    locale,
+    href: `/member/${id}`,
+    title: member ? `${member.name} | ${common("brandName")}` : t("profileMetaTitle"),
+    description: t("publicProfile"),
+    index: false,
+  });
+}
 
 export default async function MemberProfilePage({
   params,
 }: PageProps<"/[locale]/member/[id]">) {
   const { locale, id } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Members");
+  const common = await getTranslations("Common");
+  const membersHome = await getTranslations("Home.members");
 
   const member = getPlaceholderMember(id);
-  const name = member?.name ?? "Gorsi member";
+  const name = member?.name ?? t("fallbackName");
 
   return (
     <>
       <PageBreadcrumb
-        eyebrow="Member"
+        eyebrow={t("memberEyebrow")}
         title={name}
         crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Members", href: "/member" },
+          { label: common("home"), href: "/" },
+          { label: t("crumb"), href: "/member" },
           { label: name },
         ]}
         description={
           member
-            ? `Membership ID# ${member.membershipId}`
-            : "Public member profile"
+            ? membersHome("membershipId", { id: member.membershipId })
+            : t("publicProfile")
         }
       />
       <div className="site-shell px-4 py-12 sm:px-0 sm:py-16">
@@ -48,18 +64,16 @@ export default async function MemberProfilePage({
           >
             <CommunityAvatar name={name} imageUrl={member?.image} size="xl" />
             <Text variant="muted" className="max-w-2xl">
-              Public profiles will show city, profession, and a short summary
-              once members complete them. This page is the layout for that view
-              — the Neon profile fields are not connected here yet.
+              {t("placeholderBio")}
             </Text>
           </article>
         </Reveal>
       </div>
       <CallToAction
-        eyebrow="The Directory"
-        title="This Could Be Your Profile"
-        text="Create your Gujjar Nama account to claim a profile and appear in the member directory."
-        buttonText="Join Gujjar Nama"
+        eyebrow={t("profileCtaEyebrow")}
+        title={t("profileCtaTitle")}
+        text={t("profileCtaText")}
+        buttonText={t("profileCtaButton")}
         href="/auth/signup"
       />
     </>

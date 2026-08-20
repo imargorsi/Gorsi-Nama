@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { ArrowRight, KeyRound, Lock, Mail, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,7 @@ import {
 } from "./auth.schemas";
 
 function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => void }) {
+  const t = useTranslations("Auth");
   const signup = useSignup();
   const googleSignUp = useGoogleSignUp();
 
@@ -36,11 +38,11 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
   const onSubmit = (values: SignupValues) => {
     signup.mutate(values, {
       onSuccess: () => {
-        toast.success("Check your email for a verification code.");
+        toast.success(t("verificationSent"));
         onVerificationSent();
       },
       onError: (error) => {
-        toast.error(getErrorMessage(error, "Something went wrong, try again."));
+        toast.error(getErrorMessage(error, t("genericError")));
       },
     });
   };
@@ -48,19 +50,19 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
   return (
     <div className="flex flex-col gap-6">
       <AuthHeading
-        title="Create Account"
-        description="Join Gujjar Nama and start your journey with us"
+        title={t("signupTitle")}
+        description={t("signupDescription")}
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="fullName">Full Name</Label>
+          <Label htmlFor="fullName">{t("fullName")}</Label>
           <IconInput
             id="fullName"
             type="text"
             icon={User}
             autoComplete="name"
-            placeholder="Enter your full name"
+            placeholder={t("fullNamePlaceholder")}
             aria-invalid={!!errors.fullName}
             {...register("fullName")}
           />
@@ -70,13 +72,13 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("email")}</Label>
           <IconInput
             id="email"
             type="email"
             icon={Mail}
             autoComplete="email"
-            placeholder="Enter your email"
+            placeholder={t("emailPlaceholder")}
             aria-invalid={!!errors.email}
             {...register("email")}
           />
@@ -84,12 +86,12 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("password")}</Label>
           <PasswordInput
             id="password"
             icon={Lock}
             autoComplete="new-password"
-            placeholder="Enter a password"
+            placeholder={t("signupPasswordPlaceholder")}
             aria-invalid={!!errors.password}
             {...register("password")}
           />
@@ -99,12 +101,12 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="confirmPassword">Confirm Your Password</Label>
+          <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
           <PasswordInput
             id="confirmPassword"
             icon={Lock}
             autoComplete="new-password"
-            placeholder="Enter your password again"
+            placeholder={t("confirmPasswordPlaceholder")}
             aria-invalid={!!errors.confirmPassword}
             {...register("confirmPassword")}
           />
@@ -122,7 +124,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
           disabled={signup.isPending}
           className="mt-2"
         >
-          {signup.isPending ? "Registering..." : "Register"}
+          {signup.isPending ? t("registering") : t("register")}
           <ArrowRight className="size-4" />
         </Button>
       </form>
@@ -138,6 +140,7 @@ function SignupDetailsForm({ onVerificationSent }: { onVerificationSent: () => v
 }
 
 function VerifyEmailForm() {
+  const t = useTranslations("Auth");
   const router = useRouter();
   const verifyEmail = useVerifyEmail();
 
@@ -150,11 +153,11 @@ function VerifyEmailForm() {
   const onSubmit = (values: VerifyEmailValues) => {
     verifyEmail.mutate(values, {
       onSuccess: () => {
-        toast.success("Account created.");
+        toast.success(t("accountCreated"));
         router.push("/profile");
       },
       onError: (error) => {
-        toast.error(getErrorMessage(error, "Invalid code, try again."));
+        toast.error(getErrorMessage(error, t("invalidCode")));
       },
     });
   };
@@ -162,20 +165,20 @@ function VerifyEmailForm() {
   return (
     <div className="flex flex-col gap-6">
       <AuthHeading
-        title="Verify Your Email"
-        description="Enter the 6-digit code we sent to your email address"
+        title={t("verifyTitle")}
+        description={t("verifyDescription")}
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="code">Verification Code</Label>
+          <Label htmlFor="code">{t("codeLabel")}</Label>
           <IconInput
             id="code"
             type="text"
             inputMode="numeric"
             icon={KeyRound}
             autoComplete="one-time-code"
-            placeholder="Enter the code we emailed you"
+            placeholder={t("codePlaceholder")}
             aria-invalid={!!errors.code}
             {...register("code")}
           />
@@ -188,7 +191,7 @@ function VerifyEmailForm() {
           disabled={verifyEmail.isPending}
           className="mt-2"
         >
-          {verifyEmail.isPending ? "Verifying..." : "Verify Email"}
+          {verifyEmail.isPending ? t("verifying") : t("verifyEmail")}
         </Button>
       </form>
     </div>

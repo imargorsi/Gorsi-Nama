@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { BlogArticle } from "@/components/blog/blog-article";
 import { StoryArticleSkeleton } from "@/components/blog/story-skeletons";
 import { CallToAction } from "@/components/call-to-action";
 import { NotFoundPanel } from "@/components/not-found-panel";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import type { BlogPost } from "@/components/blog/blog.schemas";
+import { pageMetadata } from "@/lib/seo";
 import {
   getPublishedStoryBySlug,
   listRelatedStories,
@@ -14,13 +15,14 @@ import {
 
 export const dynamic = "force-dynamic";
 
-function StoryJoinCta() {
+async function StoryJoinCta() {
+  const t = await getTranslations("Stories");
   return (
     <CallToAction
-      eyebrow="From Our People"
-      title="Share a Story From Your Family"
-      text="Share the stories, memories, photographs, and family history that have shaped your heritage for generations to come."
-      buttonText="Write a story"
+      eyebrow={t("ctaEyebrow")}
+      title={t("ctaTitle")}
+      text={t("ctaText")}
+      buttonText={t("ctaButton")}
       href="/blog/write"
     />
   );
@@ -28,23 +30,44 @@ function StoryJoinCta() {
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
+}: PageProps<"/[locale]/blog/[slug]">): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const t = await getTranslations({ locale, namespace: "Stories" });
+  const common = await getTranslations({ locale, namespace: "Common" });
   try {
     const post = await getPublishedStoryBySlug(slug);
-    if (!post) return { title: "Story | Gujjar Nama" };
-    return {
-      title: `${post.title} | Gujjar Nama`,
+    if (!post) {
+      return pageMetadata({
+        locale,
+        href: `/blog/${slug}`,
+        title: t("metaFallback"),
+        index: false,
+      });
+    }
+    return pageMetadata({
+      locale,
+      href: `/blog/${post.slug}`,
+      title: `${post.title} | ${common("brandName")}`,
       description: post.excerpt,
-    };
+      type: "article",
+      image: post.featuredImage,
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      authors: [post.authorName],
+    });
   } catch {
-    return { title: "Story | Gujjar Nama" };
+    return pageMetadata({
+      locale,
+      href: `/blog/${slug}`,
+      title: t("metaFallback"),
+      index: false,
+    });
   }
 }
 
 async function BlogArticleBody({ slug }: { slug: string }) {
+  const t = await getTranslations("Stories");
+  const common = await getTranslations("Common");
   let post: BlogPost | undefined;
   let related: BlogPost[] = [];
   try {
@@ -59,15 +82,12 @@ async function BlogArticleBody({ slug }: { slug: string }) {
       <>
         <PageBreadcrumb
           crumbs={[
-            { label: "Home", href: "/" },
-            { label: "Stories", href: "/blog" },
-            { label: "Story" },
+            { label: common("home"), href: "/" },
+            { label: t("crumb"), href: "/blog" },
+            { label: t("storyCrumb") },
           ]}
         />
-        <NotFoundPanel
-          heading="Story not found"
-          text="This story may still be a draft, or it is no longer published."
-        />
+        <NotFoundPanel heading={t("notFoundHeading")} text={t("notFoundText")} />
       </>
     );
   }

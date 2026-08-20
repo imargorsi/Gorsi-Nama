@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Reveal } from "@/components/reveal";
 import { ArrowRight, Feather } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -7,7 +8,9 @@ import { Heading, Text } from "@/components/typography";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function Banner() {
+export async function Banner() {
+  const t = await getTranslations("Home.banner");
+
   return (
     <section id="your-story-belongs-here" className="relative isolate">
       <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -27,13 +30,11 @@ export function Banner() {
         <Reveal>
           <p className="flex items-center gap-2.5">
             <HeritageKnot />
-            <span className="heritage-eyebrow">Be Part of Our Journey</span>
+            <span className="heritage-eyebrow">{t("eyebrow")}</span>
           </p>
 
           <Heading as="h2" variant="h2" tone="onDark" className="mt-5 max-w-3xl">
-            Help Write the Next
-            <br />
-            Chapter of Our Heritage
+            {t("title")}
           </Heading>
 
           <div className="mt-6">
@@ -41,9 +42,7 @@ export function Banner() {
           </div>
 
           <Text variant="muted" className="mt-6 max-w-2xl text-ivory/80">
-            Gujjar Nama is more than a collection of stories — it&apos;s a living
-            legacy. Share your memories and knowledge so the next generation
-            inherits more than a name.
+            {t("text")}
           </Text>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -58,7 +57,7 @@ export function Banner() {
               )}
             >
               <Feather className="size-5" strokeWidth={1.75} />
-              Share Your Story
+              {t("shareCta")}
               <ArrowRight className="size-5 rtl:rotate-180" />
             </Link>
             <Link
@@ -71,7 +70,7 @@ export function Banner() {
                 })
               )}
             >
-              Join Community
+              {t("joinCta")}
               <ArrowRight className="size-5 rtl:rotate-180" />
             </Link>
           </div>

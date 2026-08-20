@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, BookOpen, PenLine } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AccentIcon } from "@/components/accent-icon";
 import { BlogCard } from "@/components/blog/blog-card";
@@ -16,6 +17,7 @@ import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
 
 export function BlogGrid() {
+  const t = useTranslations("Home.stories");
   const home = useHomeStories();
   const stories = home.data?.stories ?? [];
   const [featured, ...rest] = stories;
@@ -29,17 +31,17 @@ export function BlogGrid() {
       <div className="site-shell px-4 sm:px-0">
         <Reveal as="header">
           <SectionHeading
-            eyebrow="From Our Community"
-            title="Stories From Our People"
+            eyebrow={t("eyebrow")}
+            title={t("title")}
             description={
               <>
-                Every family carries memories worth preserving.
+                {t("description1")}
                 <br />
-                Discover the stories that connect generations.
+                {t("description2")}
               </>
             }
           >
-            <SectionLink href="/blog">View All</SectionLink>
+            <SectionLink href="/blog">{t("viewAll")}</SectionLink>
           </SectionHeading>
         </Reveal>
 
@@ -47,8 +49,8 @@ export function BlogGrid() {
           <EmptyWell
             className="mt-8"
             icon={BookOpen}
-            title="Could Not Load Stories"
-            text="Refresh the page to try again."
+            title={t("loadErrorTitle")}
+            text={t("loadErrorText")}
           />
         ) : home.isLoading ? (
           <StoryHomeSkeleton />
@@ -56,8 +58,8 @@ export function BlogGrid() {
           <EmptyWell
             className="mt-8"
             icon={BookOpen}
-            title="No Published Stories Yet"
-            text="The first published story from the community will appear here."
+            title={t("emptyTitle")}
+            text={t("emptyText")}
           />
         ) : (
           <Stagger className="mt-8 grid grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-stretch lg:gap-5">
@@ -97,6 +99,8 @@ export function BlogGrid() {
 }
 
 function StoryShareBar() {
+  const t = useTranslations("Home.stories");
+
   return (
     <div className="relative overflow-hidden rounded-xl bg-espresso px-5 py-8 sm:px-8 sm:py-10">
       <HeritagePatternBand />
@@ -104,10 +108,10 @@ function StoryShareBar() {
         <AccentIcon icon={PenLine} size="lg" tone="on-dark" />
         <div className="min-w-0 flex-1">
           <Heading as="p" variant="h4" tone="onDark">
-            Have a Story to Share?
+            {t("shareTitle")}
           </Heading>
           <Text as="p" variant="small" className="mt-1 text-ivory/70">
-            Your memories are a part of our shared heritage.
+            {t("shareText")}
           </Text>
         </div>
         <Link
@@ -119,7 +123,7 @@ function StoryShareBar() {
             })
           )}
         >
-          Share Your Story
+          {t("shareCta")}
           <ArrowRight className="size-4 rtl:rotate-180" />
         </Link>
       </div>

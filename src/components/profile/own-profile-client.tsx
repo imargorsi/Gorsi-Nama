@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { ProfileView } from "@/components/profile/profile-view";
 import { useOwnProfile } from "@/components/profile/use-profile";
@@ -14,11 +14,12 @@ function memberProfilePath(userId: string, locale: string) {
 }
 
 function ProfilePageSkeleton() {
+  const t = useTranslations("Profile");
   return (
     <div
       className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20"
       aria-busy="true"
-      aria-label="Loading profile"
+      aria-label={t("loadingAria")}
     >
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_19.5rem] lg:items-start">
         <div className="flex min-w-0 flex-col gap-10">
@@ -70,6 +71,7 @@ function ProfilePageSkeleton() {
 export function OwnProfileClient() {
   const { user, isLoaded } = useUser();
   const locale = useLocale();
+  const t = useTranslations("Profile");
   const profileQuery = useOwnProfile(isLoaded && !!user);
 
   if (!isLoaded) return <ProfilePageSkeleton />;
@@ -92,7 +94,7 @@ export function OwnProfileClient() {
       isLoadingProfile={profileQuery.isPending}
       loadError={
         profileQuery.isError
-          ? profileQuery.error.message || "Could not load your profile details."
+          ? profileQuery.error.message || t("loadError")
           : undefined
       }
     />

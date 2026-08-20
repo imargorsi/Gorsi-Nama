@@ -1,7 +1,11 @@
-import type { ReactNode } from "react";
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { motion } from "motion/react";
 import { Link } from "@/i18n/navigation";
 import { initialsFromName } from "@/lib/initials";
+import { motionEase } from "@/components/reveal";
 import { Heading } from "@/components/typography";
 import { cn } from "@/lib/utils";
 
@@ -20,10 +24,13 @@ export function MembershipCard({
   href,
   className,
 }: MembershipCardProps) {
+  const t = useTranslations("Home.members");
   const initials = initialsFromName(name);
 
   const card = (
-    <article
+    <motion.article
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.22, ease: motionEase }}
       className={cn(
         "relative flex w-full min-w-0 flex-col items-center overflow-hidden rounded-2xl bg-espresso px-5 pt-6 pb-6 text-center shadow-md ring-1 ring-gold/20",
         href &&
@@ -64,7 +71,7 @@ export function MembershipCard({
       </div>
 
       <p className="heritage-eyebrow relative z-10 mt-3.5 text-gold/80">
-        Membership ID# {membershipId}
+        {t("membershipId", { id: membershipId })}
       </p>
       <Heading
         as="h3"
@@ -75,7 +82,7 @@ export function MembershipCard({
       >
         {name}
       </Heading>
-    </article>
+    </motion.article>
   );
 
   if (href) {
@@ -87,23 +94,4 @@ export function MembershipCard({
   }
 
   return card;
-}
-
-export function MembershipCardGrid({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
 }

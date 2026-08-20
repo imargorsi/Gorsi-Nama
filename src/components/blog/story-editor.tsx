@@ -5,6 +5,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useUser } from "@clerk/nextjs";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import {
   blogPostSchema,
@@ -29,6 +30,7 @@ import { slugify } from "@/lib/slugify";
 import { cn } from "@/lib/utils";
 
 export function StoryEditor({ story }: { story?: BlogPost }) {
+  const t = useTranslations("Stories.editor");
   const router = useRouter();
   const { user } = useUser();
   const photo = useUploadPhoto();
@@ -84,7 +86,7 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
     createStory.isPending ||
     updateStory.isPending;
   const primaryLabel =
-    isEdit && story?.status === "publish" ? "Update story" : "Publish story";
+    isEdit && story?.status === "publish" ? t("updateStory") : t("publishStory");
 
   async function onSubmit(values: BlogPostValues) {
     if (!story && !user?.id) return;
@@ -106,14 +108,14 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
 
       toast.success(
         saved.status === "draft"
-          ? "Draft saved to your profile."
+          ? t("draftSaved")
           : story
-            ? "Story updated."
-            : "Story published."
+            ? t("storyUpdated")
+            : t("storyPublished")
       );
       router.push(saved.status === "publish" ? `/blog/${saved.slug}` : "/profile");
     } catch (error) {
-      toast.error(getErrorMessage(error, "Could not save this story."));
+      toast.error(getErrorMessage(error, t("saveError")));
     }
   }
 
@@ -133,7 +135,7 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
         <div className={cn(surfaceClass, "overflow-hidden")}>
           <div className="px-5 py-6 sm:px-8 sm:py-8">
             <label htmlFor="story-title" className="sr-only">
-              Title
+              {t("titleSr")}
             </label>
             <Input
               id="story-title"
@@ -142,7 +144,7 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
                 headingVariants({ variant: "h1" }),
                 "h-auto min-h-12 border-0 bg-transparent px-0 shadow-none placeholder:text-espresso/25 focus-visible:border-transparent focus-visible:ring-0"
               )}
-              placeholder="Story title"
+              placeholder={t("titlePlaceholder")}
               aria-invalid={Boolean(errors.title)}
             />
             {errors.title ? (
@@ -164,21 +166,20 @@ export function StoryEditor({ story }: { story?: BlogPost }) {
 
             <div className="mt-6 border-t border-espresso/10 pt-5">
               <label htmlFor="story-content" className="sr-only">
-                Content
+                {t("contentSr")}
               </label>
               <Textarea
                 id="story-content"
                 {...register("content")}
                 className="min-h-88 resize-y border-0 bg-transparent px-0 text-base leading-relaxed shadow-none focus-visible:border-transparent focus-visible:ring-0 sm:min-h-112 md:text-base"
-                placeholder="Start writing the story. A memory, a person, a place…"
+                placeholder={t("contentPlaceholder")}
                 aria-invalid={Boolean(errors.content)}
               />
               {errors.content ? (
                 <FieldError className="mt-2">{errors.content.message}</FieldError>
               ) : (
                 <Text variant="meta" className="mt-3">
-                  Plain text for now. Add an excerpt in Details if you want a
-                  different summary on cards.
+                  {t("contentHint")}
                 </Text>
               )}
             </div>

@@ -1,30 +1,42 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { StoryEditor } from "@/components/blog/story-editor";
 import { Reveal } from "@/components/reveal";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Write a Story | Gujjar Nama",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/blog/write">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Stories" });
+  return pageMetadata({
+    locale,
+    href: "/blog/write",
+    title: t("writeMetaTitle"),
+    index: false,
+  });
+}
 
 export default async function WriteStoryPage({
   params,
 }: PageProps<"/[locale]/blog/write">) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Stories");
+  const common = await getTranslations("Common");
 
   return (
     <>
       <PageBreadcrumb
-        eyebrow="Stories"
-        title="Share a Story"
+        eyebrow={t("writeEyebrow")}
+        title={t("writeTitle")}
         crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Stories", href: "/blog" },
-          { label: "Write a story" },
+          { label: common("home"), href: "/" },
+          { label: t("crumb"), href: "/blog" },
+          { label: t("writeCrumb") },
         ]}
-        description="Write about family, heritage, or a memory worth keeping. Publish it to Stories, or save a draft to your profile."
+        description={t("writeDescription")}
       />
       <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
         <Reveal mode="load">

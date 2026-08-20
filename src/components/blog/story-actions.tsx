@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useCanManageContent } from "@/components/auth/use-can-manage-content";
@@ -12,19 +13,20 @@ import { cn } from "@/lib/utils";
 
 function useStoryDelete(slug: string, afterDeleteHref?: string) {
   const router = useRouter();
+  const t = useTranslations("Stories");
   const deleteStory = useDeleteStory();
 
   async function onDelete() {
-    if (!window.confirm("Delete this story? This cannot be undone.")) {
+    if (!window.confirm(t("deleteConfirm"))) {
       return;
     }
 
     try {
       await deleteStory.mutateAsync(slug);
-      toast.success("Story deleted.");
+      toast.success(t("deleted"));
       if (afterDeleteHref) router.push(afterDeleteHref);
     } catch (error) {
-      toast.error(getErrorMessage(error, "Could not delete this story."));
+      toast.error(getErrorMessage(error, t("deleteError")));
     }
   }
 
@@ -37,6 +39,7 @@ const rowActionClass = cn(
 );
 
 export function StoryRowActions({ story }: { story: BlogPost }) {
+  const t = useTranslations("Stories");
   const { onDelete, isPending } = useStoryDelete(story.slug);
 
   return (
@@ -47,12 +50,12 @@ export function StoryRowActions({ story }: { story: BlogPost }) {
           className={cn(rowActionClass, "text-gold")}
         >
           <Eye className="size-4" strokeWidth={1.75} />
-          View
+          {t("view")}
         </Link>
       ) : null}
       <Link href={`/blog/${story.slug}/edit`} className={rowActionClass}>
         <Pencil className="size-4" strokeWidth={1.75} />
-        Edit
+        {t("edit")}
       </Link>
       <button
         type="button"
@@ -61,13 +64,14 @@ export function StoryRowActions({ story }: { story: BlogPost }) {
         className={cn(rowActionClass, "text-destructive hover:text-destructive")}
       >
         <Trash2 className="size-4" strokeWidth={1.75} />
-        Delete
+        {t("delete")}
       </button>
     </div>
   );
 }
 
 export function StoryActions({ story }: { story: BlogPost }) {
+  const t = useTranslations("Stories");
   const { canManage } = useCanManageContent(story.authorId);
   const { onDelete, isPending } = useStoryDelete(story.slug, "/blog");
 
@@ -85,7 +89,7 @@ export function StoryActions({ story }: { story: BlogPost }) {
         )}
       >
         <Pencil className="size-4" />
-        Edit
+        {t("edit")}
       </Link>
       <button
         type="button"
@@ -99,7 +103,7 @@ export function StoryActions({ story }: { story: BlogPost }) {
         )}
       >
         <Trash2 className="size-4" />
-        Delete
+        {t("delete")}
       </button>
     </div>
   );

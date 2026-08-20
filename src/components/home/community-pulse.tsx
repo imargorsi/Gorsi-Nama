@@ -1,10 +1,12 @@
+import { getTranslations } from "next-intl/server";
 import { Reveal } from "@/components/reveal";
+import { CommunityFeed } from "@/components/community/community-feed";
 import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
-import { communityDescription } from "@/components/community/community-categories";
-import { CommunityFeed } from "@/components/community/community-feed";
 
-export function CommunityPulse() {
+export async function CommunityPulse() {
+  const t = await getTranslations("Home.pulse");
+
   return (
     <section
       id="community-pulse"
@@ -13,11 +15,11 @@ export function CommunityPulse() {
       <div className="site-shell px-4 sm:px-0">
         <Reveal as="header">
           <SectionHeading
-            eyebrow="Community Pulse"
-            title="What's Happening in Our Community"
-            description={communityDescription}
+            eyebrow={t("eyebrow")}
+            title={t("title")}
+            description={t("description")}
           >
-            <SectionLink href="/community">Explore Community</SectionLink>
+            <SectionLink href="/community">{t("cta")}</SectionLink>
           </SectionHeading>
         </Reveal>
 

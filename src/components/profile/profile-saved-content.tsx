@@ -1,21 +1,26 @@
+"use client";
+
 import { Bookmark } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { EmptyWell } from "@/components/empty-well";
 import { SectionHeading } from "@/components/home/section-heading";
 
 export function ProfileSavedContent() {
+  const t = useTranslations("Profile");
+
   return (
     <section id="saved-content">
       <SectionHeading
-        eyebrow="Saved"
-        title="Saved Posts"
-        description="Community posts you save will gather here."
+        eyebrow={t("savedEyebrow")}
+        title={t("savedTitle")}
+        description={t("savedDescription")}
       />
 
       <EmptyWell
         icon={Bookmark}
         className="mt-8 py-12"
-        title="Nothing Saved Yet"
-        text="When you save a post on the community feed, it will appear here so you can find it again."
+        title={t("savedEmptyTitle")}
+        text={t("savedEmptyText")}
       />
     </section>
   );

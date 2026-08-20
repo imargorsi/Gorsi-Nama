@@ -1,51 +1,38 @@
+import { getTranslations } from "next-intl/server";
 import { HeritageCard, HeritageCardGrid } from "@/components/heritage-card";
 import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { SectionHeading } from "./section-heading";
 
 const cards = [
   {
+    id: "history",
     index: 1,
-    category: "History",
-    title: "Our History",
-    description:
-      "Trace our journey across generations and discover the roots of who we are.",
     href: "/history",
-    cta: "Explore History",
     image: "/history-card.jpg",
   },
   {
+    id: "stories",
     index: 2,
-    category: "Stories",
-    title: "Our Stories",
-    description:
-      "Read stories and memories that preserve a piece of who we are.",
     href: "/blog",
-    cta: "Explore Stories",
     image: "/our-story.png",
   },
   {
+    id: "people",
     index: 3,
-    category: "People",
-    title: "Our People",
-    description:
-      "Discover the people who shape our community and keep our heritage alive.",
     href: "/member",
-    cta: "Meet the Community",
     image: "/people.jpg",
   },
   {
+    id: "archive",
     index: 4,
-    category: "Archive",
-    title: "Our Archive",
-    description:
-      "Browse documents and photographs that preserve our heritage.",
     href: "/library",
-    cta: "Explore Library",
     image: "/slider/3.jpg",
   },
 ] as const;
 
-export function ExploreGrid() {
+export async function ExploreGrid() {
+  const t = await getTranslations("Home.explore");
+
   return (
     <section
       id="explore-gorsi-nama"
@@ -60,10 +47,7 @@ export function ExploreGrid() {
 
       <div className="site-shell relative z-10 px-4 sm:px-0">
         <Reveal as="header">
-          <SectionHeading
-            title="Explore Gujjar Nama"
-            description="Stories, people, history and memories that connect us across generations."
-          />
+          <SectionHeading title={t("title")} description={t("description")} />
         </Reveal>
 
         <Stagger>
@@ -75,7 +59,15 @@ export function ExploreGrid() {
                 isHoverable
                 className="h-full"
               >
-                <HeritageCard {...card} />
+                <HeritageCard
+                  index={card.index}
+                  href={card.href}
+                  image={card.image}
+                  category={t(`cards.${card.id}.category`)}
+                  title={t(`cards.${card.id}.title`)}
+                  description={t(`cards.${card.id}.description`)}
+                  cta={t(`cards.${card.id}.cta`)}
+                />
               </StaggerItem>
             ))}
           </HeritageCardGrid>

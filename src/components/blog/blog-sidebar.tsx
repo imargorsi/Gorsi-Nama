@@ -1,6 +1,7 @@
 "use client";
 
 import { LayoutGrid, Search, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { HeritageCircleMark } from "@/components/heritage-ornaments";
 import {
   blogCategories,
@@ -25,11 +26,13 @@ export function BlogSidebar({
   onQueryChange: (value: string) => void;
   onCategoryChange: (id?: BlogCategoryId) => void;
 }) {
+  const t = useTranslations("Stories");
+  const common = useTranslations("Common");
   const items = [
-    { id: undefined, label: "All Stories", icon: LayoutGrid, count: totalCount },
+    { id: undefined, label: t("allStories"), icon: LayoutGrid, count: totalCount },
     ...blogCategories.map((category) => ({
       id: category.id,
-      label: category.label,
+      label: t(`categories.${category.id}`),
       icon: category.icon,
       count: counts[category.id],
     })),
@@ -48,8 +51,8 @@ export function BlogSidebar({
           type="search"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
-          placeholder="Search stories"
-          aria-label="Search stories"
+          placeholder={t("searchPlaceholder")}
+          aria-label={t("searchAria")}
           className="h-12 rounded-xl bg-ivory ps-10 pe-10 text-sm shadow-md md:text-sm"
         />
         {query ? (
@@ -57,7 +60,7 @@ export function BlogSidebar({
             type="button"
             onClick={() => onQueryChange("")}
             className="absolute inset-e-2 top-1/2 inline-flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-warm-gray transition-colors hover:text-espresso"
-            aria-label="Clear search"
+            aria-label={common("clearSearch")}
           >
             <X className="size-4" strokeWidth={1.75} />
           </button>
@@ -70,7 +73,7 @@ export function BlogSidebar({
           const isActive = categoryId === item.id;
           return (
             <button
-              key={item.label}
+              key={item.id ?? "all"}
               type="button"
               aria-pressed={isActive}
               onClick={() => onCategoryChange(item.id)}
@@ -90,19 +93,19 @@ export function BlogSidebar({
       </div>
 
       <nav
-        aria-label="Story categories"
+        aria-label={t("categoriesAria")}
         className={cn(surfaceClass, "hidden p-5 lg:block")}
       >
         <p className="mb-4 flex items-center gap-2.5">
           <HeritageCircleMark className="size-5" />
-          <span className="heritage-eyebrow">Categories</span>
+          <span className="heritage-eyebrow">{common("categories")}</span>
         </p>
         <ul className="flex flex-col gap-0.5">
           {items.map((item) => {
             const Icon = item.icon;
             const isActive = categoryId === item.id;
             return (
-              <li key={item.label}>
+              <li key={item.id ?? "all"}>
                 <button
                   type="button"
                   aria-pressed={isActive}

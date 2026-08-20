@@ -1,6 +1,7 @@
 "use client";
 
 import { ImageIcon, PenLine } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CommunityAvatar } from "@/components/community/community-avatar";
 import { CommunityLinkPreview } from "@/components/community/community-link-preview";
 import { ComposerPhotoPreview } from "@/components/community/community-composer-fields";
@@ -35,6 +36,8 @@ export function CommunityComposer({
   onCancel?: () => void;
   showWriteButton?: boolean;
 }) {
+  const t = useTranslations("Community");
+  const common = useTranslations("Common");
   const composer = useCommunityComposer({ post, onSave, onCancel });
   const {
     register,
@@ -49,7 +52,7 @@ export function CommunityComposer({
         disabled={composer.isEdit}
         aria-haspopup="dialog"
         aria-expanded={composer.open}
-        aria-label="Write a post"
+        aria-label={t("writeAria")}
         onClick={composer.openCreate}
         className={cn(
           surfaceClass,
@@ -66,12 +69,12 @@ export function CommunityComposer({
           size="lg"
         />
         <Text as="span" variant="small" className="min-w-0 flex-1">
-          Share a memory, a question, or a photograph with the Gujjar community.
+          {t("writePrompt")}
         </Text>
         {showWriteButton ? (
           <span className={cn(buttonVariants(), "pointer-events-none w-full shrink-0 sm:w-auto")}>
             <PenLine className="size-4" />
-            Write a post
+            {t("writeButton")}
           </span>
         ) : null}
       </button>
@@ -88,13 +91,12 @@ export function CommunityComposer({
           className="flex max-h-[90svh] flex-col gap-0 overflow-hidden bg-ivory p-0 shadow-[0_2px_6px_color-mix(in_srgb,var(--gorsi-espresso)_16%,transparent),0_24px_56px_color-mix(in_srgb,var(--gorsi-espresso)_28%,transparent)] ring-1 ring-espresso/12 sm:max-w-3xl lg:max-w-4xl"
         >
           <DialogHeader className="shrink-0 border-b border-espresso/10 px-6 pt-5 pe-14 pb-3 sm:px-8 sm:pt-6">
-            <p className="heritage-eyebrow">Community</p>
+            <p className="heritage-eyebrow">{t("composerEyebrow")}</p>
             <DialogTitle className="mt-2 text-xl">
-              {composer.isEdit ? "Edit post" : "Write a post"}
+              {composer.isEdit ? t("editTitle") : t("writeTitle")}
             </DialogTitle>
             <DialogDescription>
-              A short note for the family to find. Add a photograph or a link if
-              you like.
+              {t("composerDescription")}
             </DialogDescription>
           </DialogHeader>
 
@@ -105,7 +107,7 @@ export function CommunityComposer({
             <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-4 sm:px-8">
               <FormField
                 id="community-body"
-                label="Your post"
+                label={t("bodyLabel")}
                 hint={`${composer.bodyValue.length}/2000`}
                 error={errors.body?.message}
               >
@@ -113,7 +115,7 @@ export function CommunityComposer({
                   id="community-body"
                   rows={4}
                   autoFocus
-                  placeholder="Write your story, memory, thought, or question."
+                  placeholder={t("bodyPlaceholder")}
                   className="min-h-28 resize-none"
                   aria-invalid={Boolean(errors.body)}
                   {...register("body")}
@@ -122,8 +124,8 @@ export function CommunityComposer({
 
               <FormField
                 id="community-photo"
-                label="Photograph"
-                hint={`Optional · max ${maxImageUploadMb} MB`}
+                label={t("photoLabel")}
+                hint={t("photoHint", { mb: maxImageUploadMb })}
               >
                 {composer.photoPreview ? (
                   <ComposerPhotoPreview
@@ -140,7 +142,7 @@ export function CommunityComposer({
                     onClick={composer.photo.openPicker}
                   >
                     <ImageIcon className="size-4" />
-                    Add a photograph
+                    {t("addPhoto")}
                   </Button>
                 )}
                 <input id="community-photo" {...composer.photo.fileInputProps} />
@@ -149,8 +151,8 @@ export function CommunityComposer({
               <div className="grid gap-4 sm:grid-cols-2">
                 <FormField
                   id="community-link"
-                  label="Link"
-                  hint="Optional"
+                  label={t("linkLabel")}
+                  hint={common("optional")}
                   error={errors.linkUrl?.message}
                 >
                   <Input
@@ -161,7 +163,7 @@ export function CommunityComposer({
                     {...register("linkUrl")}
                   />
                 </FormField>
-                <FormField id="community-category" label="Category">
+                <FormField id="community-category" label={t("categoryLabel")}>
                   <select
                     id="community-category"
                     {...register("categoryId")}
@@ -169,7 +171,7 @@ export function CommunityComposer({
                   >
                     {communityCategories.map((category) => (
                       <option key={category.id} value={category.id}>
-                        {category.label}
+                        {t(`categories.${category.id}`)}
                       </option>
                     ))}
                   </select>
@@ -187,7 +189,7 @@ export function CommunityComposer({
                 disabled={composer.isBusy}
                 onClick={composer.requestClose}
               >
-                Cancel
+                {common("cancel")}
               </Button>
               <Button
                 type="submit"
@@ -196,11 +198,11 @@ export function CommunityComposer({
               >
                 {composer.isBusy
                   ? composer.isEdit
-                    ? "Saving…"
-                    : "Publishing…"
+                    ? t("saving")
+                    : t("publishing")
                   : composer.isEdit
-                    ? "Save"
-                    : "Publish"}
+                    ? common("save")
+                    : t("publish")}
               </Button>
             </DialogFooter>
           </form>

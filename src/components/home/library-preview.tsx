@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { HeritageCardGrid } from "@/components/heritage-card";
 import { LibraryCategoryCard } from "@/components/library/library-category-card";
 import { libraryCategories } from "@/components/library/library-categories";
@@ -5,7 +6,9 @@ import { Reveal, Stagger, StaggerItem } from "@/components/reveal";
 import { SectionHeading } from "./section-heading";
 import { SectionLink } from "./section-link";
 
-export function LibraryPreview() {
+export async function LibraryPreview() {
+  const t = await getTranslations("Home.library");
+
   return (
     <section
       id="the-gorsi-library"
@@ -14,11 +17,11 @@ export function LibraryPreview() {
       <div className="site-shell px-4 sm:px-0">
         <Reveal as="header">
           <SectionHeading
-            eyebrow="The Archive"
-            title="The Gujjar Library"
-            description="PDF documents and photographs of the Gujjar people, kept in one archive so the generations after us can still find, read, and remember what we were careful to keep."
+            eyebrow={t("eyebrow")}
+            title={t("title")}
+            description={t("description")}
           >
-            <SectionLink href="/library">Explore the Library</SectionLink>
+            <SectionLink href="/library">{t("cta")}</SectionLink>
           </SectionHeading>
         </Reveal>
 

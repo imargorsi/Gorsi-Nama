@@ -1,6 +1,7 @@
 "use client";
 
 import { ImagePlus, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/typography";
@@ -19,6 +20,8 @@ export function StoryCoverField({
   onPick: () => void;
   onRemove: () => void;
 }) {
+  const t = useTranslations("Stories.editor");
+
   if (previewUrl) {
     return (
       <div
@@ -27,17 +30,17 @@ export function StoryCoverField({
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={previewUrl} alt="" className="block h-auto w-full" />
-        {isUploading ? <ImageUploadOverlay /> : (
+        {isUploading ? <ImageUploadOverlay label={t("uploading")} /> : (
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-end gap-2 bg-linear-to-t from-espresso/70 to-transparent p-3">
             <Button type="button" variant="light" onClick={onPick}>
-              Change
+              {t("changeCover")}
             </Button>
             <Button
               type="button"
               variant="ghost"
               size="icon-lg"
               onClick={onRemove}
-              aria-label="Remove featured image"
+              aria-label={t("removeCover")}
               className="bg-espresso/80 text-ivory hover:bg-espresso hover:text-ivory"
             >
               <X className="size-4" />
@@ -55,7 +58,7 @@ export function StoryCoverField({
         aria-busy="true"
       >
         <Skeleton className="size-full rounded-lg" />
-        <ImageUploadOverlay />
+        <ImageUploadOverlay label={t("uploading")} />
       </div>
     );
   }
@@ -73,10 +76,10 @@ export function StoryCoverField({
         <ImagePlus className="size-4 text-gold" strokeWidth={1.75} />
       </span>
       <Text as="span" variant="label">
-        Add a featured image
+        {t("addCover")}
       </Text>
       <Text as="span" variant="meta" className="max-w-xs text-center leading-relaxed">
-        Optional. JPEG, PNG, WebP, or GIF · max {maxImageUploadMb} MB.
+        {t("coverHint", { mb: maxImageUploadMb })}
       </Text>
     </button>
   );

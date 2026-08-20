@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { AnimatePresence } from "motion/react";
 import { CommunityComposer } from "@/components/community/community-composer";
 import {
@@ -14,7 +15,7 @@ import { CommunitySidebar } from "@/components/community/community-sidebar";
 import { useCommunityFeed } from "@/components/community/use-community-feed";
 import type { CommunityCategoryId } from "@/components/community/community-categories";
 import { formatTag } from "@/lib/parse-tags";
-import { FeedItem } from "@/components/reveal";
+import { FeedItem, SplitReveal } from "@/components/reveal";
 import { Text } from "@/components/typography";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -36,6 +37,7 @@ export function CommunityFeed({
   initialTag?: string;
   initialPage?: number;
 }) {
+  const t = useTranslations("Community");
   const isFeedLayout = layout === "feed";
   const isSliderLayout = layout === "slider";
   const isBoard = isFeedLayout && showFilters;
@@ -116,8 +118,8 @@ export function CommunityFeed({
 
   if (isBoard) {
     return (
-      <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-14">
-        <aside className="lg:col-span-3">
+      <SplitReveal
+        sidebar={
           <div className="lg:sticky lg:top-32">
             <CommunitySidebar
               categoryId={initialCategory}
@@ -129,16 +131,18 @@ export function CommunityFeed({
               onTagChange={feed.selectTag}
             />
           </div>
-        </aside>
-
-        <div
-          ref={boardRef}
-          className="mt-8 min-w-0 scroll-mt-28 sm:scroll-mt-32 lg:col-span-9 lg:mt-0"
-        >
+        }
+        mainClassName="scroll-mt-28 sm:scroll-mt-32"
+      >
+        <div ref={boardRef}>
           {composer ? <div className="mb-5">{composer}</div> : null}
           <div className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 border-b border-espresso/10 pb-3">
             <div className="min-w-0">
-              <p className="heritage-eyebrow">{feed.categoryLabel}</p>
+              <p className="heritage-eyebrow">
+                {initialCategory
+                  ? t(`categories.${initialCategory}`)
+                  : t("allPosts")}
+              </p>
               {initialTag ? (
                 <Text as="span" variant="meta" className="mt-1 block">
                   {formatTag(initialTag)}
@@ -147,8 +151,12 @@ export function CommunityFeed({
             </div>
             <Text as="span" variant="meta">
               {feed.filteredCount === 0
-                ? "0 posts"
-                : `Showing ${feed.rangeStart}–${feed.rangeEnd} of ${feed.filteredCount}`}
+                ? t("zeroPosts")
+                : t("showingRange", {
+                    from: feed.rangeStart,
+                    to: feed.rangeEnd,
+                    total: feed.filteredCount,
+                  })}
             </Text>
           </div>
           {list}
@@ -158,7 +166,7 @@ export function CommunityFeed({
             onPageChange={feed.selectPage}
           />
         </div>
-      </div>
+      </SplitReveal>
     );
   }
 

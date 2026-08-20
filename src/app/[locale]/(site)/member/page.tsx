@@ -1,38 +1,50 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageBreadcrumb } from "@/components/page-breadcrumb";
 import { CallToAction } from "@/components/call-to-action";
 import { MemberDirectory } from "@/components/members/member-directory";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Members | Gujjar Nama",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/member">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Members" });
+  return pageMetadata({
+    locale,
+    href: "/member",
+    title: t("metaTitle"),
+    description: t("description"),
+  });
+}
 
 export default async function MembersPage({
   params,
 }: PageProps<"/[locale]/member">) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Members");
+  const common = await getTranslations("Common");
 
   return (
     <>
       <PageBreadcrumb
-        eyebrow="Our People"
-        title="Proud Members of the Gujjar Community"
+        eyebrow={t("eyebrow")}
+        title={t("title")}
         crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Members" },
+          { label: common("home"), href: "/" },
+          { label: t("crumb") },
         ]}
-        description="This directory is for every Gujjar who carries our name with pride. Join us, claim your place, and let the generations after us find their people here."
+        description={t("description")}
       />
       <div className="site-shell px-4 pt-8 pb-16 sm:px-0 sm:pt-10 sm:pb-20">
         <MemberDirectory />
       </div>
       <CallToAction
-        eyebrow="Our People"
-        title="Become a Proud Member"
-        text="Create your Gujjar Nama account to appear in this directory and stand with your people."
-        buttonText="Join Gujjar Nama"
+        eyebrow={t("ctaEyebrow")}
+        title={t("ctaTitle")}
+        text={t("ctaText")}
+        buttonText={t("ctaButton")}
         href="/auth/signup"
       />
     </>

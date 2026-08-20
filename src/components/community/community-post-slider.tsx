@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { CommunityPostCard } from "@/components/community/community-post-card";
 import {
   PagedSlider,
@@ -28,14 +29,18 @@ export function CommunityPostSlider({
   onShare: (post: CommunityPost) => void;
   onTagClick: (tag: string) => void;
 }) {
+  const t = useTranslations("Home.pulse");
   const pages = chunkPages(posts, communitySliderPageSize);
 
   return (
     <PagedSlider
-      tablistLabel="Post pages"
+      tablistLabel={t("pagesAria")}
       pageClassName="grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
       getPageLabel={(index) =>
-        `Posts ${index * communitySliderPageSize + 1} to ${Math.min((index + 1) * communitySliderPageSize, posts.length)}`
+        t("pageLabel", {
+          from: index * communitySliderPageSize + 1,
+          to: Math.min((index + 1) * communitySliderPageSize, posts.length),
+        })
       }
       pages={pages.map((pagePosts, pageIndex) => ({
         key: pagePosts[0]?.id ?? String(pageIndex),

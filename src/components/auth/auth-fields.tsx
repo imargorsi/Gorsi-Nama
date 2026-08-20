@@ -2,6 +2,7 @@
 
 import { useState, type ComponentProps } from "react";
 import { Eye, EyeOff, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,7 @@ export function PasswordInput({
   className,
   ...props
 }: ComponentProps<typeof Input> & { icon: LucideIcon }) {
+  const t = useTranslations("Auth");
   const [visible, setVisible] = useState(false);
 
   return (
@@ -37,7 +39,7 @@ export function PasswordInput({
         type="button"
         onClick={() => setVisible((prev) => !prev)}
         className="absolute inset-e-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-        aria-label={visible ? "Hide password" : "Show password"}
+        aria-label={visible ? t("hidePassword") : t("showPassword")}
       >
         {visible ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
       </button>

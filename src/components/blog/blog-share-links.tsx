@@ -1,32 +1,32 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   FacebookIcon,
   TwitterIcon,
   WhatsAppIcon,
 } from "@/components/icons/brand-icons";
+import { siteOrigin } from "@/lib/site";
 
 export function BlogShareLinks({ title }: { title: string }) {
+  const t = useTranslations("Stories");
   const pathname = usePathname();
-  const url =
-    typeof window !== "undefined"
-      ? `${window.location.origin}${pathname}`
-      : pathname;
+  const url = `${siteOrigin}${pathname}`;
 
   const shareLinks = [
     {
-      label: "Share on Facebook",
+      label: t("shareFacebook"),
       icon: FacebookIcon,
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
     },
     {
-      label: "Share on Twitter",
+      label: t("shareTwitter"),
       icon: TwitterIcon,
       href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
     },
     {
-      label: "Share on WhatsApp",
+      label: t("shareWhatsApp"),
       icon: WhatsAppIcon,
       href: `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`,
     },

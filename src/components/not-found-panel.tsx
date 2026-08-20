@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
 import { HeritageRule } from "@/components/heritage-ornaments";
@@ -14,6 +17,8 @@ export function NotFoundPanel({
   heading: string;
   text: string;
 }) {
+  const t = useTranslations("Common");
+
   return (
     <FadeIn className="mx-auto flex max-w-md flex-col items-center gap-4 px-4 py-24 text-center sm:px-6">
       <Image
@@ -33,7 +38,7 @@ export function NotFoundPanel({
         className={cn(buttonVariants({ className: "mt-2" }))}
       >
         <ArrowLeft className="size-4 rtl:rotate-180" />
-        Back to Homepage
+        {t("backHome")}
       </Link>
     </FadeIn>
   );

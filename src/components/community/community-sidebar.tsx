@@ -1,6 +1,7 @@
 "use client";
 
 import { Hash, LayoutGrid } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { HeritageCircleMark } from "@/components/heritage-ornaments";
 import {
   communityCategories,
@@ -32,11 +33,13 @@ export function CommunitySidebar({
   onCategoryChange: (id?: CommunityCategoryId) => void;
   onTagChange: (tag?: string) => void;
 }) {
+  const t = useTranslations("Community");
+  const common = useTranslations("Common");
   const items = [
-    { id: undefined, label: "All Posts", icon: LayoutGrid, count: totalCount },
+    { id: undefined, label: t("allPosts"), icon: LayoutGrid, count: totalCount },
     ...communityCategories.map((category) => ({
       id: category.id,
-      label: category.label,
+      label: t(`categories.${category.id}`),
       icon: category.icon,
       count: counts[category.id],
     })),
@@ -50,7 +53,7 @@ export function CommunitySidebar({
           const isActive = categoryId === item.id;
           return (
             <button
-              key={item.label}
+              key={item.id ?? "all"}
               type="button"
               aria-pressed={isActive}
               onClick={() => onCategoryChange(item.id)}
@@ -95,19 +98,19 @@ export function CommunitySidebar({
       ) : null}
 
       <nav
-        aria-label="Community categories"
+        aria-label={t("categoriesAria")}
         className={cn(surfaceClass, "hidden p-5 lg:block")}
       >
         <p className="mb-4 flex items-center gap-2.5">
           <HeritageCircleMark className="size-5" />
-          <span className="heritage-eyebrow">Categories</span>
+          <span className="heritage-eyebrow">{common("categories")}</span>
         </p>
         <ul className="flex flex-col gap-0.5">
           {items.map((item) => {
             const Icon = item.icon;
             const isActive = categoryId === item.id;
             return (
-              <li key={item.label}>
+              <li key={item.id ?? "all"}>
                 <button
                   type="button"
                   aria-pressed={isActive}
@@ -141,12 +144,12 @@ export function CommunitySidebar({
 
       {tags.length > 0 ? (
         <nav
-          aria-label="Community tags"
+          aria-label={t("tagsAria")}
           className={cn(surfaceClass, "hidden p-5 lg:block")}
         >
           <p className="mb-4 flex items-center gap-2.5">
             <Hash className="size-4 text-gold" strokeWidth={1.75} />
-            <span className="heritage-eyebrow">Tags</span>
+            <span className="heritage-eyebrow">{common("tags")}</span>
           </p>
           <ul className="flex flex-col gap-0.5">
             {tags.map((item) => {

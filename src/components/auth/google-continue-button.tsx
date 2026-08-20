@@ -1,4 +1,7 @@
+"use client";
+
 import { GoogleIcon } from "@/components/icons/brand-icons";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 
 export function GoogleContinueButton({
@@ -8,6 +11,8 @@ export function GoogleContinueButton({
   onClick: () => void;
   isPending: boolean;
 }) {
+  const t = useTranslations("Auth");
+
   return (
     <Button
       type="button"
@@ -17,7 +22,7 @@ export function GoogleContinueButton({
       className="w-full bg-ivory"
     >
       <GoogleIcon className="size-4.5" />
-      {isPending ? "Redirecting…" : "Continue with Google"}
+      {isPending ? t("googlePending") : t("google")}
     </Button>
   );
 }

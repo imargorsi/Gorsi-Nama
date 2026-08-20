@@ -333,6 +333,17 @@ export async function getPublishedStoryBySlug(slug: string) {
   return story;
 }
 
+export async function listPublishedStorySitemapRows() {
+  return db
+    .select({
+      slug: stories.slug,
+      updatedAt: stories.updatedAt,
+    })
+    .from(stories)
+    .where(eq(stories.status, "publish"))
+    .orderBy(desc(stories.publishedAt), desc(stories.updatedAt));
+}
+
 export async function getVisibleStoryBySlug(
   slug: string,
   viewer?: { userId?: string | null; role?: unknown }

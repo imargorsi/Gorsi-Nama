@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { BookOpen, PenLine, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { EmptyWell } from "@/components/empty-well";
 import { BlogCard } from "@/components/blog/blog-card";
@@ -18,7 +19,7 @@ import {
 } from "@/components/blog/blog.schemas";
 import { usePublishedStories } from "@/components/blog/use-stories";
 import { StoryListSkeleton } from "@/components/blog/story-skeletons";
-import { Stagger, StaggerItem } from "@/components/reveal";
+import { SplitReveal, Stagger, StaggerItem } from "@/components/reveal";
 import { Text } from "@/components/typography";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -26,6 +27,7 @@ import { cn } from "@/lib/utils";
 
 export function BlogWriteButton() {
   const { isSignedIn } = useAuth();
+  const t = useTranslations("Stories");
 
   return (
     <Link
@@ -33,7 +35,7 @@ export function BlogWriteButton() {
       className={cn(buttonVariants({ className: "w-full shrink-0 sm:w-auto" }))}
     >
       <PenLine className="size-4" />
-      Write a story
+      {t("writeCta")}
     </Link>
   );
 }
@@ -54,6 +56,7 @@ export function BlogList({
 }: {
   initialCategory?: BlogCategoryId;
 }) {
+  const t = useTranslations("Stories");
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [categoryId, setCategoryId] = useState(initialCategory);
@@ -86,8 +89,8 @@ export function BlogList({
   }, [counts]);
 
   const categoryLabel = categoryId
-    ? blogCategories.find((category) => category.id === categoryId)?.label
-    : "All stories";
+    ? t(`categories.${categoryId}`)
+    : t("allStories");
 
   function selectCategory(id?: BlogCategoryId) {
     setCategoryId(id);
@@ -99,8 +102,8 @@ export function BlogList({
   const isEmptyFilter = !list.isLoading && !list.isError && posts.length === 0 && isFiltered;
 
   return (
-    <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-14">
-      <aside className="lg:col-span-3">
+    <SplitReveal
+      sidebar={
         <div className="lg:sticky lg:top-32">
           <BlogSidebar
             query={query}
@@ -114,21 +117,20 @@ export function BlogList({
             onCategoryChange={selectCategory}
           />
         </div>
-      </aside>
-
-      <div className="mt-8 min-w-0 lg:col-span-9 lg:mt-0">
-        <Text variant="small" className="mb-6">
+      }
+    >
+      <Text variant="small" className="mb-6">
           {query.trim() ? (
             <>
               {list.isLoading ? (
                 <Skeleton className="inline-block h-4 w-28 align-middle" />
               ) : (
-                `${total} ${total === 1 ? "story" : "stories"} matching`
+                `${t("storyCountMatching", { count: total })}`
               )}
               {" “"}
               {query.trim()}
               {"”"}
-              {categoryId ? ` in ${categoryLabel}` : ""}
+              {categoryId ? ` ${t("inCategory", { category: categoryLabel })}` : ""}
             </>
           ) : (
             <>
@@ -137,7 +139,7 @@ export function BlogList({
               {list.isLoading ? (
                 <Skeleton className="inline-block h-4 w-24 align-middle" />
               ) : (
-                `${total} ${total === 1 ? "story" : "stories"}`
+                `${t("storyCount", { count: total })}`
               )}
             </>
           )}
@@ -146,20 +148,20 @@ export function BlogList({
         {list.isError ? (
           <EmptyWell
             icon={BookOpen}
-            title="Could Not Load Stories"
-            text="Refresh the page to try again."
+            title={t("loadErrorTitle")}
+            text={t("loadErrorText")}
           />
         ) : isEmptyCatalog ? (
           <EmptyWell
             icon={BookOpen}
-            title="No Published Stories Yet"
-            text="The first published story from the community will appear here."
+            title={t("emptyTitle")}
+            text={t("emptyText")}
           />
         ) : isEmptyFilter ? (
           <EmptyWell
             icon={Search}
-            title="No Matching Stories"
-            text="Try a different search, or choose another category."
+            title={t("noMatchTitle")}
+            text={t("noMatchText")}
           />
         ) : list.isLoading ? (
           <StoryListSkeleton />
@@ -181,14 +183,13 @@ export function BlogList({
                   variant="outline"
                   onClick={() => void list.fetchNextPage()}
                 >
-                  Show more
+                  {t("showMore")}
                 </Button>
               </div>
             ) : null}
           </>
         )}
-      </div>
-    </div>
+    </SplitReveal>
   );
 }
 
