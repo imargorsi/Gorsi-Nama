@@ -21,7 +21,7 @@ export async function Banner() {
           sizes="100vw"
           className="object-cover object-[center_45%]"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-espresso/96 via-espresso/84 to-espresso/50" />
+        <div className="absolute inset-0 bg-linear-to-r from-espresso/96 via-espresso/84 to-espresso/50 rtl:bg-linear-to-l" />
         <div className="absolute inset-0 bg-gold/8" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-espresso to-transparent" />
       </div>
