@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import type { WebhookEvent } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { scheduleWelcomeEmail } from "@/lib/email/welcome";
 import { parseRole } from "@/lib/roles";
 import { eq } from "drizzle-orm";
 
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
             updatedAt: new Date(),
           },
         });
+      scheduleWelcomeEmail(event.data);
       break;
     }
     case "user.deleted": {

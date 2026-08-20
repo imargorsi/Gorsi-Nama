@@ -26,6 +26,8 @@ import {
 import { db } from "@/lib/db";
 import { stories, storyTags, tags, users, type Story } from "@/lib/db/schema";
 import { ensureAppUser } from "@/lib/db/ensure-app-user";
+import { after } from "next/server";
+import { notifyStoryPublished } from "@/lib/email/notify";
 import { HttpError } from "@/lib/http";
 import { parseTags } from "@/lib/parse-tags";
 import { slugify, uniqueSlug } from "@/lib/slugify";
@@ -395,6 +397,36 @@ async function persistStory(
   return { fields, slug };
 }
 
+function writerMailbox(writer: User) {
+  return (
+    writer.primaryEmailAddress?.emailAddress ??
+    writer.emailAddresses[0]?.emailAddress ??
+    ""
+  );
+}
+
+function maybeNotifyFirstPublish(
+  writer: User,
+  story: BlogPost,
+  wasAlreadyPublished: boolean
+) {
+  if (wasAlreadyPublished || story.status !== "publish") return;
+  if (writer.id !== story.authorId) return;
+
+  const to = writerMailbox(writer);
+  if (!to) return;
+
+  after(() =>
+    notifyStoryPublished({
+      to,
+      firstName: writer.firstName,
+      title: story.title,
+      excerpt: story.excerpt,
+      slug: story.slug,
+    })
+  );
+}
+
 export async function createStory(writer: User, values: BlogPostValues) {
   const { fields } = await persistStory(writer, values);
   let created: Story | undefined;
@@ -427,6 +459,7 @@ export async function createStory(writer: User, values: BlogPostValues) {
   revalidateStoryPaths(created.slug);
   const story = await getStoryBySlug(created.slug);
   if (!story) throw new HttpError(500, "Could not load the saved story.");
+  maybeNotifyFirstPublish(writer, story, false);
   return story;
 }
 
@@ -472,6 +505,7 @@ export async function updateStory(
 
   const story = await getStoryBySlug(fields.slug);
   if (!story) throw new HttpError(500, "Could not load the saved story.");
+  maybeNotifyFirstPublish(writer, story, existing.status === "publish");
   return story;
 }
 

@@ -17,6 +17,7 @@ export function postAuthHref(redirectUrl: string | null, fallback: string) {
   try {
     const url = new URL(redirectUrl, origin);
     if (url.origin !== origin) return fallbackHref;
+    if (url.protocol !== "http:" && url.protocol !== "https:") return fallbackHref;
     if (url.pathname.includes(authPath)) return fallbackHref;
     return url.href;
   } catch {
