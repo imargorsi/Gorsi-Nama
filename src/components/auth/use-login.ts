@@ -3,7 +3,7 @@
 import { useSignIn } from "@clerk/nextjs";
 import { useMutation } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
-import { getPathname } from "@/i18n/navigation";
+import { googleSsoRedirects } from "@/lib/auth-redirect";
 import type { LoginValues } from "./auth.schemas";
 
 export function useLogin() {
@@ -35,8 +35,7 @@ export function useGoogleSignIn() {
     mutationFn: async () => {
       const { error } = await signIn.sso({
         strategy: "oauth_google",
-        redirectUrl: getPathname({ href: "/auth/sso-callback", locale }),
-        redirectCallbackUrl: getPathname({ href: "/profile", locale }),
+        ...googleSsoRedirects(locale),
       });
       if (error) throw error;
     },

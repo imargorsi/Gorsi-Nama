@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { getPathname, useRouter } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { ArrowRight, KeyRound, Lock, Mail, ShieldCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/form-field";
 import { Text } from "@/components/typography";
+import { postAuthHref } from "@/lib/auth-redirect";
 import { getErrorMessage } from "@/lib/get-error-message";
 import { AuthContinueDivider, AuthHeading } from "./auth-shell";
 import { IconInput, PasswordInput } from "./auth-fields";
@@ -31,7 +32,7 @@ import {
 
 function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
   const t = useTranslations("Auth");
-  const router = useRouter();
+  const locale = useLocale();
   const login = useLogin();
   const googleSignIn = useGoogleSignIn();
 
@@ -45,7 +46,15 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
     login.mutate(values, {
       onSuccess: () => {
         toast.success(t("loginSuccess"));
-        router.push("/profile");
+        const redirectUrl = new URLSearchParams(window.location.search).get(
+          "redirect_url"
+        );
+        window.location.replace(
+          postAuthHref(
+            redirectUrl,
+            getPathname({ href: "/profile", locale })
+          )
+        );
       },
       onError: (error) => {
         toast.error(getErrorMessage(error, t("genericError")));
@@ -117,6 +126,9 @@ function LoginStep({ onForgotPassword }: { onForgotPassword: () => void }) {
       </form>
 
       <AuthContinueDivider />
+
+      {/* Needed if Clerk starts a Google sign-up from this login screen. */}
+      <div id="clerk-captcha" />
 
       <GoogleContinueButton
         onClick={() => googleSignIn.mutate()}

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
+import { AuthSignedInRedirect } from "@/components/auth/auth-signed-in-redirect";
 import { HeritageRule } from "@/components/heritage-ornaments";
 import { Heading, Text } from "@/components/typography";
 import { cn } from "@/lib/utils";
@@ -31,6 +32,7 @@ export function AuthShell({
 
   return (
     <div className="relative isolate min-h-svh w-full overflow-hidden p-4 sm:p-8 lg:p-12">
+      <AuthSignedInRedirect />
       <Image
         src="/auth-bg.jpg"
         alt=""
