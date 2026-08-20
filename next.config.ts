@@ -42,14 +42,8 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/:path*",
-        has: [{ type: "host", value: "www.gorsinama.online" }],
-        destination: "https://gorsinama.online/:path*",
-        permanent: true,
-      },
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "community.argorsi.com" }],
-        destination: "https://gorsinama.online/:path*",
+        has: [{ type: "host", value: "gujjarnama.online" }],
+        destination: "https://www.gujjarnama.online/:path*",
         permanent: true,
       },
     ];

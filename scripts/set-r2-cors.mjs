@@ -22,9 +22,7 @@ const corsRules = [
     AllowedOrigins: [
       "http://localhost:3000",
       "http://127.0.0.1:3000",
-      "https://gorsinama.online",
-      "https://www.gorsinama.online",
-      "https://community.argorsi.com",
+      "https://www.gujjarnama.online",
     ],
     AllowedMethods: ["GET", "HEAD", "PUT"],
     AllowedHeaders: ["Content-Type"],
